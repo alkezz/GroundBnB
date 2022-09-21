@@ -1,8 +1,8 @@
-# `AirBnb`
+# `AirBnB`
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+![db Pic](dbSchema.png)
 
 ## API Documentation
 
@@ -51,7 +51,7 @@ Returns the information about the current user that is logged in.
 
 * Require Authentication: true
 * Request
-  * Method: ?
+  * Method: GET
   * URL: ?
   * Body: none
 
