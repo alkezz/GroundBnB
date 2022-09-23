@@ -18,7 +18,8 @@ module.exports = {
       },
       address: {
         type: Sequelize.VARCHAR,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       city: {
         type: Sequelize.VARCHAR,
@@ -34,11 +35,13 @@ module.exports = {
       },
       lat: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       lng: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       name: {
         type: Sequelize.VARCHAR,
