@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'spotId',
         otherKey: 'userId'
       })
+      Spot.hasMany(models.Review, {
+        through: models.Review,
+        foreignKey: 'spotId',
+        otherKey: 'userId'
+      })
     }
   }
   Spot.init({
