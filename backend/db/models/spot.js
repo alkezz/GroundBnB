@@ -19,19 +19,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     address: {
-      type: DataTypes.STRING,
+      type: DataTypes.VARCHAR,
       allowNull: false
     },
     city: {
-      type: DataTypes.STRING,
+      type: DataTypes.VARCHAR,
       allowNull: false
     },
     state: {
-      type: DataTypes.STRING,
+      type: DataTypes.VARCHAR,
       allowNull: false
     },
     country: {
-      type: DataTypes.STRING,
+      type: DataTypes.VARCHAR,
       allowNull: false
     },
     lat: {
@@ -43,11 +43,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.VARCHAR,
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.VARCHAR,
       allowNull: false
     },
     price: DataTypes.DECIMAL
