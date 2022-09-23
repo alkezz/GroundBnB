@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'spotId',
         otherKey: 'userId'
       })
+      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' })
     }
   }
   Spot.init({
