@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   SpotImage.init({
     spotId: DataTypes.INTEGER,
     url: {
-      type: DataTypes.VARCHAR,
+      type: DataTypes.STRING,
       validate: {
         isUrl: true
       }
