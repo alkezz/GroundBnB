@@ -14,4 +14,15 @@ router.get('/', async (req, res) => {
     res.status(200).json(allSpots)
 })
 
+router.get('/current', async (req, res) => {
+    const { user } = req
+    const currSpots = await Spot.findAll({
+        include: User,
+        where: {
+            ownerId: user.toSafeObject().id
+        }
+    })
+    res.status(200).json(currSpots)
+})
+
 module.exports = router;
