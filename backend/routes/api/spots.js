@@ -16,8 +16,9 @@ router.get('/', async (req, res) => {
 
 router.get('/current', async (req, res) => {
     const { user } = req
+    console.log(user)
     const currSpots = await Spot.findAll({
-        include: User,
+        include: [SpotImage, Review],
         where: {
             ownerId: user.toSafeObject().id
         }

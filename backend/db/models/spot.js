@@ -70,8 +70,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    price: DataTypes.DECIMAL,
-    allowNull: false
+    price: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'Spot',
