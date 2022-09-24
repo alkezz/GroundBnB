@@ -1,6 +1,7 @@
 'use strict';
 
 const { query } = require("express");
+const { User, Spot } = require('../models')
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -13,9 +14,9 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Spots', [{
+    await Spot.create({
       ownerId: 1,
-      address: "123 Disney Lane",
+      address: "12345 Disney Lane",
       city: "San Francisco",
       state: "California",
       country: "United States of America",
@@ -23,8 +24,8 @@ module.exports = {
       lng: -122.4730327,
       name: "App Academy",
       description: "Place where web developers are created",
-      price: 123
-    }])
+      price: 123.50
+    })
   },
 
   async down(queryInterface, Sequelize) {

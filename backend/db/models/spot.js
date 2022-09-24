@@ -13,9 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Spot.belongsTo(models.User, { foreignKey: 'ownerId' })
       Spot.hasMany(models.Booking, {
-        through: models.Booking,
-        foreignKey: 'spotId',
-        otherKey: 'userId'
+        foreignKey: 'spotId'
       })
       Spot.belongsToMany(models.User, {
         through: models.Booking,
@@ -23,9 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'userId'
       })
       Spot.hasMany(models.Review, {
-        through: models.Review,
-        foreignKey: 'spotId',
-        otherKey: 'userId'
+        foreignKey: 'spotId'
       })
       Spot.belongsToMany(models.User, {
         through: models.Review,
@@ -74,7 +70,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    price: DataTypes.DECIMAL
+    price: DataTypes.DECIMAL,
+    allowNull: false
   }, {
     sequelize,
     modelName: 'Spot',
