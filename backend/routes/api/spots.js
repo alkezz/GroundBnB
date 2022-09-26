@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
 
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
-    console.log(user)
     const currSpots = await Spot.findAll({
         include: [SpotImage, Review],
         where: {
@@ -37,6 +36,7 @@ router.get('/:spotId', async (req, res) => {
             },
             {
                 model: User,
+                as: 'Owner',
                 attributes: {
                     exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
                 }
@@ -176,7 +176,8 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
             })
         } else {
             res.json({
-                message: "You can't delete a spot you don't own!"
+                message: "You can't delete a spot you don't own!",
+                statusCode: 404
             })
         }
     } else {

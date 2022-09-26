@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Spot.belongsTo(models.User, { foreignKey: 'ownerId' })
+      Spot.belongsTo(models.User, { as: 'Owner', foreignKey: 'ownerId' })
       Spot.hasMany(models.Booking, {
         foreignKey: 'spotId'
       })
@@ -64,7 +64,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [1, 50]
+      }
     },
     description: {
       type: DataTypes.STRING,
