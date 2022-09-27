@@ -3,7 +3,7 @@ const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Spot, Review, Booking, ReviewImage, SpotImage, sequelize, Sequelize } = require('../../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { handleValidationErrors, handleSpotValidationErrors } = require('../../utils/validation');
 
 router.get('/', async (req, res) => {
     const payload = []
@@ -60,20 +60,47 @@ router.get('/', async (req, res) => {
 
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
+    const payload = []
+    const spots = await Spot.findAll()
+    const aggregateData = await Spot.findAll({
+        where: {
+            ownerId: user.toSafeObject().id
+        },
+        include: {
+            model: Review,
+            attributes: []
+        },
+        attributes: [
+            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+        ]
+    });
+    console.log(aggregateData[0].dataValues.avgRating)
+
     const currSpots = await Spot.findAll({
+        attributes: {
+            include: [
+                [Sequelize.col('SpotImages.url'), 'previewImage']
+            ]
+        },
         include: [
             {
-                model: Review
+                model: Review,
+                required: false,
+                attributes: []
             },
             {
                 model: SpotImage,
-                attributes: ['preview']
+                attributes: [],
+                required: true
             }
         ],
         where: {
             ownerId: user.toSafeObject().id
         }
     })
+    for (let i = 0; i < aggregateData.length; i++) {
+        currSpots[i].setDataValue('avgRating', aggregateData[i].dataValues.avgRating)
+    }
     res.status(200).json(currSpots)
 })
 
@@ -110,40 +137,55 @@ router.get('/:spotId', async (req, res) => {
     }
 })
 
-router.post('/', requireAuth, async (req, res) => {
+const validateNewSpot = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .withMessage('Street address is required'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .withMessage('City is required'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .withMessage('State is required'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .withMessage('Country is required'),
+    check('lat')
+        .exists({ checkFalsy: true })
+        .withMessage('Latitude is not valid'),
+    check('lng')
+        .exists({ checkFalsy: true })
+        .withMessage('Longitude is not valid'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .isLength({ max: 50 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage('Description is required'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Price per day is required'),
+    handleSpotValidationErrors
+]
+
+router.post('/', requireAuth, validateNewSpot, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
-    if (!address || !city || !state || !country || !lat || !lng || !name || !description || !price) {
-        res.json({
-            message: 'Validation Error',
-            statusCode: 400,
-            errors: {
-                address: 'Street address is required',
-                city: 'City is required',
-                state: 'State is required',
-                country: 'Country is required',
-                lat: 'Latitude is not valid',
-                lng: 'Longitude is not valid',
-                name: 'Name must be less than 50 characters',
-                description: 'Description is required',
-                price: 'Price per day is required'
-            }
-        })
-    } else {
-        const { user } = req
-        const newSpot = await Spot.create({
-            ownerId: user.toSafeObject().id,
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
-        })
-        res.status(201).json(newSpot)
-    }
+    const { user } = req
+    const newSpot = await Spot.create({
+        ownerId: user.toSafeObject().id,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+    })
+    res.status(201).json(newSpot)
+
 })
 
 router.post('/:spotId/images', requireAuth, async (req, res) => {

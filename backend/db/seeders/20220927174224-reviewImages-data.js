@@ -1,5 +1,5 @@
 'use strict';
-const { SpotImage } = require('../models')
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -11,31 +11,26 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('SpotImages', [
+    await queryInterface.bulkInsert('ReviewImages', [
       {
-        spotId: 1,
-        url: 'www.google.com',
-        preview: true
+        reviewId: 1,
+        url: 'www.wrfedwsedfwsedf.com'
       },
       {
-        spotId: 2,
-        url: 'www.facebook.com',
-        preview: true
+        reviewId: 2,
+        url: 'www.opasdsoapd.com'
       },
       {
-        spotId: 3,
-        url: 'www.reddit.com',
-        preview: true
+        reviewId: 3,
+        url: 'www.dpofsdo.com'
       },
       {
-        spotId: 4,
-        url: 'www.myspace.com',
-        preview: true
+        reviewId: 4,
+        url: 'www.sopdaso.com'
       },
       {
-        spotId: 5,
-        url: 'www.airbnb.com',
-        preview: true
+        reviewId: 5,
+        url: 'www.kcdksps.com'
       }
     ])
   },
@@ -47,6 +42,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('SpotImages', null, {})
+    await queryInterface.bulkDelete('ReviewImages', null, {})
   }
 };
