@@ -1,23 +1,56 @@
 const express = require('express');
 const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot, Review, Booking, ReviewImage, SpotImage, sequelize } = require('../../db/models');
+const { User, Spot, Review, Booking, ReviewImage, SpotImage, sequelize, Sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 router.get('/', async (req, res) => {
+    const aggregateData = await Spot.findAll({
+        include: {
+            model: Review,
+            attributes: []
+        },
+        attributes: [
+            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+        ]
+    });
     const allSpots = await Spot.findAll({
+        // attributes: {
+        //     include: [
+        //         [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+        //     ]
+        // },
+        // include: [{
+        //     model: Review,
+        //     attributes: []
+        // }]
         include: {
             model: Review
+        },
+        attributes: {
+            include: ['avgRating']
         }
     })
+    for (let i = 0; i < allSpots.length; i++) {
+        allSpots[i].avgRating = aggregateData.avgRating
+    }
+    // allSpots.avgRating = aggregateData.avgRating
     res.status(200).json(allSpots)
 })
 
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
     const currSpots = await Spot.findAll({
-        include: [SpotImage, Review],
+        include: [
+            {
+                model: Review
+            },
+            {
+                model: SpotImage,
+                attributes: ['preview']
+            }
+        ],
         where: {
             ownerId: user.toSafeObject().id
         }
@@ -27,6 +60,11 @@ router.get('/current', requireAuth, async (req, res) => {
 
 router.get('/:spotId', async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId, {
+        attributes: {
+            include: [
+                [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+            ]
+        },
         include: [
             {
                 model: Review
