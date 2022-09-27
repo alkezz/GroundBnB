@@ -6,36 +6,55 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 router.get('/', async (req, res) => {
-    const aggregateData = await Spot.findAll({
-        include: {
-            model: Review,
-            attributes: []
-        },
-        attributes: [
-            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-        ]
-    });
+    const payload = []
+    const spots = await Spot.findAll()
+    for (let i = 0; i < spots.length; i++) {
+        const aggregateData = await Spot.findOne({
+            where: {
+                id: i + 1
+            },
+            include: {
+                model: Review,
+                attributes: []
+            },
+            attributes: [
+                [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+            ]
+        });
+        payload.push(aggregateData)
+    }
+    // const aggregateData = await Spot.findAll({
+    //     include: {
+    //         model: Review,
+    //         attributes: []
+    //     },
+    //     attributes: [
+    //         [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+    //     ]
+    // });
     const allSpots = await Spot.findAll({
-        // attributes: {
-        //     include: [
-        //         [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-        //     ]
-        // },
-        // include: [{
-        //     model: Review,
-        //     attributes: []
-        // }]
-        include: {
-            model: Review
-        },
         attributes: {
-            include: ['avgRating']
-        }
+            include: [
+                //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                [Sequelize.col('SpotImages.url'), 'previewImage']
+            ],
+        },
+        include: [
+            {
+                model: Review,
+                required: false,
+                attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: [],
+                required: true
+            }
+        ]
     })
     for (let i = 0; i < allSpots.length; i++) {
-        allSpots[i].avgRating = aggregateData.avgRating
+        allSpots[i].setDataValue('avgRating', payload[i].dataValues.avgRating)
     }
-    // allSpots.avgRating = aggregateData.avgRating
     res.status(200).json(allSpots)
 })
 
@@ -80,8 +99,6 @@ router.get('/:spotId', async (req, res) => {
                 }
             }
         ],
-        attributes: {
-        }
     })
     if (spot) {
         res.status(200).json(spot)
