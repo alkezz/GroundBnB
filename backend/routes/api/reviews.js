@@ -11,7 +11,12 @@ router.get('/current', requireAuth, async (req, res) => {
         // where: {
         //     userId: user.toSafeObject().id
         // },
-        include: [ReviewImage],
+        include: [
+            {
+                model: ReviewImage,
+                required: false
+            }
+        ],
     })
     res.status(200).json(currReviews)
 })
