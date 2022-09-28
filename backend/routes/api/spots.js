@@ -83,12 +83,12 @@ router.get('/current', requireAuth, restoreUser, async (req, res) => {
         where: {
             ownerId: req.user.id
         },
-        group: ['Spot.id'],
         attributes: {
             include: [
                 [Sequelize.col('SpotImages.url'), 'previewImage']
             ]
         },
+        group: ['SpotImages.url'],
         include: [
             {
                 model: Review,
