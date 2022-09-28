@@ -70,6 +70,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res) => {
         where: {
             ownerId: user.toSafeObject().id
         },
+        group: ['Spot.id'],
         include: {
             model: Review,
             attributes: []
