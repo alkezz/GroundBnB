@@ -79,12 +79,15 @@ router.get('/current', requireAuth, restoreUser, async (req, res) => {
         ]
     });
     const currSpots = await Spot.findAll({
+        where: {
+            ownerId: req.user.id
+        },
+        group: ['Spot.id'],
         attributes: {
             include: [
                 [Sequelize.col('SpotImages.url'), 'previewImage']
             ]
         },
-        group: ['Spot.id'],
         include: [
             {
                 model: Review,
@@ -97,9 +100,6 @@ router.get('/current', requireAuth, restoreUser, async (req, res) => {
                 required: false
             }
         ],
-        where: {
-            ownerId: user.toSafeObject().id
-        }
     })
     if (currSpots.length >= 1) {
         for (let i = 0; i < aggregateData.length; i++) {
