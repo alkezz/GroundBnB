@@ -61,10 +61,10 @@ module.exports = {
         stars: 4
       },
       {
-        spotId: 1,
+        spotId: 4,
         userId: 5,
-        review: 'No where to drink',
-        stars: 1
+        review: "They're in the walls, They're in the walls, The",
+        stars: 5
       },
       {
         spotId: 2,
