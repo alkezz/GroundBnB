@@ -20,11 +20,11 @@ router.get('/', async (req, res) => {
             },
             attributes: [
                 [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-            ]
+            ],
+            group: ['Spot.id']
         });
         payload.push(aggregateData)
     }
-    console.log("payload:", payload)
     // const aggregateData = await Spot.findAll({
     //     include: {
     //         model: Review,
@@ -41,6 +41,7 @@ router.get('/', async (req, res) => {
                 [Sequelize.col('SpotImages.url'), 'previewImage']
             ],
         },
+        group: ['Spot.id', 'SpotImages.url'],
         include: [
             {
                 model: Review,
@@ -131,6 +132,10 @@ router.get('/:spotId/reviews', async (req, res) => {
             {
                 model: User,
                 attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage,
+                required: false
             }
         ]
     })
