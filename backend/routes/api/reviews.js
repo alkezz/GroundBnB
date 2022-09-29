@@ -45,22 +45,47 @@ router.get('/current', requireAuth, async (req, res) => {
             {
                 model: User,
                 attributes: ['id', 'firstName', 'lastName']
-            },
+            }
         ]
     })
-    const spots = await Spot.findAll()
+    const spots = await Spot.findAll({
+        attributes: {
+            include: [
+                //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                [Sequelize.col('SpotImages.url'), 'previewImage']
+            ],
+        },
+        include: [
+            {
+                model: SpotImage,
+                attributes: []
+            }
+        ]
+    })
+    //! SEEMS LIKE A BIT MUCH TRY TO REFACTOR OR GO A DIFFERENT ROUTE
+    //! FOR THIS ENDPOINT, TRY LAZY LOADING IF NOT DO EAGER
+    const reviewImages = await ReviewImage.findAll()
     const payload = []
     for (let i = 0; i < spots.length; i++) {
-        for (let j = i + 1; j < spots.length; j++) {
-            if (reviews[i] !== undefined) {
+        for (let j = 0; j < reviews.length; j++) {
+            if (reviews[j] !== undefined) {
                 if (spots[i].dataValues.id === reviews[j].dataValues.spotId) {
+                    payload.push(reviews[j])
                     payload.push(spots[i])
                 }
             }
         }
     }
-    console.log(payload)
-    res.status(200).json(reviews)
+    for (let i = 0; i < reviewImages.length; i++) {
+        for (let j = 0; j < reviews.length; j++) {
+            if (reviews[j] !== undefined) {
+                if (reviewImages[i].dataValues.reviewId === reviews[j].dataValues.id) {
+                    payload.push(reviewImages[i])
+                }
+            }
+        }
+    }
+    res.status(200).json(payload)
 })
 
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
