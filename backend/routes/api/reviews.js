@@ -7,18 +7,60 @@ const { handleValidationErrors, handleSpotValidationErrors } = require('../../ut
 
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
-    const currReviews = await Review.findAll({
-        // where: {
-        //     userId: user.toSafeObject().id
-        // },
+    // const currReviews = await Review.findAll({
+    //     where: {
+    //         userId: req.user.id
+    //     },
+    //     include: [
+    //         {
+    //             model: User,
+    //             attributes: ['id', 'firstName', 'lastName']
+    //         },
+    //         {
+    //             model: Spot,
+
+    //             include: [
+    //                 {
+    //                     model: SpotImage,
+    //                     required: false,
+    //                     attributes: [
+    //                         [Sequelize.col('url'), 'previewImage']
+    //                     ],
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             model: ReviewImage,
+    //             required: false
+    //         }
+    //     ],
+    // })
+    //!LAZY LOADING INSTEAD OF EAGER LOADING
+    //!COMMENTED CODE ABOVE "WORKS" BUT LAZY LOADING BETTER
+    const reviews = await Review.findAll({
+        where: {
+            userId: req.user.id
+        },
         include: [
             {
-                model: ReviewImage,
-                required: false
-            }
-        ],
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+        ]
     })
-    res.status(200).json(currReviews)
+    const spots = await Spot.findAll()
+    const payload = []
+    for (let i = 0; i < spots.length; i++) {
+        for (let j = i + 1; j < spots.length; j++) {
+            if (reviews[i] !== undefined) {
+                if (spots[i].dataValues.id === reviews[j].dataValues.spotId) {
+                    payload.push(spots[i])
+                }
+            }
+        }
+    }
+    console.log(payload)
+    res.status(200).json(reviews)
 })
 
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
