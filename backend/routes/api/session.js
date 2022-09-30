@@ -13,7 +13,13 @@ router.get(
         const { user } = req;
         if (user) {
             return res.json({
-                user: user.toSafeObject()
+                user: {
+                    id: user.toSafeObject().id,
+                    firstName: req.user.firstName,
+                    lastName: req.user.lastName,
+                    email: user.toSafeObject().email,
+                    username: user.toSafeObject().username
+                }
             });
         } else return res.json({});
     }
