@@ -13,7 +13,7 @@ router.get(
         const { user } = req;
         if (user) {
             return res.json({
-                user: user.toSafeObject()
+                user: user.scope('currUser')
             });
         } else return res.json({});
     }
