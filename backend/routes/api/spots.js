@@ -172,17 +172,45 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         include: [
             {
                 model: Booking,
-                include: [
-                    {
-                        model: User,
-                        attributes: ['id', 'firstName', 'lastName']
-                    }
-                ]
+                attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
+                // include: [
+                //     {
+                //         model: User,
+                //         attributes: ['id', 'firstName', 'lastName']
+                //     }
+                // ],
             }
         ],
         attributes: []
     })
+    const user = await Spot.findByPk(req.params.spotId, {
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName'],
+                through: {
+                    attributes: []
+                },
+            }
+        ],
+        attributes: [],
+    })
+    if (!user) {
+        res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    console.log(bookings.Bookings.length)
     if (bookings) {
+        // for (let i = 0; i < bookings.Booking.length; i++) {
+
+        // }
+        if (bookings.dataValues.Bookings[0].dataValues.userId === req.user.id) {
+            bookings.dataValues.Bookings.unshift(user.dataValues.Users[0])
+        } else {
+            return res.json(bookings)
+        }
         return res.json(bookings)
     }
 })
@@ -217,7 +245,7 @@ router.get('/:spotId', async (req, res) => {
             }
         ],
     })
-    if (spot.dataValues.id !== null) {
+    if (spot) {
         res.status(200).json(spot)
     } else {
         res.status(404).json({
@@ -341,6 +369,63 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
         })
     }
 })
+
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+    const { startDate, endDate } = req.body
+    const spot = await Spot.findByPk(req.params.spotId)
+    const booking = await Booking.findAll({
+        where: {
+            spotId: req.params.spotId
+        }
+    })
+    if (spot) {
+        if (spot.ownerId !== req.user.id) {
+            if (startDate < endDate) {
+                for (let i = 0; i < booking.length; i++) {
+                    let newDate = `${booking[i].startDate.getFullYear()}-${booking[i].startDate.getMonth() + 1}-${booking[i].startDate.getDate() + 1}`
+                    if (newDate === startDate
+                        || newDate === endDate) {
+                        return res.json({
+                            "message": "Sorry, this spot is already booked for the specified dates",
+                            "statusCode": 403,
+                            "errors": {
+                                "startDate": "Start date conflicts with an existing booking",
+                                "endDate": "End date conflicts with an existing booking"
+                            },
+                        })
+                    }
+                }
+                const newBooking = await Booking.create({
+                    spotId: req.params.spotId,
+                    userId: req.user.id,
+                    startDate,
+                    endDate
+                })
+                return res.json(newBooking)
+            } else {
+                return res.json({
+                    "message": "Validation error",
+                    "statusCode": 400,
+                    "errors": {
+                        "endDate": "endDate cannot be on or before startDate"
+                    },
+                })
+            }
+        } else {
+            return res.json({
+                message: 'Forbidden',
+                statusCode: 403
+            })
+        }
+
+    } else {
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+})
+
 
 router.put('/:spotId', requireAuth, validateNewSpot, async (req, res) => {
     const { user } = req

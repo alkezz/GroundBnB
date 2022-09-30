@@ -7,63 +7,66 @@ const { handleValidationErrors, handleSpotValidationErrors } = require('../../ut
 
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
-    // const currReviews = await Review.findAll({
-    //     where: {
-    //         userId: req.user.id
-    //     },
-    //     include: [
-    //         {
-    //             model: User,
-    //             attributes: ['id', 'firstName', 'lastName']
-    //         },
-    //         {
-    //             model: Spot,
-    //             include: [
-    //                 {
-    //                     model: SpotImage,
-    //                     required: false,
-    //                     attributes: [[Sequelize.col('url'), 'previewImage']],
-    //                 }
-    //                 //     //Spot.SpotImages.previewImage
-    //                 //     // Spot.SpotImages.url
-    //             ],
-    //         },
-    //         {
-    //             model: ReviewImage,
-    //             required: false
-    //         }
-    //     ],
-    // })
-    //!LAZY LOADING INSTEAD OF EAGER LOADING
-    //!COMMENTED CODE ABOVE "WORKS" BUT LAZY LOADING BETTER
-    const reviews = await User.findByPk(req.user.id, {
+    const currReviews = await Review.findAll({
+        where: {
+            userId: req.user.id
+        },
         include: [
             {
-                model: Review,
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: Spot,
+                attributes: {
+                    exclude: ['description', 'updatedAt', 'createdAt']
+                },
                 include: [
                     {
-                        model: User,
-                        attributes: ['id', 'firstName', 'lastName']
-                    },
-                    {
-                        model: Spot,
-                        attributes: [[Sequelize.col('SpotImages.url'), 'previewImage']],
-                        include: [
-                            {
-                                model: SpotImage,
-                            }
-                        ],
-                    },
-                    {
-                        model: ReviewImage,
-                        attributes: ['id', 'url']
+                        model: SpotImage,
+                        required: false,
+                        attributes: [[Sequelize.col('url'), 'previewImage']],
                     }
+                    //     //Spot.SpotImages.previewImage
+                    //     // Spot.SpotImages.url
                 ],
-
             },
+            {
+                model: ReviewImage,
+                required: false
+            }
         ],
-        attributes: []
     })
+    //!LAZY LOADING INSTEAD OF EAGER LOADING
+    //!COMMENTED CODE ABOVE "WORKS" BUT LAZY LOADING BETTER
+    // const reviews = await User.findByPk(req.user.id, {
+    //     include: [
+    //         {
+    //             model: Review,
+    //             include: [
+    //                 {
+    //                     model: User,
+    //                     attributes: ['id', 'firstName', 'lastName']
+    //                 },
+    //                 {
+    //                     model: Spot,
+    //                     attributes: [[Sequelize.col('SpotImages.url'), 'previewImage']],
+    //                     include: [
+    //                         {
+    //                             model: SpotImage,
+    //                         }
+    //                     ],
+    //                 },
+    //                 {
+    //                     model: ReviewImage,
+    //                     attributes: ['id', 'url']
+    //                 }
+    //             ],
+
+    //         },
+    //     ],
+    //     attributes: []
+    // })
     // const spots = await Spot.findAll({
     //     attributes: {
     //         include: [
@@ -117,7 +120,7 @@ router.get('/current', requireAuth, async (req, res) => {
     //         }
     //     }
     // }
-    res.status(200).json(reviews)
+    res.status(200).json(currReviews)
 })
 
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
