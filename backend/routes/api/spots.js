@@ -57,8 +57,8 @@ router.get('/', async (req, res) => {
         order: [['id', 'ASC']]
     })
     for (let i = 0; i < allSpots.length; i++) {
-        if (payload[i].dataValues.avgRating !== null) {
-            allSpots[i].setDataValue('avgRating', payload[i].dataValues.avgRating)
+        if (payload[i].avgRating !== null) {
+            allSpots[i].setDataValue('avgRating', payload[i].avgRating)
         } else {
             allSpots[i].setDataValue('avgRating', 'No Reviews Yet!')
         }
@@ -202,7 +202,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
             statusCode: 404
         })
     }
-    console.log(bookings.Bookings.length)
     if (bookings) {
         // for (let i = 0; i < bookings.Booking.length; i++) {
 
@@ -316,7 +315,11 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
                 url,
                 preview
             })
-            res.status(200).json(newImage)
+            res.status(200).json({
+                id: newImage.id,
+                url: url,
+                preview: preview
+            })
         } else {
             res.json({
                 message: 'You must own this spot to add an image'
