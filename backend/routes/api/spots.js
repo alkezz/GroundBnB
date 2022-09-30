@@ -108,7 +108,11 @@ router.get('/current', requireAuth, restoreUser, async (req, res) => {
     })
     if (currSpots.length >= 1) {
         for (let i = 0; i < aggregateData.length; i++) {
-            currSpots[i].setDataValue('avgRating', aggregateData[i].dataValues.avgRating)
+            if (aggregateData[i].dataValues.avgRating !== null) {
+                currSpots[i].setDataValue('avgRating', aggregateData[i].dataValues.avgRating)
+            } else {
+                currSpots[i].setDataValue('avgRating', "No reviews yet!")
+            }
         }
         res.status(200).json(currSpots)
     } else {

@@ -6,8 +6,40 @@ const { check } = require('express-validator');
 const { handleValidationErrors, handleSpotValidationErrors } = require('../../utils/validation');
 
 router.get('/current', requireAuth, async (req, res) => {
-    const { user } = req
-    const currReviews = await Review.findAll({
+    // const { user } = req
+    // const currReviews = await Review.findAll({
+    //     where: {
+    //         userId: req.user.id
+    //     },
+    //     include: [
+    //         {
+    //             model: User,
+    //             attributes: ['id', 'firstName', 'lastName']
+    //         },
+    //         {
+    //             model: Spot,
+    //             attributes: {
+    //                 exclude: ['description', 'updatedAt', 'createdAt']
+    //             },
+    //             include: [
+    //                 {
+    //                     model: SpotImage,
+    //                     required: false,
+    //                     attributes: [[Sequelize.col('url'), 'previewImage']],
+    //                 }
+    //                 //     //Spot.SpotImages.previewImage
+    //                 //     // Spot.SpotImages.url
+    //             ],
+    //         },
+    //         {
+    //             model: ReviewImage,
+    //             required: false
+    //         }
+    //     ],
+    // })
+    // res.status(200).json(currReviews)
+
+    const reviews = await Review.findAll({
         where: {
             userId: req.user.id
         },
@@ -17,110 +49,33 @@ router.get('/current', requireAuth, async (req, res) => {
                 attributes: ['id', 'firstName', 'lastName']
             },
             {
-                model: Spot,
-                attributes: {
-                    exclude: ['description', 'updatedAt', 'createdAt']
-                },
-                include: [
-                    {
-                        model: SpotImage,
-                        required: false,
-                        attributes: [[Sequelize.col('url'), 'previewImage']],
-                    }
-                    //     //Spot.SpotImages.previewImage
-                    //     // Spot.SpotImages.url
-                ],
-            },
-            {
-                model: ReviewImage,
-                required: false
+                model: Spot
             }
         ],
     })
-    //!LAZY LOADING INSTEAD OF EAGER LOADING
-    //!COMMENTED CODE ABOVE "WORKS" BUT LAZY LOADING BETTER
-    // const reviews = await User.findByPk(req.user.id, {
-    //     include: [
-    //         {
-    //             model: Review,
-    //             include: [
-    //                 {
-    //                     model: User,
-    //                     attributes: ['id', 'firstName', 'lastName']
-    //                 },
-    //                 {
-    //                     model: Spot,
-    //                     attributes: [[Sequelize.col('SpotImages.url'), 'previewImage']],
-    //                     include: [
-    //                         {
-    //                             model: SpotImage,
-    //                         }
-    //                     ],
-    //                 },
-    //                 {
-    //                     model: ReviewImage,
-    //                     attributes: ['id', 'url']
-    //                 }
-    //             ],
-
-    //         },
-    //     ],
-    //     attributes: []
-    // })
-    // const spots = await Spot.findAll({
-    //     attributes: {
-    //         include: [
-    //             //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
-    //             [Sequelize.col('SpotImages.url'), 'previewImage']
-    //         ],
-    //         exclude: ['createdAt', 'updatedAt', 'description']
-    //     },
-    //     include: [
-    //         {
-    //             model: SpotImage,
-    //             attributes: []
-    //         },
-    //         {
-    //             model: Review
-    //         }
-    //     ],
-    // })
-    // //! SEEMS LIKE A BIT MUCH TRY TO REFACTOR OR GO A DIFFERENT ROUTE
-    // //! FOR THIS ENDPOINT, TRY LAZY LOADING IF NOT DO EAGER
-    // const reviewImages = await ReviewImage.findAll({
-    //     include: {
-    //         model: Review,
-    //         where: {
-    //             userId: req.user.id
-    //         },
-    //         attributes: []
-    //     },
-    //     attributes: ['id', 'url']
-    // })
-
-    // const spotArray = []
-    // for (let j = 0; j < reviews.length; j++) {
-    //     for (let i = 0; i < spots.length; i++) {
-    //         if (reviews[j] !== undefined) {
-    //             if (spots[i].dataValues.id === reviews[j].dataValues.spotId) {
-    //                 spotArray.push(reviews[j])
-    //                 spotArray.push(spots[i])
-    //                 spotArray.push(reviewImages[j])
-    //             }
-    //         }
-    //     }
-    // }
-    // console.log(reviewArray[0])
-    //! for (let i = 0; i < reviewImages.length; i++) {
-    //!     for (let j = 0; j < reviews.length; j++) { DONT NEED THESE FOR LOOPS
-    //!         if (reviews[j] !== undefined) {
-    //!            if (reviewImages[i].dataValues.reviewId === reviews[j].dataValues.id) {
-    //            !         payload.push(reviewImages[i])
-    //                 }
-    //         }
-    //     }
-    // }
-    res.status(200).json(currReviews)
+    const spots = await Spot.findAll({
+        where: {
+            id: reviews[0].spotId
+        },
+        attributes: {
+            include: [
+                //             //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                [Sequelize.col('SpotImages.url'), 'previewImage']
+            ],
+            exclude: ['createdAt', 'updatedAt', 'description']
+        },
+        include: [
+            {
+                model: SpotImage,
+                attributes: []
+            }
+        ],
+    })
+    res.json(
+        {
+            Reviews: reviews
+        }
+    )
 })
 
 router.post('/:reviewId/images', requireAuth, async (req, res) => {

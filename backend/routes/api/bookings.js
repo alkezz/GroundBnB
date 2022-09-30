@@ -6,44 +6,47 @@ const { check } = require('express-validator');
 const { handleValidationErrors, handleSpotValidationErrors } = require('../../utils/validation');
 
 router.get('/current', requireAuth, async (req, res) => {
-    const bookings = await User.findByPk(req.user.id, {
-        include: [
-            {
-                model: Booking,
-                attributes: ['id', 'userId'],
-                include: [
-                    {
-                        model: Spot
-                    }
-                ],
-            },
-        ],
-        attributes: []
+    const bookings = await Booking.findAll({
+        where: {
+            userId: req.user.id
+        }
     })
-    // const spots = await User.findByPk(req.user.id, {
-    //     include: [
-    //         {
-    //             model: Spot,
-    //             through: {
-    //                 attributes: []
-    //             },
-    //         },
-    //         {
-    //             model: Review,
-    //             attributes: []
-    //         },
-    //         {
-    //             model: Booking,
-    //             where: {
-    //                 userId: req.user.id
-    //             },
-    //             attributes: []
-    //         },
-    //     ],
-    //     attributes: []
+    const payload = []
+    for (let i = 0; i < bookings.length; i++) {
+        const spots = await Spot.findOne({
+            where: {
+                id: bookings[i].spotId
+            },
+            attributes: {
+                include: [
+                    [Sequelize.col('SpotImages.url'), 'previewImage']
+                ],
+                exclude: ['createdAt', 'updatedAt', 'description']
+            },
+            include: [
+                {
+                    model: SpotImage,
+                    attributes: []
+                }
+            ],
+        })
+        payload.push(spots)
+    }
+    // payload.forEach(ele => {
+    //     bookings.push(ele.toJSON())
     // })
-    // console.log(bookings)
-    res.json(bookings)
+    for (let i = 0; i < payload.length; i++) {
+        let newObj = { Spot: payload[i] }
+        bookings.push(newObj)
+    }
+    // Object.assign({ Spot: payload }, bookings)
+    res.json({ Bookings: bookings })
+    // res.json({
+    //     Bookings: {
+    //         bookings, Spot: payload
+    //     }
+    // })
+
 })
 
 router.put('/:bookingId', requireAuth, async (req, res) => {
@@ -124,11 +127,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
         })
     }
     const spot = await Spot.findByPk(oldBooking.spotId)
-    console.log(oldBooking.startDate)
     const currDate = new Date()
-    console.log(currDate)
-    console.log(oldBooking.endDate)
-    console.log((oldBooking.startDate < currDate && currDate < oldBooking.endDate))
     if (oldBooking) {
         if (spot.ownerId === req.user.id || oldBooking.userId === req.user.id) {
             if (currDate < oldBooking.startDate) {
