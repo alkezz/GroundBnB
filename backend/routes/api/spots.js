@@ -53,7 +53,8 @@ router.get('/', async (req, res) => {
                 attributes: [],
                 required: false
             }
-        ]
+        ],
+        order: [['id', 'ASC']]
     })
     for (let i = 0; i < allSpots.length; i++) {
         if (payload[i].dataValues.avgRating !== null) {
