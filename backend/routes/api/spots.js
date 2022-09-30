@@ -57,13 +57,15 @@ router.get('/', async (req, res) => {
         order: [['id', 'ASC']]
     })
     for (let i = 0; i < allSpots.length; i++) {
-        if (payload[i].avgRating !== null) {
-            allSpots[i].setDataValue('avgRating', payload[i].avgRating)
+        if (payload[i].dataValues.avgRating !== null) {
+            allSpots[i].setDataValue('avgRating', payload[i].dataValues.avgRating)
         } else {
             allSpots[i].setDataValue('avgRating', 'No Reviews Yet!')
         }
     }
-    res.status(200).json(allSpots)
+    res.status(200).json({
+        Spots: allSpots
+    })
 })
 
 router.get('/current', requireAuth, restoreUser, async (req, res) => {
