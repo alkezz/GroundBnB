@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
                 [Sequelize.col('SpotImages.url'), 'previewImage']
             ],
         },
-        group: ['SpotImages.url'],
+        group: ['SpotImages.url', 'Spot.id'],
         include: [
             {
                 model: Review,
