@@ -175,49 +175,79 @@ router.get('/:spotId/reviews', async (req, res) => {
 })
 
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
-    const bookings = await User.findByPk(req.user.id, {
-        include: [
-            {
-                model: Booking,
-                attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
-                // include: [
-                //     {
-                //         model: User,
-                //         attributes: ['id', 'firstName', 'lastName']
-                //     }
-                // ],
-            }
-        ],
-        attributes: []
-    })
-    const user = await Spot.findByPk(req.params.spotId, {
-        include: [
-            {
-                model: User,
-                attributes: ['id', 'firstName', 'lastName'],
-                through: {
-                    attributes: []
+    // const bookings = await User.findByPk(req.user.id, {
+    //     include: [
+    //         {
+    //             model: Booking,
+    //             attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
+    //             // include: [
+    //             //     {
+    //             //         model: User,
+    //             //         attributes: ['id', 'firstName', 'lastName']
+    //             //     }
+    //             // ],
+    //         }
+    //     ],
+    //     attributes: []
+    // })
+    // const user = await Spot.findByPk(req.params.spotId, {
+    //     include: [
+    //         {
+    //             model: User,
+    //             attributes: ['id', 'firstName', 'lastName'],
+    //             through: {
+    //                 attributes: []
+    //             },
+    //         }
+    //     ],
+    //     attributes: [],
+    // })
+    // if (!user) {
+    //     res.json({
+    //         message: "Spot couldn't be found",
+    //         statusCode: 404
+    //     })
+    // }
+    // if (bookings) {
+    //     // for (let i = 0; i < bookings.Booking.length; i++) {
+
+    //     // }
+    //     if (bookings.dataValues.Bookings[0].dataValues.userId === req.user.id) {
+    //         bookings.dataValues.Bookings.unshift(user.dataValues.Users[0])
+    //     } else {
+    //         return res.json(bookings)
+    //     }
+    //     return res.json(bookings)
+    // }
+    const spot = await Spot.findByPk(req.params.spotId)
+    if (spot) {
+        if (spot.ownerId === req.user.id) {
+            const bookings = await Booking.findAll({
+                where: {
+                    spotId: spot.id
                 },
-            }
-        ],
-        attributes: [],
-    })
-    if (!user) {
-        res.json({
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'firstName', 'lastName']
+                    }
+                ]
+            })
+            return res.json({ Bookings: bookings })
+        } else {
+            const bookings = await Booking.findAll({
+                where: {
+                    spotId: spot.id
+                },
+                attributes: ['spotId', 'startDate', 'endDate']
+            })
+            return res.json({ Bookings: bookings })
+        }
+    } else {
+        return res.status(404).json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
-    }
-    if (bookings) {
-        // for (let i = 0; i < bookings.Booking.length; i++) {
-
-        // }
-        if (bookings.dataValues.Bookings[0].dataValues.userId === req.user.id) {
-            bookings.dataValues.Bookings.unshift(user.dataValues.Users[0])
-        } else {
-            return res.json(bookings)
-        }
-        return res.json(bookings)
     }
 })
 
