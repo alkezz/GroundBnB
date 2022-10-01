@@ -34,6 +34,7 @@ router.get('/', async (req, res) => {
             attributes: [
                 [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
             ],
+            group: ['Spot.id', 'Reviews.stars']
         });
         payload.push(aggregateData)
     }
