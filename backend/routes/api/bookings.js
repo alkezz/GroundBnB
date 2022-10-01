@@ -40,7 +40,21 @@ router.get('/current', requireAuth, async (req, res) => {
         bookings.push(newObj)
     }
     // Object.assign({ Spot: payload }, bookings)
-    res.json({ Bookings: bookings })
+
+    const newBook = await Booking.findAll({
+        where: {
+            userId: req.user.id
+        },
+        include: [
+            {
+                model: Spot,
+                attributes: {
+                    exclude: ['description', 'createdAt', 'updatedAt']
+                }
+            }
+        ]
+    })
+    res.json({ Bookings: newBook })
     // res.json({
     //     Bookings: {
     //         bookings, Spot: payload

@@ -48,32 +48,64 @@ router.get('/current', requireAuth, async (req, res) => {
                 model: User,
                 attributes: ['id', 'firstName', 'lastName']
             },
-            {
-                model: Spot
-            }
+            // {
+            //     model: Spot,
+            //     attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat',
+            //         'lng', 'name', 'price', 'SpotImages.url'],
+            //     include: {
+            //         model: SpotImage,
+            //         attributes: [],
+            //         required: false
+            //     },
+            // },
+            // {
+            //     model: ReviewImage,
+            //     attributes: ['id', 'url']
+            // }
         ],
     })
-    const spots = await Spot.findAll({
-        where: {
-            id: reviews[0].spotId
-        },
-        attributes: {
+    const spotArray = []
+    for (let i = 0; i < reviews.length; i++) {
+        const spots = await Spot.findOne({
+            where: {
+                id: reviews[i].spotId
+            },
+            attributes: {
+                include: [
+                    //             //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                    [Sequelize.col('SpotImages.url'), 'previewImage']
+                ],
+                exclude: ['createdAt', 'updatedAt', 'description']
+            },
             include: [
-                //             //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
-                [Sequelize.col('SpotImages.url'), 'previewImage']
+                {
+                    model: SpotImage,
+                    attributes: []
+                }
             ],
-            exclude: ['createdAt', 'updatedAt', 'description']
-        },
-        include: [
-            {
-                model: SpotImage,
-                attributes: []
-            }
-        ],
-    })
+        })
+        spotArray.push(spots)
+    }
+    const imageArray = []
+    for (let i = 0; i < reviews.length; i++) {
+        const images = await ReviewImage.findAll({
+            where: {
+                reviewId: reviews[i].id
+            },
+            attributes: ['id', 'url']
+        })
+        imageArray.push(images)
+    }
+    const newArr = []
+    for (let i = 0; i < reviews.length; i++) {
+        newArr.push(reviews[i])
+        newArr.push({ Spot: spotArray[i] })
+        newArr.push({ ReviewImage: imageArray[i] })
+    }
+
     res.json(
         {
-            Reviews: reviews
+            Reviews: newArr
         }
     )
 })
