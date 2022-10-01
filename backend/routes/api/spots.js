@@ -6,9 +6,22 @@ const { check } = require('express-validator');
 const { handleValidationErrors, handleSpotValidationErrors } = require('../../utils/validation');
 
 router.get('/', async (req, res) => {
+
+    let { page, size } = req.query
+    if (!page) page = 1
+    if (!size) size = 20
+    if (page > 10) page = 10
+    if (size > 20) size = 20
+    page = parseInt(page)
+    size = parseInt(size)
+    const pagination = {}
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size;
+        pagination.offset = size * (page - 1);
+    }
+
     const payload = []
     const spots = await Spot.findAll()
-    // console.log(spots)
     for (let i = 0; i < spots.length; i++) {
         const aggregateData = await Spot.findOne({
             where: {
@@ -25,19 +38,21 @@ router.get('/', async (req, res) => {
         });
         payload.push(aggregateData)
     }
-    // const aggregateData = await Spot.findAll({
-    //     include: {
-    //         model: Review,
-    //         attributes: []
-    //     },
-    //     attributes: [
-    //         [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-    //     ]
-    // });
+    const aggregateData = await Spot.findAll({
+        include: {
+            model: Review,
+            attributes: []
+        },
+        attributes: [
+            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+        ]
+    });
     const allSpots = await Spot.findAll({
+        order: [['id', 'ASC']],
+        subQuery: false,
         attributes: {
             include: [
-                //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                // [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
                 [Sequelize.col('SpotImages.url'), 'previewImage']
             ],
         },
@@ -54,7 +69,7 @@ router.get('/', async (req, res) => {
                 required: false
             }
         ],
-        order: [['id', 'ASC']]
+        ...pagination
     })
     for (let i = 0; i < allSpots.length; i++) {
         if (payload[i].dataValues.avgRating !== null) {
@@ -64,7 +79,7 @@ router.get('/', async (req, res) => {
         }
     }
     res.status(200).json({
-        Spots: allSpots
+        Spots: allSpots, page, size
     })
 })
 
