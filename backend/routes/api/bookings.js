@@ -77,7 +77,6 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             spotId: updateBooking.spotId
         }
     })
-    console.log(spotBookings)
     const currDate = new Date()
     // const updateDate = `${currDate.getFullYear()}-${currDate.getMonth() + 1}-${currDate.getDate() + 1}`
     if (updateBooking) {
