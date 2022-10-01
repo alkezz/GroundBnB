@@ -38,15 +38,15 @@ router.get('/', async (req, res) => {
         });
         payload.push(aggregateData)
     }
-    const aggregateData = await Spot.findAll({
-        include: {
-            model: Review,
-            attributes: []
-        },
-        attributes: [
-            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-        ]
-    });
+    // const aggregateData = await Spot.findAll({
+    //     include: {
+    //         model: Review,
+    //         attributes: []
+    //     },
+    //     attributes: [
+    //         [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+    //     ]
+    // });
     const allSpots = await Spot.findAll({
         order: [['id', 'ASC']],
         subQuery: false,
@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
                 [Sequelize.col('SpotImages.url'), 'previewImage']
             ],
         },
-        group: ['Spot.id', 'SpotImages.url'],
+        group: ['SpotImages.url'],
         include: [
             {
                 model: Review,
