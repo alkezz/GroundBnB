@@ -120,7 +120,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const review = await Review.findByPk(req.params.reviewId)
     if (review) {
         if (req.user.id === review.dataValues.userId) {
-            if (reviewImages.length <= 10) {
+            if (reviewImages.length < 10) {
                 const newImage = await ReviewImage.create({
                     reviewId: Number(req.params.reviewId),
                     url
@@ -136,13 +136,13 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
                 })
             }
         } else {
-            res.status(404).json({
+            return res.status(404).json({
                 message: 'You must be the owner of this review to add an image',
                 statusCode: 404
             })
         }
     } else {
-        res.status(404).json({
+        return res.status(404).json({
             message: "Review couldn't be found",
             statusCode: 404
         })
