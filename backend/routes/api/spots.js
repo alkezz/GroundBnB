@@ -132,7 +132,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res) => {
         res.status(200).json(currSpots)
     } else {
         res.status(404).json({
-            message: "You don't own any spots!",
+            message: "You don't own any spots yet!",
             statusCode: 404
         })
     }

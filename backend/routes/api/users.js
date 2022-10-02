@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router();
+const { user } = require('../../db/models')
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const { check } = require('express-validator');
@@ -31,18 +32,61 @@ const validateSignup = [
     handleValidationErrors
 ];
 
+router.get('/', async (req, res) => {
+    const user = await User.findAll({
+        attributes: {
+            include: 'email'
+        }
+    })
+    for (let i = 0; i < user.length; i++) {
+        console.log(user[i].email)
+    }
+})
+
 // Sign up
 router.post(
     '/',
     validateSignup,
     async (req, res) => {
         const { firstName, lastName, email, password, username } = req.body;
+        const users = await User.findAll({
+            attributes: {
+                include: 'email'
+            }
+        })
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].email === email) {
+                res.status(403).json({
+                    "message": "User already exists",
+                    "statusCode": 403,
+                    "errors": {
+                        "email": "User with that email already exists"
+                    }
+                })
+            } else if (users[i].username === username) {
+                return res.status(403).json({
+                    "message": "User already exists",
+                    "statusCode": 403,
+                    "errors": {
+                        "username": "User with that username already exists"
+                    }
+                })
+            }
+        }
         const user = await User.signup({ firstName, lastName, email, username, password });
 
         const a = await setTokenCookie(res, user);
         user.setDataValue('token', a)
-        return res.json(
-            user,
+        return res.status(200).json(
+            {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                username: user.username,
+                token: a
+            }
+
         );
     }
 );
