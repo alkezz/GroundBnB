@@ -8,7 +8,7 @@ const { handleValidationErrors, handleSpotValidationErrors } = require('../../ut
 router.delete('/:imageId', requireAuth, async (req, res) => {
     const reviewImage = await ReviewImage.findByPk(req.params.imageId)
     if (!reviewImage) {
-        return res.json({
+        return res.status(404).json({
             "message": "Review Image couldn't be found",
             "statusCode": 404
         })
@@ -16,12 +16,12 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     const review = await Review.findByPk(reviewImage.reviewId)
     if (review.userId === req.user.id) {
         reviewImage.destroy()
-        res.json({
+        res.status(200).json({
             "message": "Successfully deleted",
             "statusCode": 200
         })
     } else {
-        res.json({
+        res.status(404).json({
             message: 'Forbidden',
             statusCode: 403
         })

@@ -64,7 +64,7 @@ router.get('/current', requireAuth, async (req, res) => {
         entry.splice(2, 0, ['Spot', payload[i]])
         newArr.push(Object.fromEntries(entry))
     }
-    res.json({
+    res.status(200).json({
         Bookings: newArr
     })
     // res.json({
@@ -79,7 +79,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     const { startDate, endDate } = req.body
     const updateBooking = await Booking.findByPk(req.params.bookingId)
     if (!updateBooking) {
-        return res.json({
+        return res.status(404).json({
             message: "Booking couldn't be found",
             statusCode: 404
         })
@@ -113,15 +113,15 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
                         startDate,
                         endDate
                     })
-                    return res.json(updateBooking)
+                    return res.status(200).json(updateBooking)
                 } else {
-                    return res.json({
+                    return res.status(403).json({
                         "message": "Past bookings can't be modified",
                         "statusCode": 403
                     })
                 }
             } else {
-                return res.json({
+                return res.status(400).json({
                     "message": "Validation error",
                     "statusCode": 400,
                     "errors": {
@@ -130,13 +130,13 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
                 })
             }
         } else {
-            return res.json({
+            return res.status(403).json({
                 message: 'Forbidden',
                 statusCode: 403
             })
         }
     } else {
-        return res.json({
+        return res.status(404).json({
             message: "Booking couldn't be found",
             statusCode: 404
         })
@@ -162,14 +162,14 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
                     statusCode: 200
                 })
             } else {
-                res.json({
+                res.status(403).json({
                     "message": "Bookings that have been started can't be deleted",
                     "statusCode": 403
                 })
             }
         }
     } else {
-        res.json({
+        res.status(404).json({
             message: "Booking couldn't be found",
             statusCode: 404
         })

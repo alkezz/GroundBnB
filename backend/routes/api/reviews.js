@@ -100,7 +100,7 @@ router.get('/current', requireAuth, async (req, res) => {
         reviews[i].setDataValue("Spot", spotArray[i])
         reviews[i].setDataValue("ReviewImages", imageArray[i])
     }
-    res.json(
+    res.status(200).json(
         {
             Reviews: reviews
         }
@@ -163,7 +163,7 @@ router.put('/:reviewId', [requireAuth, validateReview], async (req, res) => {
             })
             return res.json(reviewToEdit)
         } else {
-            return res.json({
+            return res.status(403).json({
                 message: 'Forbidden',
                 statusCode: 403
             })

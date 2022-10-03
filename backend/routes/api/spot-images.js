@@ -17,12 +17,12 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     if (spotImage) {
         if (spot.ownerId === req.user.id) {
             spotImage.destroy()
-            res.json({
+            res.status(200).json({
                 "message": "Successfully deleted",
                 "statusCode": 200
             })
         } else {
-            res.json({
+            res.status(403).json({
                 message: 'Forbidden',
                 statusCode: 403
             })
