@@ -391,7 +391,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
                 preview: preview
             })
         } else {
-            res.json({
+            res.status(403).json({
                 message: 'You must own this spot to add an image'
             })
         }
@@ -459,7 +459,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
                     let newDate = `${booking[i].startDate.getFullYear()}-${booking[i].startDate.getMonth() + 1}-${booking[i].startDate.getDate() + 1}`
                     if (newDate === startDate
                         || newDate === endDate) {
-                        return res.json({
+                        return res.status(403).json({
                             "message": "Sorry, this spot is already booked for the specified dates",
                             "statusCode": 403,
                             "errors": {
@@ -475,9 +475,9 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
                     startDate,
                     endDate
                 })
-                return res.json(newBooking)
+                return res.status(200).json(newBooking)
             } else {
-                return res.json({
+                return res.status(400).json({
                     "message": "Validation error",
                     "statusCode": 400,
                     "errors": {
@@ -486,14 +486,14 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
                 })
             }
         } else {
-            return res.json({
+            return res.status(403).json({
                 message: 'Forbidden',
                 statusCode: 403
             })
         }
 
     } else {
-        res.json({
+        res.status(404).json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
