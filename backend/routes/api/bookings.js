@@ -54,11 +54,18 @@ router.get('/current', requireAuth, async (req, res) => {
         //     }
         // ]
     })
-    for (let i = 0; i < newBook.length; i++) {
-        newBook[i].setDataValue('Spot', payload[i])
+    let arr = []
+    newBook.forEach(ele => {
+        arr.push(ele.toJSON())
+    })
+    let newArr = []
+    for (let i = 0; i < arr.length; i++) {
+        const entry = Object.entries(arr[i])
+        entry.splice(2, 0, ['Spot', payload[i]])
+        newArr.push(Object.fromEntries(entry))
     }
     res.json({
-        Bookings: newBook
+        Bookings: newArr
     })
     // res.json({
     //     Bookings: {
