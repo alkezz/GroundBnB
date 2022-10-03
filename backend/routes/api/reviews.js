@@ -84,28 +84,25 @@ router.get('/current', requireAuth, async (req, res) => {
                 }
             ],
         })
-        spotArray.push(spots)
+        spotArray.push(spots.toJSON())
     }
     const imageArray = []
     for (let i = 0; i < reviews.length; i++) {
-        const images = await ReviewImage.findAll({
+        const images = await ReviewImage.findOne({
             where: {
                 reviewId: reviews[i].id
             },
             attributes: ['id', 'url']
         })
-        imageArray.push(images)
+        imageArray.push(images.toJSON())
     }
-    const newArr = []
     for (let i = 0; i < reviews.length; i++) {
-        newArr.push(reviews[i])
-        newArr.push({ Spot: spotArray[i] })
-        newArr.push({ ReviewImage: imageArray[i] })
+        reviews[i].setDataValue("Spot", spotArray[i])
+        reviews[i].setDataValue("ReviewImages", imageArray[i])
     }
-
     res.json(
         {
-            Reviews: newArr
+            Reviews: reviews
         }
     )
 })

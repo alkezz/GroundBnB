@@ -30,31 +30,36 @@ router.get('/current', requireAuth, async (req, res) => {
                 }
             ],
         })
-        payload.push(spots)
+        payload.push(spots.toJSON())
     }
     // payload.forEach(ele => {
     //     bookings.push(ele.toJSON())
     // })
-    for (let i = 0; i < payload.length; i++) {
-        let newObj = { Spot: payload[i] }
-        bookings.push(newObj)
-    }
+    // for (let i = 0; i < payload.length; i++) {
+    //     let newObj = { Spot: payload[i] }
+    //     bookings.push(newObj)
+    // }
     // Object.assign({ Spot: payload }, bookings)
 
     const newBook = await Booking.findAll({
         where: {
             userId: req.user.id
-        },
-        include: [
-            {
-                model: Spot,
-                attributes: {
-                    exclude: ['description', 'createdAt', 'updatedAt']
-                }
-            }
-        ]
+        }
+        // include: [
+        //     {
+        //         model: Spot,
+        //         attributes: {
+        //             exclude: ['description', 'createdAt', 'updatedAt']
+        //         }
+        //     }
+        // ]
     })
-    res.json({ Bookings: newBook })
+    for (let i = 0; i < newBook.length; i++) {
+        newBook[i].setDataValue('Spot', payload[i])
+    }
+    res.json({
+        Bookings: newBook
+    })
     // res.json({
     //     Bookings: {
     //         bookings, Spot: payload
