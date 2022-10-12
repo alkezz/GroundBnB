@@ -28,4 +28,5 @@ router.use('/spot-images', spotImageRouter)
 router.use('/review-images', reviewImageRouter)
 
 
+
 module.exports = router;
