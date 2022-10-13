@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import './LoginForm.css'
 
 function LoginFormPage() {
     const dispatch = useDispatch();
@@ -28,34 +29,53 @@ function LoginFormPage() {
                 if (data) setErrors([data.message]);
             });
     }
-
     return (
-        <form onSubmit={handleSubmit}>
-            <ul>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
+        <form onSubmit={handleSubmit} className='login-form'>
+            <h1 id='welcome-head'>Welcome to Airbnb</h1>
+            <div>
+                {errors.map((error, idx) =>
+                    error === "Invalid credentialis" ? <li key={idx} id='error-login'>Invalid Credentials!</li> : null
+                )}
+            </div>
             <label>
-                Username or Email
-                <input
-                    type="text"
-                    placeholder='Email'
-                    value={credential}
-                    onChange={(e) => setCredential(e.target.value)}
-                    required
-                />
+                <div>
+                    <input
+                        type="text"
+                        placeholder='Username or Email'
+                        value={credential}
+                        onChange={(e) => setCredential(e.target.value)}
+                        required
+                        className={errors.includes('Email is required') ? 'error' : "user-input"}
+                    />
+                    <div>
+                        {errors.map((error, idx) =>
+                            error === "Email is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                        )}
+                    </div>
+                </div>
             </label>
             <div>
                 <label>
-                    Password
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <div>
+                        <input
+                            type="password"
+                            value={password}
+                            placeholder='Password'
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className={errors.includes('Password is required') ? 'error' : "user-input"}
+                        />
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "Password is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                        </div>
+                    </div>
                 </label>
             </div>
-            <button type="submit">Log In</button>
+            <button type="submit" className='user-submit'>
+                Log In
+            </button>
         </form>
     );
 }

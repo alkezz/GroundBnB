@@ -26,20 +26,18 @@ export const login = (user) => async (dispatch) => {
         }),
     });
     const data = await response.json();
-    console.log(data.user)
     dispatch(setUser(data));
     return response;
 };
 
 const initialState = { user: null };
 
-const sessionReducer = (state = normalizeArray(initialState), action) => {
+const sessionReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case SET_USER:
             newState = Object.assign({}, state);
             newState.user = action.payload;
-            console.log(newState)
             return newState;
         case REMOVE_USER:
             newState = Object.assign({}, state);
@@ -50,14 +48,14 @@ const sessionReducer = (state = normalizeArray(initialState), action) => {
     }
 };
 
-function normalizeArray(dataArray) {
-    if (!(dataArray instanceof Array)) return {}
+// function normalizeArray(dataArray) {
+//     if (!(dataArray instanceof Array)) return {}
 
-    const obj = {}
-    dataArray.forEach(el => {
-        obj['user'] = el
-    })
-    return obj
-}
+//     const obj = {}
+//     dataArray.forEach(el => {
+//         obj['user'] = el
+//     })
+//     return obj
+// }
 
 export default sessionReducer;
