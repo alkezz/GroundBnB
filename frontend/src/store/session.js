@@ -33,12 +33,13 @@ export const login = (user) => async (dispatch) => {
 
 const initialState = { user: null };
 
-const sessionReducer = (state = initialState, action) => {
+const sessionReducer = (state = normalizeArray(initialState), action) => {
     let newState;
     switch (action.type) {
         case SET_USER:
             newState = Object.assign({}, state);
             newState.user = action.payload;
+            console.log(newState)
             return newState;
         case REMOVE_USER:
             newState = Object.assign({}, state);
@@ -48,5 +49,15 @@ const sessionReducer = (state = initialState, action) => {
             return state;
     }
 };
+
+function normalizeArray(dataArray) {
+    if (!(dataArray instanceof Array)) return {}
+
+    const obj = {}
+    dataArray.forEach(el => {
+        obj['user'] = el
+    })
+    return obj
+}
 
 export default sessionReducer;
