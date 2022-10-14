@@ -20,7 +20,9 @@ router.get(
                 username: user.toSafeObject().username
 
             });
-        } else return res.json({});
+        } else {
+            res.json(null)
+        }
     }
 );
 
