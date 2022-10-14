@@ -14,7 +14,7 @@
 
 .error{
     border-color: red;
-    width: 99%;
+    width: 65%;
     height: 40px;
     padding-left: 10px;
     border-radius: 8px;
@@ -22,7 +22,7 @@
 
 .user-input{
     margin-bottom: 10px;
-    width: 99%;
+    width: 65%;
     height: 40px;
     padding-left: 10px;
     border-radius: 8px;
@@ -46,6 +46,7 @@
 
 .user-submit{
     height: 40px;
+    width: 50%;
     font-size: 18px;
     font-weight: bold;
     color: white;
