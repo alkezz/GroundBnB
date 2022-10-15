@@ -60,3 +60,7 @@
     padding-left: 5px;
     color: #222222;
 }
+.login-button{
+display: flex;
+justify-content: flex-end;
+}
