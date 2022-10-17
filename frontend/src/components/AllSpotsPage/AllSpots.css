@@ -1,0 +1,9 @@
+.all-spots-div{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+#spot-buttons{
+    background-color: white;
+    border: 1px black dashed;
+}
