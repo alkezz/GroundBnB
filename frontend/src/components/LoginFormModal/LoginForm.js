@@ -15,7 +15,7 @@ function LoginForm() {
         return dispatch(sessionActions.login({ credential, password })).catch(
             async (res) => {
                 const data = await res.json();
-                if (data) setErrors([data][0].errors);
+                if (data) setErrors([data.message]);
             }
         );
     };
@@ -25,7 +25,7 @@ function LoginForm() {
             <h1 id='welcome-head'>Welcome to Airbnb</h1>
             <div>
                 {errors.map((error, idx) =>
-                    error.message === "Invalid credentialis" ? <li key={idx} id='error-login'>Invalid Credentials!</li> : null
+                    error === "Invalid credentialis" ? <li key={idx} id='error-login'>Invalid Credentials!</li> : null
                 )}
             </div>
             <label>

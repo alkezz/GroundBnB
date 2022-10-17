@@ -2,6 +2,8 @@
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif
 }
 
+
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -60,7 +62,42 @@
     padding-left: 5px;
     color: #222222;
 }
+.login-button-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .login-button{
-display: flex;
-justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-bottom: 10%;
+}
+
+.modal-button{
+  /* background-color: #f1f1f1; */
+  border: none;
+  background: none;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.modal-button:hover{
+    background-color: #f9f9f9;
+}
+
+.dropdown-btn{
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    height: 25px;
+}
+
+.user-icon{
+    padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
 }
