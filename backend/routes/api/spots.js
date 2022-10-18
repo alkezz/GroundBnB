@@ -77,13 +77,13 @@ router.get('/', async (req, res) => {
             const jsonData = newData[j].toJSON()
             sum += jsonData.stars
         }
-        average = (sum / newData.length).toFixed(1)
+        average = (sum / newData.length).toFixed(2)
         payload.push(average)
         // const jsonAggregate = newData[0].toJSON()
         // console.log(newData)
         // payload.push(jsonAggregate)
     }
-    // console.log('PAYLOAD', payload)
+    console.log('PAYLOAD', payload)
     // for (let i = 0; i < spots.length; i++) {
     //     const aggregateData = await Spot.findOne({
     //         where: {
