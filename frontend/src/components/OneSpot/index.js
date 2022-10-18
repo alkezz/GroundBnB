@@ -23,18 +23,25 @@ function SpotById() {
                     </div>
                     <div>
                         <ul >
-                            <li> starpic </li>
+                            <li> <i class="fa-solid fa-star"></i> </li>
+                            <span> </span>
                             <li> {spot.avgStarRating} </li>
                             <span> </span>
                             <li> {spot.numReviews} Review(s) </li>
                             <span> </span>
-                            <li><span>medal</span>Superhost</li>
+                            <li><span><i class="fa-solid fa-medal"></i></span>Superhost</li>
                             <span> </span>
                             <li>{spot.city}, {spot.state}, {spot.country}</li>
                         </ul>
                     </div>
                     <div>
-                        <img src={spot.SpotImages[0].url} alt="cave"></img>
+                        <img id='one-spot-image' src={spot.SpotImages[0].url} alt="cave"></img>
+                    </div>
+                    <br />
+                    <div id='under-picture-text'>
+                        <h2>
+                            {spot.description} Hosted by {spot.Owner.firstName}
+                        </h2>
                     </div>
                 </div>
             )}

@@ -2,3 +2,12 @@ ul > li {
     display: inline-block;
     /* You can also add some margins here to make it look prettier */
 }
+
+#one-spot-image {
+    width: 50%;
+    height: 50%;
+}
+
+#under-picture-text{
+    font-size: 12px;
+}
