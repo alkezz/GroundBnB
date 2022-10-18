@@ -19,10 +19,22 @@ module.exports = {
         stars: 3
       },
       {
-        spotId: 4,
-        userId: 1,
-        review: 'Host was living in the walls',
-        stars: 1
+        spotId: 1,
+        userId: 6,
+        review: 'sadsdGVCX',
+        stars: 4
+      },
+      {
+        spotId: 1,
+        userId: 7,
+        review: 'rfgvesawreg',
+        stars: 3
+      },
+      {
+        spotId: 1,
+        userId: 8,
+        review: 'dsfcax',
+        stars: 5
       },
       {
         spotId: 1,

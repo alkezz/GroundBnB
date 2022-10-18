@@ -4,6 +4,7 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth')
 const { User, Spot, Review, Booking, ReviewImage, SpotImage, sequelize, Sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors, handleSpotValidationErrors } = require('../../utils/validation');
+const { json } = require('sequelize');
 
 router.get('/', async (req, res) => {
 
@@ -22,22 +23,52 @@ router.get('/', async (req, res) => {
 
     const payload = []
     const spots = await Spot.findAll()
+
+    // const a = await Review.findAll({
+    //     where: {
+    //         spotId: req.params.spotId
+    //     },
+    //     attributes: {
+    //         include: [
+    //             [Sequelize.fn("COUNT", Sequelize.col("id")), 'numReviews'],
+    //             [Sequelize.fn("AVG", Sequelize.col("stars")), 'avgStarRating']
+    //         ]
+    //     },
+    // })
+
     for (let i = 0; i < spots.length; i++) {
-        const aggregateData = await Spot.findOne({
+        const newData = await Review.findOne({
             where: {
-                id: i + 1
+                spotId: i + 1
             },
-            include: {
-                model: Review,
-                attributes: []
-            },
-            attributes: [
-                [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
-            ],
-            group: ['Spot.id', 'Reviews.stars']
+            attributes: {
+                include: [
+                    [Sequelize.fn("AVG", Sequelize.col("stars")), 'avgRating'],
+                ]
+            }
         });
-        payload.push(aggregateData)
+        const jsonAggregate = newData.toJSON()
+        payload.push(jsonAggregate)
     }
+    console.log('PAYLOAD', payload)
+    // for (let i = 0; i < spots.length; i++) {
+    //     const aggregateData = await Spot.findOne({
+    //         where: {
+    //             id: i + 1
+    //         },
+    //         include: {
+    //             model: Review,
+    //             attributes: []
+    //         },
+    //         attributes: [
+    //             [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']
+    //         ],
+    //         group: ['Spot.id', 'Reviews.stars']
+    //     });
+    //     const jsonAggregate = aggregateData.toJSON()
+    //     // console.log('AGGREGATEDATA', jsonAggregate.avgRating)
+    //     payload.push(aggregateData)
+    // }
     // const aggregateData = await Spot.findAll({
     //     include: {
     //         model: Review,
@@ -72,8 +103,8 @@ router.get('/', async (req, res) => {
         ...pagination
     })
     for (let i = 0; i < allSpots.length; i++) {
-        if (payload[i].dataValues.avgRating !== null) {
-            allSpots[i].setDataValue('avgRating', payload[i].dataValues.avgRating)
+        if (payload[i].avgRating !== null) {
+            allSpots[i].setDataValue('avgRating', Number(payload[i].avgRating.toFixed(1)))
         } else {
             allSpots[i].setDataValue('avgRating', 'No Reviews Yet!')
         }
@@ -286,14 +317,19 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 })
 
 router.get('/:spotId', async (req, res) => {
-    const spot = await Spot.findByPk(req.params.spotId, {
+    const a = await Review.findAll({
+        where: {
+            spotId: req.params.spotId
+        },
         attributes: {
             include: [
-                [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgStarRating'],
-                [sequelize.fn('COUNT', sequelize.col('Reviews.review')), 'numReviews']
+                [Sequelize.fn("COUNT", Sequelize.col("id")), 'numReviews'],
+                [Sequelize.fn("AVG", Sequelize.col("stars")), 'avgStarRating']
             ]
         },
-        group: ['Spot.id', 'Reviews.stars', 'Reviews.review', 'SpotImages.id', 'Owner.id', 'Reviews.id'],
+    })
+    const numReviews = a[0].toJSON()
+    const spot = await Spot.findByPk(req.params.spotId, {
         include: [
             {
                 model: Review,
@@ -314,7 +350,10 @@ router.get('/:spotId', async (req, res) => {
                 }
             }
         ],
+        group: ["Spot.id", "Reviews.id", "SpotImages.id", "Owner.id",],
     })
+    spot.setDataValue('numReviews', numReviews.numReviews)
+    spot.setDataValue('avgStarRating', Number(numReviews.avgStarRating.toFixed(1)))
     if (spot) {
         res.status(200).json(spot)
     } else {

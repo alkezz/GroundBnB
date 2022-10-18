@@ -13,6 +13,7 @@ function AllSpotsPage() {
     }, [dispatch])
     const allSpotsOBJ = useSelector(state => state.spots)
     const allSpots = Object.values(allSpotsOBJ)
+    console.log(allSpots)
     return (
         <div>
             {allSpots && (

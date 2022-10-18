@@ -9,6 +9,7 @@ const getSpots = (spots) => {
     }
 }
 const getOneSpot = (spot) => {
+    console.log('THIS IS SPOT', spot)
     return {
         type: GET_ONE_SPOT,
         spot
@@ -31,8 +32,8 @@ export const getOne = (id) => async (dispatch) => {
         const data = await response.json()
         console.log("NEW DATAATATATA", data)
         dispatch(getOneSpot(data))
-        return data
     }
+    return response
 }
 
 const initialState = {}
@@ -47,7 +48,9 @@ const spotReducer = (state = initialState, action) => {
             return newState
         }
         case GET_ONE_SPOT:
+            console.log('IN REDUCER FOR ONE SPOT')
             newState[action.spot.id] = action.spot
+            console.log("NEW STATE", newState)
             return newState;
         default:
             return state
