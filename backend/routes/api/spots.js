@@ -45,7 +45,8 @@ router.get('/', async (req, res) => {
                 include: [
                     [Sequelize.fn("AVG", Sequelize.col("stars")), 'avgRating'],
                 ]
-            }
+            },
+            group: ["stars", 'spotId']
         });
         const jsonAggregate = newData.toJSON()
         payload.push(jsonAggregate)
@@ -327,6 +328,7 @@ router.get('/:spotId', async (req, res) => {
                 [Sequelize.fn("AVG", Sequelize.col("stars")), 'avgStarRating']
             ]
         },
+        group: ['id', 'stars', 'spotId']
     })
     const numReviews = a[0].toJSON()
     const spot = await Spot.findByPk(req.params.spotId, {
