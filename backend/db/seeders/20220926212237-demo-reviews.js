@@ -72,6 +72,36 @@ module.exports = {
         review: 'pdapsodaspodas',
         stars: 2
       },
+      {
+        spotId: 6,
+        userId: 1,
+        review: 'MY EYES',
+        stars: 3
+      },
+      {
+        spotId: 7,
+        userId: 2,
+        review: 'B-E-A-UTIFUL location',
+        stars: 5
+      },
+      {
+        spotId: 8,
+        userId: 3,
+        review: 'great spot',
+        stars: 4
+      },
+      {
+        spotId: 9,
+        userId: 4,
+        review: 'I hear them wherever I go, someone please help me',
+        stars: 5
+      },
+      {
+        spotId: 10,
+        userId: 5,
+        review: 'AHHHHHHHHHHHHHHH',
+        stars: 1
+      },
     ])
   },
 
