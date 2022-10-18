@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
     // })
 
     for (let i = 0; i < spots.length; i++) {
-        const newData = await Review.findOne({
+        const newData = await Review.findAll({
             where: {
                 spotId: i + 1
             },
@@ -90,11 +90,6 @@ router.get('/', async (req, res) => {
         },
         group: ['SpotImages.url', 'Spot.id'],
         include: [
-            {
-                model: Review,
-                required: false,
-                attributes: []
-            },
             {
                 model: SpotImage,
                 attributes: [],
