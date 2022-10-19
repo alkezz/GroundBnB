@@ -41,6 +41,10 @@ function SpotById() {
                             {allSpotsOBJ.description} Hosted by {allSpotsOBJ.Owner.firstName}
                         </h2>
                     </div>
+                    <div>
+                        <button onClick={() => console.log('EDIT')} className="edit-delete-button">Edit Spot</button>
+                        <button onClick={() => console.log('DELETE')} className="edit-delete-button">Delete Spot</button>
+                    </div>
                 </div>
             )}
         </>

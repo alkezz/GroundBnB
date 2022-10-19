@@ -1,0 +1,15 @@
+.spot-submit{
+    width: 65%;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #d60565;
+    border-radius: 8px;
+}
+.image-preview-warning{
+    font-size: 13px;
+    color: red;
+    font-weight: bold;
+    margin-left: 1%;
+    margin-top: .5%;
+}
