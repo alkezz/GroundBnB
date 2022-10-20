@@ -2,3 +2,38 @@
     display: flex;
     justify-content: flex-end;
 }
+.log-out-create-spot-div{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    padding-bottom: 0.5%;
+}
+.become-host-div{
+    padding-right: 5%;
+
+}
+.become-host-link{
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    font-size: 14px;
+}
+.become-host-link:hover{
+    /* border: 1px black solid; */
+    border-radius: 22px;
+    background: #B9B9B9;
+
+}
+.profile-button-div{
+    padding-right: 5%;
+}
+.nav-ul{
+    border-bottom: 1px #ebebeb solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.login-signup-button-li{
+    padding-right: 2%;
+    padding-bottom: 2%;
+}

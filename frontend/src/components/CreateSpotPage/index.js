@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import * as spotActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
-import Geocode from 'react-geocode'
-import MapContainer from '../Maps';
+import { useHistory } from 'react-router-dom';
 import { getKey } from '../../store/maps';
 import './CreateSpotForm.css'
 
 function CreateSpot() {
+    const history = useHistory()
     const key = useSelector(state => state.maps.key)
     const dispatch = useDispatch();
     useEffect(() => {
@@ -58,7 +57,9 @@ function CreateSpot() {
                 url,
                 preview
             }
-            return dispatch(spotActions.createSpot(spot, image))
+            dispatch(spotActions.createSpot(spot, image)).then((data) => {
+                history.push(`/spots/${data.id}`)
+            })
         } else {
             const spot = {
                 address,
@@ -75,7 +76,9 @@ function CreateSpot() {
                 url: "https://images.pexels.com/photos/163872/italy-cala-gonone-air-sky-163872.jpeg",
                 preview
             }
-            return dispatch(spotActions.createSpot(spot, image))
+            dispatch(spotActions.createSpot(spot, image)).then((data) => {
+                history.push(`/spots/${data.id}`)
+            })
         }
     }
 

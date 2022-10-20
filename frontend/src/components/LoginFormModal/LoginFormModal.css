@@ -2,8 +2,6 @@
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif
 }
 
-
-
 .login-form {
     display: flex;
     flex-direction: column;
@@ -63,16 +61,14 @@
     color: #222222;
 }
 .login-button-container{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    background-color: hotpink;
 }
 
 .login-button{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding-bottom: 10%;
+    /* padding-bottom: 1.5%; */
 }
 
 .modal-button{
@@ -81,6 +77,8 @@
   background: none;
   min-width: 100px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  text-decoration: none;
+  color: black;
 }
 
 .modal-button:hover{
@@ -92,7 +90,7 @@
     border: none;
     display: flex;
     flex-direction: row;
-    height: 25px;
+    /* height: 25px; */
 }
 
 .user-icon{
@@ -100,4 +98,11 @@
     display: flex;
     flex-direction: row;
     align-self: center;
+}
+
+.user-button{
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    list-style: none;
 }

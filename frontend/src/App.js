@@ -5,6 +5,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import AllSpotsPage from "./components/AllSpotsPage";
 import SpotById from "./components/OneSpot";
 import CreateSpotPage from "./components/CreateSpotPage"
+import EditSpotPage from "./components/EditSpotPage"
 import Maps from "./components/Maps/Maps";
 import MapContainer from "./components/Maps";
 import * as sessionActions from "./store/session";
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route path="/spot/create">
             <CreateSpotPage />
+          </Route>
+          <Route path="/spot/:spotId/edit">
+            <EditSpotPage />
           </Route>
         </Switch>
       )}

@@ -3,6 +3,7 @@ import { Modal } from '../../context/Modal';
 import LoginForm from './LoginForm';
 import './LoginFormModal.css';
 import SignUpForm from '../SignupFormModal/SignupForm';
+import { Link } from 'react-router-dom';
 // import '../SignupFormPage/SignUpForm.css';
 
 function LoginFormModal() {
@@ -23,25 +24,30 @@ function LoginFormModal() {
                 </button>
                 {showDropDown && (
                     <>
-                        <div className='login-button'>
-                            <button className='modal-button' onClick={() => setShowSignUpModal(true)}>Sign up</button>
-                            {/* //Clicking the buton makes the modal show up */}
-                            {showSignUpModal && (
-                                <Modal onClose={() => setShowSignUpModal(false)}>
-                                    {/* //clicking again makes it disappear or outside the box */}
-                                    <SignUpForm />
-                                </Modal>
-                            )}
-                        </div>
-                        <div className='login-button'>
-                            <button className='modal-button' onClick={() => setShowLogInModal(true) && setShowDropDown(false)}>Log In</button>
-                            {/* //Clicking the buton makes the modal show up */}
-                            {showLogInModal && (
-                                <Modal onClose={() => setShowLogInModal(false)}>
-                                    {/* //clicking again makes it disappear or outside the box */}
-                                    <LoginForm />
-                                </Modal>
-                            )}
+                        <div className='dropdown-content'>
+                            <div className='user-button'>
+                                <li>
+                                    <Link className='modal-button' onClick={() => setShowSignUpModal(true)}>Sign up</Link>
+                                    {/* //Clicking the buton makes the modal show up */}
+                                    {showSignUpModal && (
+                                        <Modal onClose={() => setShowSignUpModal(false)}>
+                                            {/* //clicking again makes it disappear or outside the box */}
+                                            <SignUpForm />
+                                        </Modal>
+                                    )}
+                                </li>
+                                <li>
+                                    <Link className='modal-button' onClick={() => setShowLogInModal(true) && setShowDropDown(false)}>Log In</Link>
+                                    {/* //Clicking the buton makes the modal show up */}
+                                    {showLogInModal && (
+                                        <Modal onClose={() => setShowLogInModal(false)}>
+                                            {/* //clicking again makes it disappear or outside the box */}
+                                            <LoginForm />
+                                        </Modal>
+                                    )}
+                                </li>
+
+                            </div>
                         </div>
                     </>
                 )}

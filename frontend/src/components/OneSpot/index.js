@@ -5,13 +5,17 @@ import { useHistory, useParams } from 'react-router-dom';
 import "./OneSpot.css"
 
 function SpotById() {
+    const history = useHistory();
     const id = Number(useParams().spotId)
     const dispatch = useDispatch()
+    const user = useSelector(state => state.session.user.id)
+    console.log("USER", user)
     useEffect(() => {
         dispatch(spotActions.getOne(id))
     }, [dispatch, id])
     const allSpotsOBJ = useSelector(state => state.spots[id])
     if (!allSpotsOBJ) return null
+    console.log(allSpotsOBJ)
     return (
         <>
             {allSpotsOBJ.SpotImages && (
@@ -41,8 +45,8 @@ function SpotById() {
                             {allSpotsOBJ.description} Hosted by {allSpotsOBJ.Owner.firstName}
                         </h2>
                     </div>
-                    <div>
-                        <button onClick={() => console.log('EDIT')} className="edit-delete-button">Edit Spot</button>
+                    <div style={{ visibility: user === allSpotsOBJ.ownerId ? "visible" : "hidden" }}>
+                        <button onClick={() => history.push(`/spot/${id}/edit`)} className="edit-delete-button">Edit Spot</button>
                         <button onClick={() => console.log('DELETE')} className="edit-delete-button">Delete Spot</button>
                     </div>
                 </div>

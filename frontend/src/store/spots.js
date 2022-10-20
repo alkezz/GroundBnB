@@ -2,6 +2,8 @@ import { csrfFetch } from './csrf';
 const GET_SPOTS = '/spots/getSpots'
 const GET_ONE_SPOT = '/spots/getOneSpot'
 const CREATE_SPOT = '/spots/createSpot'
+const EDIT_SPOT = '/spots/editSpot'
+const RESET_DATA = '/spots/resetData'
 
 const getSpots = (spots) => {
     return {
@@ -24,6 +26,19 @@ const actionCreateSpot = (spot) => {
     }
 }
 
+const actionResetState = () => {
+    return {
+        type: RESET_DATA
+    }
+}
+
+const actionEditSpot = (spot) => {
+    return {
+        type: EDIT_SPOT,
+        spot
+    }
+}
+
 export const getAllSpots = () => async (dispatch) => {
     const response = await csrfFetch('/api/spots')
     if (response.ok) {
@@ -40,6 +55,30 @@ export const getOne = (id) => async (dispatch) => {
         const data = await response.json()
         console.log("NEW DATAATATATA", data)
         dispatch(getOneSpot(data))
+    }
+    return response
+}
+
+export const editSpot = (spot) => async (dispatch) => {
+    const { id, address, city, state, country, name, description, price, lat, lng } = spot
+    const response = await csrfFetch(`/api/spots/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            address,
+            city,
+            state,
+            country,
+            name,
+            description,
+            price,
+            lat,
+            lng
+        })
+    })
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(actionEditSpot(data))
+        return data
     }
     return response
 }
@@ -76,15 +115,21 @@ export const createSpot = (spot, image) => async (dispatch) => {
             data['previewImage'] = jsonSpotImage
             console.log("CREATE SPOT DATA", data)
             dispatch(actionCreateSpot(data));
+            return data
         }
     }
     return response
 }
 
+export const resetState = () => async (dispatch) => {
+    dispatch(actionResetState())
+    return
+}
+
 const initialState = {}
 
 const spotReducer = (state = initialState, action) => {
-    let newState = {};
+    let newState = { ...state };
     switch (action.type) {
         case GET_SPOTS: {
             action.spots.forEach((spot) => {
@@ -100,6 +145,11 @@ const spotReducer = (state = initialState, action) => {
             newState[action.spot.id] = action.spot
             console.log("NEW STATE", newState)
             return newState
+        case EDIT_SPOT:
+            newState[action.spot.id] = action.spot
+            return newState
+        case RESET_DATA:
+            return { ...newState }
         default:
             return state
     }
