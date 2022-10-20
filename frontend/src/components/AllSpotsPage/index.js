@@ -8,10 +8,10 @@ import './AllSpots.css'
 function AllSpotsPage() {
     const history = useHistory()
     const dispatch = useDispatch()
+    const allSpotsOBJ = useSelector(state => state.spots)
     useEffect(() => {
         dispatch(spotActions.getAllSpots())
     }, [dispatch])
-    const allSpotsOBJ = useSelector(state => state.spots)
     const allSpots = Object.values(allSpotsOBJ)
     console.log(allSpots)
     return (

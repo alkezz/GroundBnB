@@ -178,25 +178,26 @@ const spotReducer = (state = initialState, action) => {
     let newState = { ...state };
     switch (action.type) {
         case GET_SPOTS: {
+            console.log("ACTION.SPOTS", action.spots)
             action.spots.forEach((spot) => {
                 newState[spot.id] = spot
             })
-            return newState
+            return { ...newState }
         }
         case GET_ONE_SPOT:
             newState[action.spot.id] = action.spot
             return newState;
         case CREATE_SPOT:
-            console.log('IN REDUCER FOR CREATE SPOT')
             newState[action.spot.id] = action.spot
-            console.log("NEW STATE", newState)
             return newState
         case EDIT_SPOT:
             newState[action.spot.id] = action.spot
-            return newState
-        case DELETE_SPOT:
-            delete newState.action.spot
-            return newState
+            return { ...newState }
+        case DELETE_SPOT: {
+            const id = action.spot.id
+            delete newState[id]
+            return { ...newState }
+        }
         case RESET_DATA:
             return { ...newState }
         default:
