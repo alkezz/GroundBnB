@@ -234,7 +234,6 @@ function CreateSpot() {
                             value={true}
                             name="preview"
                             onChange={(e) => setPreview(e.target.value)}
-                            checked={true}
                         />
                         Show Image Preview
                     </label>

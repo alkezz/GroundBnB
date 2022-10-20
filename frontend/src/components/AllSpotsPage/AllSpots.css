@@ -1,24 +1,30 @@
 .all-spots-div{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 350px);
+    grid-template-columns: repeat(auto-fill, 335px);
+    padding: 5%;
+    border: 1px black solid;
 }
 #spot-buttons{
     background-color: white;
     border: none;
     height: 400px;
     display: flex;
+    /* border: 1px solid hotpink; */
 }
 img {
-    width: 100%;
-    height: 100%;
+    /* width: fit-content;
+    height: max-content; */
     border-radius: 15px;
-}
-#preview-image-1-div{
-    height: 320px;
+    height: 300px;
+    width: 320px;
 }
 
 .under-pic-elements{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+#price-div{
+    font-weight: bold;
 }

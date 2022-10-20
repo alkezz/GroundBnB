@@ -44,10 +44,11 @@ function SpotById() {
                         <h2>
                             {allSpotsOBJ.description} Hosted by {allSpotsOBJ.Owner.firstName}
                         </h2>
+                        <h3>${allSpotsOBJ.price}/night</h3>
                     </div>
                     <div style={{ visibility: user === allSpotsOBJ.ownerId ? "visible" : "hidden" }}>
                         <button onClick={() => history.push(`/spot/${id}/edit`)} className="edit-delete-button">Edit Spot</button>
-                        <button onClick={() => console.log('DELETE')} className="edit-delete-button">Delete Spot</button>
+                        <button onClick={() => dispatch(spotActions.deleteSpot(allSpotsOBJ)).then(() => history.push('/'))} className="edit-delete-button">Delete Spot</button>
                     </div>
                 </div>
             )}

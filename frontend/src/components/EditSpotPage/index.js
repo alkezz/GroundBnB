@@ -9,24 +9,24 @@ function EditSpot() {
     const history = useHistory()
     const id = Number(useParams().spotId)
     const spot = useSelector(state => state.spots[id])
+    //! DONT NEED VALUES TO PERSIST AFTER RELOAD, JUST HAVE IT SHOW UP ON FIRST RENDER AND ITS FINE!\\
     useEffect(() => {
         dispatch(spotActions.getOne(id))
     }, [dispatch, id])
     // const { url, preview } = Object.values(spot)[0].SpotImages[0]
     // console.log("rge", useSelector(state => state.spots[id]))
-    const [address, setAddress] = useState("")
-    const [city, setCity] = useState("")
-    const [state, setState] = useState("")
-    const [country, setCountry] = useState("")
+    const [address, setAddress] = useState(spot === undefined ? "" : spot.address)
+    const [city, setCity] = useState(spot === undefined ? "" : spot.city)
+    const [state, setState] = useState(spot === undefined ? "" : spot.state)
+    const [country, setCountry] = useState(spot === undefined ? "" : spot.country)
     const [lat, setLat] = useState(0)
     const [lng, setLng] = useState(0)
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    const [price, setPrice] = useState("")
-    // const [url, setUrl] = useState(Object.values(spot)[0].SpotImages[0].url)
-    // let [preview, setPreview] = useState(Object.values(spot)[0].SpotImages[0].preview)
+    const [name, setName] = useState(spot === undefined ? "" : spot.name)
+    const [description, setDescription] = useState(spot === undefined ? "" : spot.description)
+    const [price, setPrice] = useState(spot === undefined ? "" : spot.price)
+    const [url, setUrl] = useState("")
+    let [preview, setPreview] = useState(true)
     const [errors, setErrors] = useState([])
-    console.log("SPOTSP{OP", spot)
     if (!spot) return null
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -39,46 +39,53 @@ function EditSpot() {
         if (name.length <= 0) errors.push("Name of location required! Be creative :)")
         if (description.length <= 0) errors.push("Please add a description for your location!")
         if (price <= 1) errors.push("Please enter a valid price per night, can not be below $1!")
-        // if (!url.includes('https')) errors.push('Please enter a valid url!')
+        if (!url.includes('https')) errors.push('Please enter a valid url!')
         setErrors(errors)
-        // preview === 'true' ? preview = true : preview = false;
+        console.log(preview)
+        preview === 'true' ? preview = true : preview = false;
         if (errors.length) return
-        const newSpot = {
-            id: id,
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
+        if (preview === true) {
+            const newSpot = {
+                id: id,
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price
+            }
+            const newImage = {
+                url,
+                preview
+            }
+            dispatch(spotActions.editSpot(newSpot, newImage)).then((data) => {
+                history.push(`/spots/${data.id}`)
+            })
         }
-        dispatch(spotActions.editSpot(newSpot)).then((data) => {
-            history.push(`/spots/${data.id}`)
-        })
-        // } else {
-        //     const newSpot = {
-        //         id,
-        //         address,
-        //         city,
-        //         state,
-        //         country,
-        //         lat,
-        //         lng,
-        //         name,
-        //         description,
-        //         price
-        //     }
-        //     // const image = {
-        //     //     url: "https://images.pexels.com/photos/163872/italy-cala-gonone-air-sky-163872.jpeg",
-        //     //     preview
-        //     // }
-        //     dispatch(spotActions.editSpot(newSpot)).then((data) => {
-        //         history.push(`/spots/${data.id}`)
-        //     })
-        // }
+        else {
+            const newSpot = {
+                id,
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price
+            }
+            const image = {
+                url: "https://images.pexels.com/photos/163872/italy-cala-gonone-air-sky-163872.jpeg",
+                preview
+            }
+            dispatch(spotActions.editSpot(newSpot, image)).then((data) => {
+                history.push(`/spots/${data.id}`)
+            })
+        }
     }
 
     return (
@@ -211,50 +218,49 @@ function EditSpot() {
                                 </div>
                             </label>
                         </div>
-                        {/* <div>
-                    <label>
                         <div>
-                            <input
-                                type='text'
-                                value={url}
-                                placeholder="Upload a picture of your place!"
-                                onChange={(e) => setUrl(e.target.value)}
-                                className={errors.includes('Please enter a valid url!') ? 'error' : "user-signup-input"}
-                            />
+                            <label>
+                                <div>
+                                    <input
+                                        type='text'
+                                        value={url}
+                                        placeholder="Upload a picture of your place!"
+                                        onChange={(e) => setUrl(e.target.value)}
+                                        className={errors.includes('Please enter a valid url!') ? 'error' : "user-signup-input"}
+                                    />
 
+                                </div>
+                                <div>
+                                    {errors.map((error, idx) =>
+                                        error === "Please enter a valid url!" ? <li key={idx} id='error-list'>{error}</li> : null
+                                    )}
+                                </div>
+                            </label>
+                            <label>
+                                <input
+                                    type='radio'
+                                    value='true'
+                                    name="preview"
+                                    onChange={(e) => setPreview(e.target.value)}
+                                />
+                                Show Image Preview
+                            </label>
                         </div>
                         <div>
-                            {errors.map((error, idx) =>
-                                error === "Please enter a valid url!" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
+                            <label>
+                                <input
+                                    type='radio'
+                                    value='false'
+                                    name="preview"
+                                    onChange={(e) => setPreview(e.target.value)}
+                                />
+                                Don't Show Image Preview
+                            </label>
                         </div>
-                    </label>
-                    <label>
-                        <input
-                            type='radio'
-                            value={true}
-                            name="preview"
-                            onChange={(e) => setPreview(e.target.value)}
-                            checked={true}
-                        />
-                        Show Image Preview
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input
-                            type='radio'
-                            value={false}
-                            name="preview"
-                            onChange={(e) => setPreview(e.target.value)}
-                        />
-                        Don't Show Image Preview
-                    </label>
-                </div>
-                <div className='image-preview-warning'>
-                    If you decide to select "Don't show preview image" a stock image will be provided for you
-                </div>
-                <br></br> */}
+                        <div className='image-preview-warning'>
+                            If you decide to select "Don't show preview image" a stock image will be provided for you
+                        </div>
+                        <br></br>
                         <button type="submit" className='spot-submit'>
                             Submit Spot
                         </button>
