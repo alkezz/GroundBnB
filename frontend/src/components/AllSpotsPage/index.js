@@ -28,12 +28,17 @@ function AllSpotsPage() {
                             <div className={`${spot.id}-div`}>
                                 <li key={spot.id} style={{ listStyle: 'none' }}>
                                     <div className='under-pic-elements'>
-                                        <div id={`preview-image-${spot.id}-div`}>
+                                        <div id={`preview-image-div`}>
                                             <img src={spot.previewImage} alt='cave'></img>
                                         </div>
                                         <br />
                                         <div id={`state-div`}>
-                                            {spot.city}, {spot.state} <span>{spot.avgRating} stars</span>
+                                            {spot.city}, {spot.state} &nbsp;
+                                            <span>
+                                                {isNaN(spot.avgRating) ? "" : <i class="fa-solid fa-star"></i>}
+                                            </span>
+                                            <span>{isNaN(spot.avgRating) ? "No Reviews Yet!" : spot.avgRating}
+                                            </span>
                                         </div>
                                         <br />
                                         <div id={`price-div`}>

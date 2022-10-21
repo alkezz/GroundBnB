@@ -3,6 +3,7 @@
     grid-template-columns: repeat(auto-fill, 335px);
     padding: 5%;
     border: 1px black solid;
+    justify-content: center;
 }
 #spot-buttons{
     background-color: white;
@@ -15,8 +16,12 @@ img {
     /* width: fit-content;
     height: max-content; */
     border-radius: 15px;
+    max-width: 100%;
     height: 300px;
-    width: 320px;
+    object-fit: fill;
+    display: block;
+    /* height: 50%;
+    width: 100%; */
 }
 
 .under-pic-elements{
@@ -27,4 +32,10 @@ img {
 
 #price-div{
     font-weight: bold;
+}
+
+#preview-image-div{
+    border: 2px solid hotpink;
+    height: 300px;
+    width: 320px;
 }

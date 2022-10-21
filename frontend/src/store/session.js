@@ -43,7 +43,7 @@ export const signup = (user) => async (dispatch) => {
         })
     })
     const data = await response.json()
-    dispatch(setUser(data))
+    return dispatch(setUser(data))
     return response
 }
 
@@ -67,7 +67,8 @@ const sessionReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case SET_USER:
-            newState = Object.assign({}, state);
+            newState = { ...state }
+            console.log("newState in set_user session reducer", newState)
             newState.user = action.payload;
             return newState;
         case REMOVE_USER:

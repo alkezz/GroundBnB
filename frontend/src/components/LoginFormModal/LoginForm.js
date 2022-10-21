@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import "./LoginFormModal.css"
+import { useHistory } from "react-router-dom";
 
 function LoginForm() {
     const dispatch = useDispatch();
+    const history = useHistory()
     const [credential, setCredential] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
@@ -12,12 +14,12 @@ function LoginForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
-        return dispatch(sessionActions.login({ credential, password })).catch(
+        dispatch(sessionActions.login({ credential, password })).catch(
             async (res) => {
                 const data = await res.json();
                 if (data) setErrors([data.message]);
             }
-        );
+        ).then(() => errors.length >= 1 ? null : history.push('/'))
     };
 
     return (

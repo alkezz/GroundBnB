@@ -175,25 +175,28 @@ export const resetState = () => async (dispatch) => {
 const initialState = {}
 
 const spotReducer = (state = initialState, action) => {
-    let newState = { ...state };
+    let newState = {};
     switch (action.type) {
         case GET_SPOTS: {
             console.log("ACTION.SPOTS", action.spots)
             action.spots.forEach((spot) => {
                 newState[spot.id] = spot
             })
-            return { ...newState }
+            return newState
         }
         case GET_ONE_SPOT:
             newState[action.spot.id] = action.spot
             return newState;
         case CREATE_SPOT:
+            newState = { ...state }
             newState[action.spot.id] = action.spot
             return newState
         case EDIT_SPOT:
+            newState = { ...state }
             newState[action.spot.id] = action.spot
-            return { ...newState }
+            return newState
         case DELETE_SPOT: {
+            newState = { ...state }
             const id = action.spot.id
             delete newState[id]
             return { ...newState }
