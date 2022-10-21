@@ -6,6 +6,7 @@ import AllSpotsPage from "./components/AllSpotsPage";
 import SpotById from "./components/OneSpot";
 import CreateSpotPage from "./components/CreateSpotPage"
 import EditSpotPage from "./components/EditSpotPage"
+import CreateReview from "./components/ReviewFormPage"
 import Maps from "./components/Maps/Maps";
 import MapContainer from "./components/Maps";
 import * as sessionActions from "./store/session";
@@ -28,6 +29,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route path="/spots/:spotId/review/create">
+            <CreateReview />
           </Route>
           <Route path="/spots/:spotId">
             <SpotById />

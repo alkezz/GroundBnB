@@ -3,20 +3,93 @@ ul > li {
     /* You can also add some margins here to make it look prettier */
 }
 
-#one-spot-image {
+#one-allSpotsOBJ-image{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#img-div{
     width: 50%;
-    height: 50%;
+    height: 500px;
 }
 
 #under-picture-text{
     font-size: 12px;
 }
 
-.edit-delete-button{
-    width: 65%;
+
+.review-button-div{
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+}
+.add-review-button{
+    width: fit-content;
     font-size: 18px;
     font-weight: bold;
     color: white;
     background-color: #d60565;
     border-radius: 8px;
+}
+
+.edit-delete-button{
+    width: 15%;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #d60565;
+    border-radius: 8px;
+}
+.review-container-div{
+    width: 50%;
+}
+.center-review-box{
+    display: flex;
+    justify-content: center;
+}
+/* #actual-text-div > h2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 9%;
+}
+#actual-text-div > h3{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 45%;
+} */
+/* .button-div-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+} */
+/* #img-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.one-spot-name{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-right: 42%;
+    height: 40px;
+}
+.one-spot-stats{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-right: 28%;
+}
+#under-picture-text > .button-div-container{
+    display: flex;
+    flex-direction: column;
+    color: rebeccapurple;
+} */
+.entire-one-spot-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import * as spotActions from '../../store/spots';
+import * as reviewActions from '../../store/reviews'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
@@ -19,7 +20,11 @@ function AllSpotsPage() {
             {allSpots && (
                 <div className='all-spots-div'>
                     {allSpots.map(spot =>
-                        <button id='spot-buttons' onClick={() => history.push(`/spots/${spot.id}`)}>
+                        <button id='spot-buttons' onClick={async (e) => {
+                            history.push(`/spots/${spot.id}`)
+                            await dispatch(spotActions.resetState())
+                            // await dispatch(reviewActions.resetState())
+                        }}>
                             <div className={`${spot.id}-div`}>
                                 <li key={spot.id} style={{ listStyle: 'none' }}>
                                     <div className='under-pic-elements'>
