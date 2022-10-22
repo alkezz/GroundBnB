@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
-// import './SignUpForm.css'
+import './SignupForm.css'
 
 function SignUpFormPage() {
     const dispatch = useDispatch();
@@ -49,7 +49,7 @@ function SignUpFormPage() {
                         placeholder='First name'
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        className={errors.includes('First name is required') ? 'error' : "user-signup-input"}
+                        className={errors.includes('First name is required') ? 'error' : "new-user-input"}
                     />
                 </div>
                 <div>
@@ -65,7 +65,7 @@ function SignUpFormPage() {
                         value={lastName}
                         placeholder='Last name'
                         onChange={(e) => setlastName(e.target.value)}
-                        className={errors.includes('Last name is required') ? 'error' : "user-signup-input"}
+                        className={errors.includes('Last name is required') ? 'error' : "new-user-input"}
                     />
                 </div>
                 <div>
@@ -85,7 +85,7 @@ function SignUpFormPage() {
                             placeholder='Birthdate'
                             onChange={(e) => setBirthday(e.target.value)}
                             required
-                            className={errors.includes("You must be 18 or older to use Groundbnb. Other people won't see your birthday.") ? 'error' : "user-signup-input"}
+                            className={errors.includes("You must be 18 or older to use Groundbnb. Other people won't see your birthday.") ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
@@ -108,7 +108,7 @@ function SignUpFormPage() {
                             value={username}
                             placeholder='Username'
                             onChange={(e) => setUserName(e.target.value)}
-                            className={errors.includes('Username is required') ? 'error' : "user-signup-input"}
+                            className={errors.includes('Username is required') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
@@ -129,7 +129,7 @@ function SignUpFormPage() {
                             value={email}
                             placeholder='Email'
                             onChange={(e) => setEmail(e.target.value)}
-                            className={errors.includes('Email is required') ? 'error' : "user-signup-input"}
+                            className={errors.includes('Email is required') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
@@ -154,7 +154,7 @@ function SignUpFormPage() {
                             value={password}
                             placeholder='Password'
                             onChange={(e) => setPassword(e.target.value)}
-                            className={errors.includes('Password is required') ? 'error' : "user-signup-input"}
+                            className={errors.includes('Password is required') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
@@ -164,7 +164,7 @@ function SignUpFormPage() {
                     </div>
                 </label>
             </div>
-            <button type="submit" className='signup-submit'>
+            <button type="submit" className='signup-button'>
                 Sign up
             </button>
         </form>

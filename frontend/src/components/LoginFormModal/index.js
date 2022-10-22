@@ -16,10 +16,10 @@ function LoginFormModal() {
             <div className='login-button'>
                 <button className='dropdown-btn' onClick={() => showDropDown === false ? setShowDropDown(true) : setShowDropDown(false)}>
                     <div>
-                        <i class="fa-solid fa-grip-lines"></i>
+                        <i id='grip-line-icon' class="fa-solid fa-grip-lines"></i>
                     </div>
                     <div className='user-icon'>
-                        <i class="fa-solid fa-circle-user"></i>
+                        <i id='user-icon' class="fa-solid fa-circle-user"></i>
                     </div>
                 </button>
                 {showDropDown && (

@@ -37,50 +37,66 @@ function SpotById() {
     return (
         <>
             {allSpotsOBJ.SpotImages && (
-                <div className='entire-one-spot-div'>
-                    <div className='one-spot-name'>
-                        <h2>{allSpotsOBJ.name}</h2>
-                    </div>
-                    <div className='one-spot-stats'>
-                        <ul >
-                            <li style={{ visibility: isNaN(allSpotsOBJ.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </li>
-                            &nbsp;
-                            <li> {isNaN(allSpotsOBJ.avgStarRating) ? "No Reviews Yet!" : allSpotsOBJ.avgStarRating} </li>
-                            &nbsp;
-                            <span>·</span>
-                            &nbsp;
-                            <li> {allSpotsOBJ.numReviews} Review(s) </li>
-                            &nbsp;
-                            <span>·</span>
-                            &nbsp;
-                            <li><span><i class="fa-solid fa-medal"></i></span><span> </span>Superhost</li>
-                            &nbsp;
-                            <span>·</span>
-                            &nbsp;
-                            <li style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{allSpotsOBJ.city}, {allSpotsOBJ.state}, {allSpotsOBJ.country}</li>
-                        </ul>
+                <>
+                    <div className='above-picture-info'>
+                        <div className='one-spot-name'>
+                            <h2>{allSpotsOBJ.name}</h2>
+                        </div>
+                        <div className='one-spot-stats'>
+                            <ul className='spot-stats-ul'>
+                                <li style={{ visibility: isNaN(allSpotsOBJ.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </li>
+                                &nbsp;
+                                <li> {isNaN(allSpotsOBJ.avgStarRating) ? "No Reviews Yet!" : allSpotsOBJ.avgStarRating} </li>
+                                &nbsp;
+                                <span>·</span>
+                                &nbsp;
+                                <li> {allSpotsOBJ.numReviews} Review(s) </li>
+                                &nbsp;
+                                <span>·</span>
+                                &nbsp;
+                                <li><span><i class="fa-solid fa-medal"></i></span><span> </span>Superhost</li>
+                                &nbsp;
+                                <span>·</span>
+                                &nbsp;
+                                <li style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{allSpotsOBJ.city}, {allSpotsOBJ.state}, {allSpotsOBJ.country}</li>
+                            </ul>
+                        </div>
                     </div>
                     <div id='img-div'>
                         <img id='one-allSpotsOBJ-image' src={allSpotsOBJ.SpotImages[0].url} alt="cave"></img>
                     </div>
-                    <br />
-                    <div id='under-picture-text'>
+                    &nbsp;
+                    <div id='under-picture-div'>
                         <div id='actual-text-div'>
                             <h2>
                                 {allSpotsOBJ.description} Hosted by {allSpotsOBJ.Owner.firstName}
                             </h2>
                             <h3>${allSpotsOBJ.price}/night</h3>
                         </div>
-                        <div className='button-div-container'>
-                            <button style={{ visibility: user === null || user.id !== allSpotsOBJ.ownerId ? "hidden" : "visible" }} onClick={() => history.push(`/spot/${id}/edit`)} className="edit-delete-button">Edit Spot</button>
-                            <button style={{ visibility: user === null || user.id !== allSpotsOBJ.ownerId ? "hidden" : "visible" }} onClick={() => dispatch(spotActions.deleteSpot(allSpotsOBJ)).then(() => history.push('/'))} className="edit-delete-button">Delete Spot</button>
-                        </div>
                     </div>
-                </div>
+                </>
             )}
             <br></br>
             <div style={{ borderBottom: '1px black solid', width: '50%', display: 'flex', marginLeft: '25%' }}></div>
-            <br></br>
+            <div className='extra-info-div'>
+                <ul style={{ listStyle: 'none' }}>
+                    <li>
+                        <i class="fa-solid fa-door-closed"></i> &nbsp; Self check-in
+                    </li>
+                    <br />
+                    <li>
+                        <i class="fa-solid fa-calendar"></i> &nbsp; Free cancellation for 48 hours.
+                    </li>
+                </ul>
+            </div>
+            <div style={{ borderBottom: '1px black solid', width: '50%', display: 'flex', marginLeft: '25%' }}></div>
+            <div className='card-button-div-container' style={{ visibility: user === null || user.id !== allSpotsOBJ.ownerId ? "hidden" : "visible" }}>
+                <div className='button-div-container'>
+                    <button style={{ visibility: user === null || user.id !== allSpotsOBJ.ownerId ? "hidden" : "visible" }} onClick={() => history.push(`/spot/${id}/edit`)} className="edit-delete-button">Edit Spot</button>
+                    <button style={{ visibility: user === null || user.id !== allSpotsOBJ.ownerId ? "hidden" : "visible" }} onClick={() => dispatch(spotActions.deleteSpot(allSpotsOBJ)).then(() => history.push('/'))} className="edit-delete-button">Delete Spot</button>
+                </div>
+            </div>
+            <h1 style={{ display: 'flex', justifyContent: 'center' }}>Reviews:</h1>
             <div className='center-review-box'>
                 {reviewArray.length >= 1 && (
                     <div style={{ border: '1px black solid' }} className='review-container-div'>

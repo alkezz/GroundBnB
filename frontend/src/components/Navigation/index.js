@@ -43,7 +43,7 @@ function Navigation({ isLoaded }) {
             <br />
             <ul className='nav-ul'>
                 <li>
-                    <NavLink exact to="/" onClick={() => objArr.length <= 1 ? dispatch(spotActions.resetState()) : dispatch(spotActions.getAllSpots())}>Home</NavLink>
+                    <NavLink exact to="/" onClick={() => objArr.length <= 1 ? dispatch(spotActions.resetState()) : dispatch(spotActions.getAllSpots())} className="home-nav-link"></NavLink>
                 </li>
                 <li className='login-signup-button-li'>
                     {isLoaded && sessionLinks}

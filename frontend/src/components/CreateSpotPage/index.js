@@ -83,7 +83,7 @@ function CreateSpot() {
     }
 
     return (
-        <div>
+        <div className='center-create-spot-form-div'>
             <form onSubmit={handleSubmit}>
                 <h1 id='finish-signup'>Create your own spot!</h1>
                 <label>
@@ -250,10 +250,10 @@ function CreateSpot() {
                     </label>
                 </div>
                 <div className='image-preview-warning'>
-                    If you decide to select "Don't show preview image" a stock image will be provided for you
+                    If you decide to select "Don't show preview image" <br /> a stock image will be provided for you
                 </div>
                 <br></br>
-                <button type="submit" className='spot-submit'>
+                <button type="submit" className='new-spot-submit'>
                     Submit Spot
                 </button>
             </form>

@@ -1,4 +1,4 @@
-.login-signup-button{
+/* .login-signup-button{
     display: flex;
     justify-content: flex-end;
 }
@@ -8,10 +8,6 @@
     flex-direction: row;
     padding-bottom: 0.5%;
 }
-.become-host-div{
-    padding-right: 5%;
-
-}
 .become-host-link{
     text-decoration: none;
     color: black;
@@ -19,7 +15,7 @@
     font-size: 14px;
 }
 .become-host-link:hover{
-    /* border: 1px black solid; */
+    border: 1px black solid;
     border-radius: 22px;
     background: #B9B9B9;
 
@@ -36,4 +32,36 @@
 .login-signup-button-li{
     padding-right: 2%;
     padding-bottom: 2%;
+} */
+.nav-ul{
+    border-bottom: 1px #ebebeb solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style-type: none;
+}
+ul.profile-dropdown > li {
+    list-style-type: none;
+}
+.login-button{
+    width: 100%;
+}
+/* .fa-solid{
+} */
+#user-icon{
+    font-size: 23px;
+    margin-left: 12px;
+}
+#grip-lines-icon{
+    font-size: 23px;
+}
+#grip-line-icon{
+    margin-top: 25%;
+}
+.home-nav-link{
+    background-image: url(https://i.imgur.com/B8OhOFJ.png);
+    height: 70px;
+    width: 70px;
+    display: block;
+    margin-bottom: 25px;
 }

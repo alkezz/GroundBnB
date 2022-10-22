@@ -3,6 +3,7 @@ import * as spotActions from '../../store/spots';
 import * as sessionActions from '../../store/session'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import "./EditSpotPage.css"
 
 function EditSpot() {
     const dispatch = useDispatch()
@@ -91,7 +92,7 @@ function EditSpot() {
     return (
         <>
             {spot?.id && (
-                <div>
+                <div className='center-edit-form-div'>
                     <form onSubmit={handleSubmit}>
                         <h1 id='finish-signup'>Edit your spot!</h1>
                         <label>

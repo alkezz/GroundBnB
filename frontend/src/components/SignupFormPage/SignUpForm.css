@@ -1,12 +1,13 @@
-.signup-form {
+.signup-form{
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     align-content: center;
+    width: 100%;
 }
+
 .user-signup-input {
     margin-bottom: 10px;
-    width: 65%;
+    width: 1%;
     height: 40px;
     padding-left: 10px;
     border-radius: 8px;

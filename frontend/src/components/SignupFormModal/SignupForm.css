@@ -1,0 +1,37 @@
+.signup-form{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+}
+
+#finish-signup{
+    margin-top: 10%;
+    margin-left: 4.5%;
+}
+
+#below-input-text{
+    color: gray;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 4%;
+}
+
+.signup-button{
+    width: 91%;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #d60565;
+    border-radius: 8px;
+    margin-left: 4%;
+    margin-bottom: 10%;
+    height: 40px;
+}
+.new-user-input{
+    margin-bottom: 10px;
+    width: 90%;
+    height: 40px;
+    margin-left: 4%;
+    border-radius: 8px;
+}

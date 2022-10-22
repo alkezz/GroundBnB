@@ -1,15 +1,30 @@
 .spot-submit{
-    width: 65%;
+    width: 100%;
     font-size: 18px;
     font-weight: bold;
     color: white;
     background-color: #d60565;
     border-radius: 8px;
 }
+.new-spot-submit{
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #d60565;
+    border-radius: 8px;
+    width: 100%;
+}
 .image-preview-warning{
     font-size: 13px;
     color: red;
     font-weight: bold;
-    margin-left: 1%;
     margin-top: .5%;
+}
+.center-create-spot-form-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.user-signup-input{
+    width: 100%;
 }
