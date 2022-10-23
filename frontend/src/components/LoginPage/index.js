@@ -30,53 +30,55 @@ function LoginFormPage() {
             });
     }
     return (
-        <form onSubmit={handleSubmit} className='login-form'>
-            <h1 id='welcome-head'>Welcome to Airbnb</h1>
-            <div>
-                {errors.map((error, idx) =>
-                    error === "Invalid credentialis" ? <li key={idx} id='error-login'>Invalid Credentials!</li> : null
-                )}
-            </div>
-            <label>
+        <>
+            <form onSubmit={handleSubmit} className='login-form'>
+                <h1 id='welcome-head'>Welcome to Airbnb</h1>
                 <div>
-                    <input
-                        type="text"
-                        placeholder='Username or Email'
-                        value={credential}
-                        onChange={(e) => setCredential(e.target.value)}
-                        required
-                        className={errors.includes('Email is required') ? 'error' : "user-input"}
-                    />
-                    <div>
-                        {errors.map((error, idx) =>
-                            error === "Email is required" ? <li key={idx} id='error-list'>{error}</li> : null
-                        )}
-                    </div>
+                    {errors.map((error, idx) =>
+                        error === "Invalid credentialis" ? <li key={idx} id='error-login'>Invalid Credentials!</li> : null
+                    )}
                 </div>
-            </label>
-            <div>
                 <label>
                     <div>
                         <input
-                            type="password"
-                            value={password}
-                            placeholder='Password'
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="text"
+                            placeholder='Username or Email'
+                            value={credential}
+                            onChange={(e) => setCredential(e.target.value)}
                             required
-                            className={errors.includes('Password is required') ? 'error' : "user-input"}
+                            className={errors.includes('Email is required') ? 'log-in-error' : "user-input"}
                         />
                         <div>
                             {errors.map((error, idx) =>
-                                error === "Password is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "Email is required" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </div>
                 </label>
-            </div>
-            <button type="submit" className='user-submit'>
-                Log In
-            </button>
-        </form>
+                <div>
+                    <label>
+                        <div>
+                            <input
+                                type="password"
+                                value={password}
+                                placeholder='Password'
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                className={errors.includes('Password is required') ? 'log-in-error' : "user-input"}
+                            />
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Password is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <button type="submit" className='user-submit'>
+                    Log In
+                </button>
+            </form>
+        </>
     );
 }
 

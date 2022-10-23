@@ -44,7 +44,6 @@ export const signup = (user) => async (dispatch) => {
     })
     const data = await response.json()
     return dispatch(setUser(data))
-    return response
 }
 
 export const restoreUser = () => async (dispatch) => {

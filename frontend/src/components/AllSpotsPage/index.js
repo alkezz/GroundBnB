@@ -20,7 +20,7 @@ function AllSpotsPage() {
             {allSpots && (
                 <div className='all-spots-div'>
                     {allSpots.map(spot =>
-                        <button id='spot-buttons' onClick={async (e) => {
+                        <button key={spot.id} id='spot-buttons' onClick={async (e) => {
                             history.push(`/spots/${spot.id}`)
                             await dispatch(spotActions.resetState())
                             // await dispatch(reviewActions.resetState())

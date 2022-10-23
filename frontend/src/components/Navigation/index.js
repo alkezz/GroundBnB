@@ -20,8 +20,9 @@ function Navigation({ isLoaded }) {
             <>
                 <div className='log-out-create-spot-div'>
                     <div className='become-host-div'>
-                        <Link className='become-host-link' onClick={() => history.push("/spot/create")}>Become a Host</Link>
+                        <Link to='/spot/create' className='become-host-link'>Become a Host</Link>
                     </div>
+                    &nbsp;
                     <div className='profile-button-div'>
                         <ProfileButton className='profile-button' user={sessionUser} />
                     </div>

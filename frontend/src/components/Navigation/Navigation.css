@@ -43,6 +43,9 @@
 ul.profile-dropdown > li {
     list-style-type: none;
 }
+.login-signup-button-li{
+    margin-right: 8%;
+}
 .login-button{
     width: 100%;
 }
@@ -64,4 +67,21 @@ ul.profile-dropdown > li {
     width: 70px;
     display: block;
     margin-bottom: 25px;
+}
+.log-out-create-spot-div{
+    /* border: 1px hotpink solid; */
+    display: flex;
+    flex-direction: row;
+}
+.become-host-link{
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    font-size: 16px;
+}
+.become-host-link:hover{
+    border: 1px black solid;
+    border-radius: 22px;
+    background: #B9B9B9;
+
 }
