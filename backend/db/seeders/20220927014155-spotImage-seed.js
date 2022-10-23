@@ -19,32 +19,32 @@ module.exports = {
       },
       {
         spotId: 2,
-        url: 'https://vacationidea.com/pix/img25Hy8R/articles/best-caves-in-usa_g20_mobi.jpg',
+        url: 'https://birdinflight.com/wp-content/uploads/2015/03/hangsondoongcover.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'https://vacationidea.com/pix/img25Hy8R/articles/best-caves-in-usa_g15_mobi.jpg',
+        url: 'https://travel.mqcdn.com/mapquest/travel/wp-content/uploads/2017/08/GettyImages-670484258-720x480.jpg',
         preview: true
       },
       {
         spotId: 4,
-        url: 'https://www.kendalldavenport.com/hidden.jpg',
+        url: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/65/39/ac/caption.jpg?w=1200&h=-1&s=1',
         preview: true
       },
       {
         spotId: 5,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/d/dd/Carlsbad_Interior_Formations.jpg',
+        url: 'https://focusasiatravel.com/wp-content/uploads/2021/07/son-doong.jpg',
         preview: true
       },
       {
         spotId: 6,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Cave_Boxwork_often_call_cratework_when_this_large._WInd_Cave.JPG',
+        url: 'https://ak-d.tripcdn.com/images/0352h120009dozmte31D2.jpg',
         preview: true
       },
       {
         spotId: 7,
-        url: 'https://vacationidea.com/pix/img25Hy8R/articles/t-c3_antelope_canyon_122650_mobi.jpg',
+        url: 'https://summerhomes.com/upload/page-photos/285/caves-of-alanya-36514927.webp',
         preview: true
       },
       {
@@ -54,12 +54,12 @@ module.exports = {
       },
       {
         spotId: 9,
-        url: 'https://vacationidea.com/pix/img25Hy8R/articles/t-c6_glenwood_caverns_adventure_par_122650_mobi.jpg',
+        url: 'https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/01/28/85.jpg',
         preview: true
       },
       {
         spotId: 10,
-        url: 'https://vacationidea.com/pix/img25Hy8R/articles/best-caves-in-usa_g17_mobi.jpg',
+        url: 'https://a0.muscache.com/im/pictures/43651c71-880b-462f-86a3-d3a308234792.jpg?im_w=720',
         preview: true
       },
     ])

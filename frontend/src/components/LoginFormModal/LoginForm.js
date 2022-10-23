@@ -76,7 +76,12 @@ function LoginForm() {
                     Log In
                 </button>
             </form>
-            <button className="demo-user-button" onClick={async () => await dispatch(sessionActions.login({ credential: "FakeUser1", password: "password1" }))}>Log in as Demo User</button>
+            <button className="demo-user-button" onClick={async (e) => {
+                await dispatch(sessionActions.login({ credential: "Demo-User", password: "password" }));
+                history.push("/")
+            }
+            }
+            >Log in as Demo User</button>
         </>
     );
 }
