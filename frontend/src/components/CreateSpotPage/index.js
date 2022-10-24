@@ -30,14 +30,14 @@ function CreateSpot() {
         e.preventDefault()
         setErrors([])
         const errors = []
-        if (address.length <= 0) errors.push("A valid address is required!")
-        if (city.length <= 0) errors.push("A valid city is required!")
-        if (state.length <= 0) errors.push("State or Municipality")
-        if (country.length <= 0) errors.push("Valid country is required!")
-        if (name.length <= 0) errors.push("Name of location required! Be creative :)")
-        if (description.length <= 0) errors.push("Please add a description for your location!")
+        if (address.length < 10 || address.length > 15) errors.push("Address must be between 10 and 15 characters")
+        if (city.length <= 0 || city.length > 15) errors.push("City must be 15 characters or less")
+        if (state.length <= 0 || state.length > 15) errors.push("State must be 15 characters or less")
+        if (country.length <= 0 || country.length > 10) errors.push("Country must be 10 characters or less")
+        if (name.length <= 0 || name.length > 10) errors.push("Name of location must be 10 characters or less")
+        if (description.length <= 0 || description.length > 20) errors.push("Description should be 20 characters or less!")
         if (price <= 1) errors.push("Please enter a valid price per night, can not be below $1!")
-        if (!url.includes('https')) errors.push('Please enter a valid url!')
+        if (!url.includes('https')) errors.push('Url must start with https')
         setErrors(errors)
         preview === 'true' ? preview = true : preview = false;
         if (errors.length) return
@@ -93,12 +93,12 @@ function CreateSpot() {
                             placeholder='Address'
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            className={errors.includes('A valid address is required!') ? 'error' : "user-signup-input"}
+                            className={errors.includes('Address must be between 10 and 15 characters') ? 'error' : "user-signup-input"}
                         />
                     </div>
                     <div>
                         {errors.map((error, idx) =>
-                            error === "A valid address is required!" ? <li key={idx} id='error-list'>{error}</li> : null
+                            error === "Address must be between 10 and 15 characters" ? <li key={idx} id='error-list'>{error}</li> : null
                         )}
                     </div>
                 </label>
@@ -109,12 +109,12 @@ function CreateSpot() {
                             value={city}
                             placeholder='City'
                             onChange={(e) => setCity(e.target.value)}
-                            className={errors.includes('A valid city is required!') ? 'error' : "user-signup-input"}
+                            className={errors.includes('City must be 15 characters or less') ? 'error' : "user-signup-input"}
                         />
                     </div>
                     <div>
                         {errors.map((error, idx) =>
-                            error === "A valid city is required!" ? <li key={idx} id='error-list'>{error}</li> : null
+                            error === "City must be 15 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
                         )}
                     </div>
                 </label>
@@ -126,12 +126,12 @@ function CreateSpot() {
                                 value={state}
                                 placeholder='State'
                                 onChange={(e) => setState(e.target.value)}
-                                className={errors.includes("State or Municipality") ? 'error' : "user-signup-input"}
+                                className={errors.includes("State must be 15 characters or less") ? 'error' : "user-signup-input"}
                             />
                         </div>
                         <div>
                             {errors.map((error, idx) =>
-                                error === "State or Municipality" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "State must be 15 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </label>
@@ -144,12 +144,12 @@ function CreateSpot() {
                                 value={country}
                                 placeholder='Country'
                                 onChange={(e) => setCountry(e.target.value)}
-                                className={errors.includes('Valid country is required!') ? 'error' : "user-signup-input"}
+                                className={errors.includes('Country must be 10 characters or less') ? 'error' : "user-signup-input"}
                             />
                         </div>
                         <div>
                             {errors.map((error, idx) =>
-                                error === "Valid country is required!" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "Country must be 10 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </label>
@@ -182,12 +182,12 @@ function CreateSpot() {
                                 value={name}
                                 placeholder='Name of place'
                                 onChange={(e) => setName(e.target.value)}
-                                className={errors.includes('Name of location required! Be creative :)') ? 'error' : "user-signup-input"}
+                                className={errors.includes('Name of location must be 10 characters or less') ? 'error' : "user-signup-input"}
                             />
                         </div>
                         <div>
                             {errors.map((error, idx) =>
-                                error === "Name of location required! Be creative :)" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "Name of location must be 10 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </label>
@@ -200,12 +200,12 @@ function CreateSpot() {
                                 value={description}
                                 placeholder='Describe your place'
                                 onChange={(e) => setDescription(e.target.value)}
-                                className={errors.includes('Please add a description for your location!') ? 'error' : "user-signup-input"}
+                                className={errors.includes('Description should be 20 characters or less!') ? 'error' : "user-signup-input"}
                             />
                         </div>
                         <div>
                             {errors.map((error, idx) =>
-                                error === "Please add a description for your location!" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "Description should be 20 characters or less!" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </label>
@@ -218,13 +218,13 @@ function CreateSpot() {
                                 value={url}
                                 placeholder="Upload a picture of your place!"
                                 onChange={(e) => setUrl(e.target.value)}
-                                className={errors.includes('Please enter a valid url!') ? 'error' : "user-signup-input"}
+                                className={errors.includes('Url must start with https') ? 'error' : "user-signup-input"}
                             />
 
                         </div>
                         <div>
                             {errors.map((error, idx) =>
-                                error === "Please enter a valid url!" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </label>

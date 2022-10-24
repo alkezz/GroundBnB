@@ -49,7 +49,7 @@ module.exports = {
       },
       {
         spotId: 8,
-        url: 'https://vacationidea.com/pix/img25Hy8R/articles/t-c5_cave_of_the_winds_122650_mobi.jpg',
+        url: 'https://ff68bf3906044917b58d-1b975fa8368fccfa31871a585d0cfbd4.ssl.cf1.rackcdn.com/wp-content/uploads/2015/06/Thurston-Lava-Tube.jpg',
         preview: true
       },
       {

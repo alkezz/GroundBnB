@@ -31,7 +31,7 @@ function LoginForm() {
                 const data = await res.json();
                 if (data) setErrors([data.message]);
             }
-        ).then(async () => await dispatch(reviewActions.getReviews(id)))
+        ).then(async () => isNaN(id) ? null : await dispatch(reviewActions.getReviews(id)))
     };
 
     return (

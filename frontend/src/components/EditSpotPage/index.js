@@ -10,6 +10,7 @@ function EditSpot() {
     const history = useHistory()
     const id = Number(useParams().spotId)
     const spot = useSelector(state => state.spots[id])
+    console.log(spot.SpotImages[0].url)
     //! DONT NEED VALUES TO PERSIST AFTER RELOAD, JUST HAVE IT SHOW UP ON FIRST RENDER AND ITS FINE!\\
     useEffect(() => {
         dispatch(spotActions.getOne(id))
@@ -25,7 +26,7 @@ function EditSpot() {
     const [name, setName] = useState(spot === undefined ? "" : spot.name)
     const [description, setDescription] = useState(spot === undefined ? "" : spot.description)
     const [price, setPrice] = useState(spot === undefined ? "" : spot.price)
-    const [url, setUrl] = useState("")
+    const [url, setUrl] = useState(spot === undefined ? "" : spot.SpotImages[0].url)
     let [preview, setPreview] = useState(true)
     const [errors, setErrors] = useState([])
     if (!spot) return null

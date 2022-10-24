@@ -48,6 +48,17 @@ Hosting:
 # Home Page
 This is what the home page will look like. A demo user is provided to test the functionality of the website!
 
+![HomePage](https://i.imgur.com/AkcUnxM.png)
+Demo User functionality
+![DemoUser](https://i.imgur.com/wHWxPj0.png)
+You can make an account
+![Account-Create](https://i.imgur.com/klufFlx.png)
+You can create your own spot
+![Spot-Create](https://i.imgur.com/rX0ZoxC.png)
+As well as creating reviews for spots(that aren't owned by you!)
+![Review-Create](https://i.imgur.com/zy02wc6.png)
+You can even delete reviews
+![Review-Delete](https://i.imgur.com/nCGrRbO.png)
 # Contact Info
 
 To contact me for any issues that arise or a suggestion, please feel free to reach out on:

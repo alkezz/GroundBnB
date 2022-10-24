@@ -5,26 +5,27 @@ import './LoginFormModal.css';
 import SignUpForm from '../SignupFormModal/SignupForm';
 import { Link } from 'react-router-dom';
 // import '../SignupFormPage/SignUpForm.css';
+import './LoginFormModal.css'
 
 function LoginFormModal() {
     const [showLogInModal, setShowLogInModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
-    const [showDropDown, setShowDropDown] = useState(false)
+    const [showDropDown, setShowDropDown] = useState(true)
     //Creating a modal varaible to store whether the modal can be shown or not
     return (
         <div className='login-button-container'>
-            <button className='dropdown-btn' onClick={() => showDropDown === false ? setShowDropDown(true) : setShowDropDown(false)}>
+            {/* <button className='dropdown-btn' onClick={() => showDropDown === false ? setShowDropDown(true) : setShowDropDown(false)}>
                 <div>
                     <i id='grip-line-icon' class="fa-solid fa-grip-lines"></i>
                 </div>
                 <div className='user-icon'>
                     <i id='user-icon' class="fa-solid fa-circle-user"></i>
                 </div>
-            </button>
+            </button> */}
             {showDropDown && (
                 <ul className='user-button'>
                     <li>
-                        <Link className='modal-button' onClick={() => setShowSignUpModal(true)}>Sign up</Link>
+                        <button className='modal-button' onClick={() => setShowSignUpModal(true)}>Sign up</button>
                         {/* //Clicking the buton makes the modal show up */}
                         {showSignUpModal && (
                             <Modal onClose={() => setShowSignUpModal(false)}>
@@ -34,7 +35,7 @@ function LoginFormModal() {
                         )}
                     </li>
                     <li>
-                        <Link className='modal-button' onClick={() => setShowLogInModal(true) && setShowDropDown(false)}>Log In</Link>
+                        <button className='modal-button' onClick={() => setShowLogInModal(true) && setShowDropDown(false)}>Log In</button>
                         {/* //Clicking the buton makes the modal show up */}
                         {showLogInModal && (
                             <Modal onClose={() => setShowLogInModal(false)}>

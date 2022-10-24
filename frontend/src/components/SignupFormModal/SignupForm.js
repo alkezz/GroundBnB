@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import './SignupForm.css'
@@ -10,7 +10,7 @@ function SignUpFormPage() {
     const [email, setEmail] = useState('');
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [birthday, setBirthday] = useState('')
+    const [confirmPassword, setConfirmPassowrd] = useState('')
     const [errors, setErrors] = useState([]);
     // useEffect(() => {
     //     const errors = []
@@ -27,10 +27,10 @@ function SignUpFormPage() {
         const errors = []
         if (firstName.length <= 0) errors.push('First name is required')
         if (lastName.length <= 0) errors.push('Last name is required')
-        if (password.length <= 0) errors.push('Password is required')
-        if (new Date().getFullYear() - birthday.split('-')[0] < 18) errors.push("You must be 18 or older to use Groundbnb. Other people won't see your birthday.")
-        if (email.length <= 0 || !email.includes('@')) errors.push("Email is required")
-        if (username.length <= 0) errors.push("Username is required")
+        if (password.length < 6) errors.push('Password must be 6 characters or more')
+        if (email.length < 3 || !email.includes('@')) errors.push("A valid email that is at least 3 characters is required")
+        if (username.length > 30 || username.length < 4) errors.push("Username must be a length between 4 and 30 characters")
+        if (password !== confirmPassword) errors.push("Passwords don't match, please check again")
         setErrors(errors)
         if (errors.length) return;
         return dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
@@ -84,12 +84,12 @@ function SignUpFormPage() {
                             value={username}
                             placeholder='Username'
                             onChange={(e) => setUserName(e.target.value)}
-                            className={errors.includes('Username is required') ? 'error' : "new-user-input"}
+                            className={errors.includes('Username must be a length between 4 and 30 characters') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
                         {errors.map((error, idx) =>
-                            error === "Username is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                            error === "Username must be a length between 4 and 30 characters" ? <li key={idx} id='error-list'>{error}</li> : null
                         )}
                         {errors.map((error, idx) =>
                             error.username === "User with that username already exists" ? <li key={idx} id='error-list'>{error.username}</li> : null
@@ -105,12 +105,12 @@ function SignUpFormPage() {
                             value={email}
                             placeholder='Email'
                             onChange={(e) => setEmail(e.target.value)}
-                            className={errors.includes('Email is required') ? 'error' : "new-user-input"}
+                            className={errors.includes('A valid email that is at least 3 characters is required') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
                         {errors.map((error, idx) =>
-                            error === "Email is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                            error === "A valid email that is at least 3 characters is required" ? <li key={idx} id='error-list'>{error}</li> : null
                         )}
                         {errors.map((error, idx) =>
                             error.email === "User with that email already exists" ? <li key={idx} id='error-list'>{error.email}</li> : null
@@ -130,12 +130,30 @@ function SignUpFormPage() {
                             value={password}
                             placeholder='Password'
                             onChange={(e) => setPassword(e.target.value)}
-                            className={errors.includes('Password is required') ? 'error' : "new-user-input"}
+                            className={errors.includes('Password must be 6 characters or more') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
                         {errors.map((error, idx) =>
-                            error === "Password is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                            error === "Password must be 6 characters or more" ? <li key={idx} id='error-list'>{error}</li> : null
+                        )}
+                    </div>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <div>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            placeholder='Confirm Password'
+                            onChange={(e) => setConfirmPassowrd(e.target.value)}
+                            className={errors.includes("Passwords don't match, please check again") ? 'error' : "new-user-input"}
+                        />
+                    </div>
+                    <div>
+                        {errors.map((error, idx) =>
+                            error === "Passwords don't match, please check again" ? <li key={idx} id='error-list'>{error}</li> : null
                         )}
                     </div>
                 </label>

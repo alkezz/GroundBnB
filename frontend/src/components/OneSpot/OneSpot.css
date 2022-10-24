@@ -44,7 +44,7 @@ ul.spot-stats-ul > li {
     /* margin-left: 85%;
     margin-right: 5%; */
     /* height: 150px; */
-    box-shadow: 12px 12px 2px 1px black;
+    /* box-shadow: 12px 12px 2px 1px black; */
     flex-direction: row;
 }
 .card-button-div-container{

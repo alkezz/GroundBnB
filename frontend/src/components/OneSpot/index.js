@@ -99,6 +99,14 @@ function SpotById() {
             </div>
             <div style={{ borderBottom: '1px black solid', display: 'flex', marginLeft: '20%', marginRight: '20%' }}></div>
             <h1 style={{ display: 'flex', justifyContent: 'center' }}>Reviews:</h1>
+            {reviewArray.length <= 0 && (
+                <>
+                    <div style={{ marginLeft: '46.5%' }}>No Reviews Yet!</div>
+                    <div style={{ visibility: user === null || user.id === allSpotsOBJ.ownerId ? 'hidden' : 'visible', marginLeft: '38%' }}>
+                        Why don't you get started and create a review for this spot!
+                    </div>
+                </>
+            )}
             <div className='center-review-box'>
                 {reviewArray.length >= 1 && (
                     <div style={{ border: '1px black solid' }} className='review-container-div'>
@@ -136,12 +144,6 @@ function SpotById() {
                 {reviewArray.length <= 0 && (
                     <>
                         <div>
-                            <div>
-                                No Reviews yet!
-                            </div>
-                            <div style={{ visibility: user === null || user.id === allSpotsOBJ.ownerId ? 'hidden' : 'visible' }}>
-                                Why don't you get started and create a review for this spot!
-                            </div>
                             <div className='review-button-div'>
                                 <button style={{ visibility: user === null || user.id === allSpotsOBJ.ownerId ? 'hidden' : 'visible' }} className='add-review-button' onClick={() => history.push(`/spots/${stringId}/review/create`)}>Create a Review</button>
                             </div>
