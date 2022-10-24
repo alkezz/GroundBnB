@@ -13,9 +13,7 @@ function SpotById() {
     const stringId = useParams().spotId
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
-    console.log("USER", user)
     const reviews = useSelector(state => state.reviews)
-    console.log("REVIEWS USESELECTOR", reviews)
     useEffect(() => {
         dispatch(sessionActions.restoreUser())
         async function getData() {
@@ -25,7 +23,6 @@ function SpotById() {
         getData()
     }, [dispatch, id])
     const reviewArray = Object.values(reviews)
-    console.log(reviewArray)
     for (let i = 0; i < reviewArray.length; i++) {
         if (user === null || reviewArray[i].userId === user.id) {
             hasReview = true
@@ -33,7 +30,6 @@ function SpotById() {
     }
     const allSpotsOBJ = useSelector(state => state.spots[id])
     if (!allSpotsOBJ) return null
-    console.log(allSpotsOBJ)
     return (
         <>
             {allSpotsOBJ.SpotImages && (
@@ -110,13 +106,18 @@ function SpotById() {
                             <div>
                                 <div className='single-review-container'>
                                     <div>
-                                        <i class="fa-solid fa-circle-user"></i> {review.User?.firstName} {review.User?.lastName[0]}
+                                        <i class="fa-solid fa-circle-user"></i> {review.User?.firstName} {review.User?.lastName[0]} says:
                                     </div>
+                                    &nbsp;
                                     <div>
                                         &nbsp; &nbsp; &nbsp; {review.review}
                                     </div>
+                                    &nbsp;
                                     <div>
-                                        <i class="fa-solid fa-star"></i> &nbsp;{review.stars}
+                                        {[...Array(review.stars)].map((_, i) =>
+                                            <i key={i} class="fa-solid fa-star"></i>
+                                        )}
+                                        {/* <i class="fa-solid fa-star"></i> &nbsp;{review.stars} */}
                                     </div>
                                     <div>
                                         <button onClick={async (e) => {

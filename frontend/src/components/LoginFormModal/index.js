@@ -13,45 +13,38 @@ function LoginFormModal() {
     //Creating a modal varaible to store whether the modal can be shown or not
     return (
         <div className='login-button-container'>
-            <div className='login-button'>
-                <button className='dropdown-btn' onClick={() => showDropDown === false ? setShowDropDown(true) : setShowDropDown(false)}>
-                    <div>
-                        <i id='grip-line-icon' class="fa-solid fa-grip-lines"></i>
-                    </div>
-                    <div className='user-icon'>
-                        <i id='user-icon' class="fa-solid fa-circle-user"></i>
-                    </div>
-                </button>
-                {showDropDown && (
-                    <>
-                        <div className='dropdown-content'>
-                            <div className='user-button'>
-                                <li>
-                                    <Link className='modal-button' onClick={() => setShowSignUpModal(true)}>Sign up</Link>
-                                    {/* //Clicking the buton makes the modal show up */}
-                                    {showSignUpModal && (
-                                        <Modal onClose={() => setShowSignUpModal(false)}>
-                                            {/* //clicking again makes it disappear or outside the box */}
-                                            <SignUpForm />
-                                        </Modal>
-                                    )}
-                                </li>
-                                <li>
-                                    <Link className='modal-button' onClick={() => setShowLogInModal(true) && setShowDropDown(false)}>Log In</Link>
-                                    {/* //Clicking the buton makes the modal show up */}
-                                    {showLogInModal && (
-                                        <Modal onClose={() => setShowLogInModal(false)}>
-                                            {/* //clicking again makes it disappear or outside the box */}
-                                            <LoginForm />
-                                        </Modal>
-                                    )}
-                                </li>
-
-                            </div>
-                        </div>
-                    </>
-                )}
-            </div>
+            <button className='dropdown-btn' onClick={() => showDropDown === false ? setShowDropDown(true) : setShowDropDown(false)}>
+                <div>
+                    <i id='grip-line-icon' class="fa-solid fa-grip-lines"></i>
+                </div>
+                <div className='user-icon'>
+                    <i id='user-icon' class="fa-solid fa-circle-user"></i>
+                </div>
+            </button>
+            {showDropDown && (
+                <ul className='user-button'>
+                    <li>
+                        <Link className='modal-button' onClick={() => setShowSignUpModal(true)}>Sign up</Link>
+                        {/* //Clicking the buton makes the modal show up */}
+                        {showSignUpModal && (
+                            <Modal onClose={() => setShowSignUpModal(false)}>
+                                {/* //clicking again makes it disappear or outside the box */}
+                                <SignUpForm />
+                            </Modal>
+                        )}
+                    </li>
+                    <li>
+                        <Link className='modal-button' onClick={() => setShowLogInModal(true) && setShowDropDown(false)}>Log In</Link>
+                        {/* //Clicking the buton makes the modal show up */}
+                        {showLogInModal && (
+                            <Modal onClose={() => setShowLogInModal(false)}>
+                                {/* //clicking again makes it disappear or outside the box */}
+                                <LoginForm />
+                            </Modal>
+                        )}
+                    </li>
+                </ul>
+            )}
         </div>
     );
 }

@@ -2,6 +2,11 @@
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif
 }
 
+.login-button-container{
+    display: flex;
+    flex-direction: column;
+}
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -129,3 +134,29 @@
     background-color: lightgray;
     list-style: none;
 }
+ul.user-button{
+    /* position: absolute; */
+    padding: 0;
+    border: 1px black solid;
+    box-shadow: 12px 12px 2px 1px black;
+}
+
+ul.user-button > li{
+    border-radius: 15px;
+    /* position: absolute; */
+    text-decoration: none;
+}
+
+/* ul.profile-dropdown{
+    position: absolute;
+    padding: 0;
+    border: 1px black solid;
+    box-shadow: 12px 12px 2px 1px black;
+}
+
+ul.profile-dropdown > li {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    padding-bottom: 10%;
+} */

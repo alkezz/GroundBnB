@@ -2,8 +2,8 @@ import React, { useState, useEffect, Component } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import * as reviewActions from "../../store/reviews"
-
-
+import './ReviewFormPage.css'
+import '../LoginFormModal/LoginFormModal.css'
 function CreateReview() {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -46,11 +46,11 @@ function CreateReview() {
                         placeholder='Review'
                         value={review}
                         onChange={(e) => setReview(e.target.value)}
-                        className={errors.includes('Please enter a review!') ? 'error' : "user-input"}
+                        className={errors.includes('Please enter a review!') ? 'review-error' : "user-input"}
                     />
                     <div>
                         {errors.map((error, idx) =>
-                            error === "Please enter a review!" ? <li key={idx} id='error-list'>{error}</li> : null
+                            error === "Please enter a review!" ? <li key={idx} id='review-error-list'>{error}</li> : null
                         )}
                     </div>
                 </div>
@@ -63,17 +63,17 @@ function CreateReview() {
                             value={stars}
                             placeholder='Stars'
                             onChange={(e) => setStars(e.target.value)}
-                            className={errors.includes('Stars must be an integer between 1 and 5!') ? 'error' : "user-input"}
+                            className={errors.includes('Stars must be an integer between 1 and 5!') ? 'review-error' : "user-input"}
                         />
                         <div>
                             {errors.map((error, idx) =>
-                                error === "Stars must be an integer between 1 and 5!" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "Stars must be an integer between 1 and 5!" ? <li key={idx} id='review-error-list'>{error}</li> : null
                             )}
                         </div>
                     </div>
                 </label>
             </div>
-            <button type="submit" className='user-submit'>
+            <button type="submit" className='review-submit'>
                 Submit Review
             </button>
         </form>

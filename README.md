@@ -12,6 +12,19 @@ GroundBnB is a clone of the website [AirBnB](https://airbnb.com/). GroundBnB can
 * [Redux Store Shape](https://github.com/alkezz/API-project/wiki/Redux-Store-Shape)
 * [Frontend Routes](www.google.com)
 
+# Getting Started
+
+To get started using this application locally:
+
+* First things first, clone the github repo into any directory on your system
+* Open that cloned repo in an IDE of your choice
+* Next, cd into the backend server and type the command  "npm install" into the terminal.
+* After, cd into the frontend folder and also type the command "npm install" into the terminal.
+* Once both of those are complete, make sure to type "npm start" into both the front end terminal and back end terminal
+to start both servers and allow them to communicate
+* After that is complete, a window in your default browser will open to the front page of the application!
+* Done, have fun!
+
 # Tech Stack
 
 Frameworks, Platforms, and Libraries used:
@@ -34,3 +47,11 @@ Hosting:
 
 # Home Page
 This is what the home page will look like. A demo user is provided to test the functionality of the website!
+
+# Contact Info
+
+To contact me for any issues that arise or a suggestion, please feel free to reach out on:
+
+* [GitHub](https://www.github.com/alkezz)
+* E-Mail: a.k.ezzeddine@gmail.com
+* [LinkedIn](https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/)

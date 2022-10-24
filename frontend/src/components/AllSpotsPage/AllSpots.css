@@ -29,8 +29,12 @@ img {
 
 #price-div{
     font-weight: bold;
+    margin-left: 3%;
 }
-
+#state-div{
+    font-weight: bold;
+    margin-left: 3%;
+}
 #preview-image-div{
     height: 300px;
     width: 320px;

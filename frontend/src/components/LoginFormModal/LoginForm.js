@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
+import * as reviewActions from "../../store/reviews"
 import { useDispatch } from "react-redux";
 import "./LoginFormModal.css"
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 function LoginForm() {
+    const history1 = useHistory().location.pathname
+    console.log(history1.split('/'))
+    const id = Number(history1.split('/')[2])
+    console.log(id)
     const dispatch = useDispatch();
     const history = useHistory()
     const [credential, setCredential] = useState("");
@@ -26,7 +31,7 @@ function LoginForm() {
                 const data = await res.json();
                 if (data) setErrors([data.message]);
             }
-        ).then(() => errors.length >= 1 ? null : history.push('/'))
+        ).then(async () => await dispatch(reviewActions.getReviews(id)))
     };
 
     return (
@@ -78,7 +83,7 @@ function LoginForm() {
             </form>
             <button className="demo-user-button" onClick={async (e) => {
                 await dispatch(sessionActions.login({ credential: "Demo-User", password: "password" }));
-                history.push("/")
+                await dispatch(reviewActions.getReviews(id))
             }
             }
             >Log in as Demo User</button>

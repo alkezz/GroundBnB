@@ -80,30 +80,6 @@ function SignUpFormPage() {
                 <label>
                     <div>
                         <input
-                            type="date"
-                            value={birthday}
-                            placeholder='Birthdate'
-                            onChange={(e) => setBirthday(e.target.value)}
-                            required
-                            className={errors.includes("You must be 18 or older to use Groundbnb. Other people won't see your birthday.") ? 'error' : "new-user-input"}
-                        />
-                    </div>
-                    <div>
-                        {errors.map((error, idx) =>
-                            error === "You must be 18 or older to use Groundbnb. Other people won't see your birthday." ? <li key={idx} id='error-list'>{error}</li> : null
-                        )}
-                        <div id='below-input-text'>
-                            To sign up, you need to be at least 18. Your birthday won't
-                            be shared with other people who use Groundbnb
-                        </div>
-                    </div>
-                </label>
-            </div>
-            <br />
-            <div>
-                <label>
-                    <div>
-                        <input
                             type="text"
                             value={username}
                             placeholder='Username'
