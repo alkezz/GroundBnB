@@ -62,7 +62,7 @@
     list-style-type: none;
     font-size: 20px;
     font-weight: bold;
-    border: 2px black solid;
+    /* border: 2px black solid; */
 }
 
 .user-submit{
