@@ -13,7 +13,6 @@ const getSpots = (spots) => {
     }
 }
 const getOneSpot = (spot) => {
-    console.log('THIS IS SPOT', spot)
     return {
         type: GET_ONE_SPOT,
         spot
@@ -59,10 +58,8 @@ export const getAllSpots = () => async (dispatch) => {
 
 export const getOne = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`)
-    console.log('res', response)
     if (response.ok) {
         const data = await response.json()
-        console.log("NEW DATAATATATA", data)
         dispatch(getOneSpot(data))
     }
     return response
@@ -94,7 +91,6 @@ export const editSpot = (spot, image) => async (dispatch) => {
         const deleteSpot = await csrfFetch(`/api/spot-images/${imageId}`, {
             method: 'DELETE'
         })
-        console.log(deleteSpot)
         if (deleteSpot.ok) {
             const newImage = await csrfFetch(`/api/spots/${spotId}/images`, {
                 method: 'POST',
@@ -134,7 +130,6 @@ export const createSpot = (spot, image) => async (dispatch) => {
     })
     if (response.ok) {
         const { url, preview } = image
-        console.log("url IN THUNK", url)
         const data = await response.json()
         const { id } = data
         const spotImage = await csrfFetch(`/api/spots/${id}/images`, {
@@ -147,7 +142,6 @@ export const createSpot = (spot, image) => async (dispatch) => {
         if (spotImage.ok) {
             const jsonSpotImage = await spotImage.json()
             data['previewImage'] = jsonSpotImage
-            console.log("CREATE SPOT DATA", data)
             dispatch(actionCreateSpot(data));
             return data
         }
@@ -178,7 +172,6 @@ const spotReducer = (state = initialState, action) => {
     let newState = {};
     switch (action.type) {
         case GET_SPOTS: {
-            console.log("ACTION.SPOTS", action.spots)
             action.spots.forEach((spot) => {
                 newState[spot.id] = spot
             })

@@ -47,7 +47,6 @@ export const createReview = (newReview) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json()
-        console.log("NEW REVIEW DATA", data)
         await dispatch(actionCreateReview(data))
         return response
     }

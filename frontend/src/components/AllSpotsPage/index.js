@@ -14,7 +14,6 @@ function AllSpotsPage() {
         dispatch(spotActions.getAllSpots())
     }, [dispatch])
     const allSpots = Object.values(allSpotsOBJ)
-    console.log(allSpots)
     return (
         <div>
             {allSpots && (
