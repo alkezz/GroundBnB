@@ -83,7 +83,7 @@ function LoginForm() {
             </form>
             <button className="demo-user-button" onClick={async (e) => {
                 await dispatch(sessionActions.login({ credential: "Demo-User", password: "password" }));
-                await dispatch(reviewActions.getReviews(id))
+                isNaN(id) ? console.log('noid') : await dispatch(reviewActions.getReviews(id))
             }
             }
             >Log in as Demo User</button>

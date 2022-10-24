@@ -9,11 +9,6 @@ function CreateSpot() {
     const history = useHistory()
     const key = useSelector(state => state.maps.key)
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (!key) {
-            dispatch(getKey());
-        }
-    }, [dispatch, key]);
     const [address, setAddress] = useState("")
     const [city, setCity] = useState("")
     const [state, setState] = useState("")
@@ -26,6 +21,21 @@ function CreateSpot() {
     const [url, setUrl] = useState("")
     let [preview, setPreview] = useState(true)
     const [errors, setErrors] = useState([])
+    useEffect(() => {
+        if (!key) {
+            dispatch(getKey());
+        }
+        // const errors = []
+        // if (address.length < 10 || address.length > 15) errors.push("Address must be between 10 and 15 characters")
+        // if (city.length <= 0 || city.length > 15) errors.push("City must be 15 characters or less")
+        // if (state.length <= 0 || state.length > 15) errors.push("State must be 15 characters or less")
+        // if (country.length <= 0 || country.length > 10) errors.push("Country must be 10 characters or less")
+        // if (name.length <= 0 || name.length > 10) errors.push("Name of location must be 10 characters or less")
+        // if (description.length <= 0 || description.length > 20) errors.push("Description should be 20 characters or less!")
+        // if (price <= 1) errors.push("Please enter a valid price per night, can not be below $1!")
+        // if (!url.includes('https')) errors.push('Url must start with https')
+        // setErrors(errors)
+    }, [dispatch, key]);
     const handleSubmit = (e) => {
         e.preventDefault()
         setErrors([])
