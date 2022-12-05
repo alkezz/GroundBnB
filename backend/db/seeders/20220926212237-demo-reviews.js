@@ -15,7 +15,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    options.tablename = 'Reviews'
+    options.tableName = 'Reviews'
     await queryInterface.bulkInsert(options, [
       {
         spotId: 5,
@@ -129,6 +129,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    options.tableName = 'Reviews'
     await queryInterface.bulkDelete(options)
   }
 };

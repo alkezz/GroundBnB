@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
   async up(queryInterface, Sequelize) {
-    options.tablename = 'Spots'
+    options.tableName = 'Spots'
     /**
      * Add seed commands here.
      *
@@ -149,6 +149,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    options.tableName = 'Spots'
     await queryInterface.bulkDelete(options);
   }
 };
