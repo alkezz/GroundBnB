@@ -7,9 +7,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 function LoginForm() {
     const history1 = useHistory().location.pathname
-    console.log(history1.split('/'))
     const id = Number(history1.split('/')[2])
-    console.log(id)
     const dispatch = useDispatch();
     const history = useHistory()
     const [credential, setCredential] = useState("");

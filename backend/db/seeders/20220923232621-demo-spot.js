@@ -2,9 +2,13 @@
 
 const { query } = require("express");
 const { User, Spot } = require('../models')
-
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
 module.exports = {
   async up(queryInterface, Sequelize) {
+    options.tablename = 'Spots'
     /**
      * Add seed commands here.
      *
@@ -14,7 +18,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Spots', [
+    await queryInterface.bulkInsert(options, [
       {
         ownerId: 1,
         address: "20 Valley of the Dog River",
@@ -145,6 +149,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Spots', null, {});
+    await queryInterface.bulkDelete(options);
   }
 };

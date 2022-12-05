@@ -1,5 +1,9 @@
 'use strict';
 const { SpotImage } = require('../models')
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -11,7 +15,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('SpotImages', [
+    options.tablename = 'SpotImages'
+    await queryInterface.bulkInsert(options, [
       {
         spotId: 1,
         url: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/35/5a/ef/caption.jpg?w=1200&h=-1&s=1',
@@ -72,6 +77,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('SpotImages', null, {})
+    await queryInterface.bulkDelete(options)
   }
 };
