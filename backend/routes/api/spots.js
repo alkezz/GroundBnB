@@ -445,7 +445,7 @@ router.post('/', [requireAuth, validateNewSpot], async (req, res) => {
 
 router.post('/images/upload', singleMulterUpload("image"), requireAuth, async (req, res) => {
     const imageUrl = await singlePublicFileUpload(req.file)
-    return imageUrl
+    return res.json(imageUrl)
 })
 
 router.post('/:spotId/images', requireAuth, async (req, res) => {

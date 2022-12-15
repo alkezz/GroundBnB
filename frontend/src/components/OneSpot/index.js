@@ -43,7 +43,7 @@ function SpotById() {
         }
         if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
         let img = imageInput.files[0]
-        formData.append('file', img)
+        formData.append('image', img)
         const picture = await csrfFetch("/api/spots/images/upload", {
             method: "POST",
             headers: {
@@ -51,7 +51,19 @@ function SpotById() {
             },
             body: formData
         })
-        console.log("IMAGE", picture)
+        const url = await picture.json()
+        const spotImage = await csrfFetch(`/api/spots/${id}/images`, {
+            method: "POST",
+            headers: {
+                "ContentType": "application/json"
+            },
+            body: {
+                id,
+                url,
+                preview: false
+            }
+        })
+        console.log(await spotImage.json())
     }
     const allSpotsOBJ = useSelector(state => state.spots[id])
     if (!allSpotsOBJ) return null

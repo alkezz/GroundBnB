@@ -22,6 +22,7 @@ const singlePublicFileUpload = async (file) => {
         Bucket: NAME_OF_BUCKET,
         Key,
         Body: buffer,
+        ContentType: file.mimetype,
         ACL: "public-read",
     };
     const result = await s3.upload(uploadParams).promise();
