@@ -52,16 +52,14 @@ function SpotById() {
             body: formData
         })
         const url = await picture.json()
+        const newSpotImage = {
+            spotId: id,
+            url,
+            preview: false
+        }
         const spotImage = await csrfFetch(`/api/spots/${id}/images`, {
             method: "POST",
-            headers: {
-                "ContentType": "application/json"
-            },
-            body: {
-                id,
-                url,
-                preview: false
-            }
+            body: JSON.stringify(newSpotImage)
         })
         console.log(await spotImage.json())
     }
