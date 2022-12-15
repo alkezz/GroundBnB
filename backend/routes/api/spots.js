@@ -5,9 +5,14 @@ const { User, Spot, Review, Booking, ReviewImage, SpotImage, sequelize, Sequeliz
 const { check } = require('express-validator');
 const { handleValidationErrors, handleSpotValidationErrors } = require('../../utils/validation');
 const { json } = require('sequelize');
-
+const { singlePublicFileUpload } = require("../../awsS3")
+const { singleMulterUpload } = require("../../awsS3")
+const AWS = require('aws-sdk')
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+})
 router.get('/', async (req, res) => {
-
     let { page, size } = req.query
     if (!page) page = 1
     if (!size) size = 20
@@ -436,6 +441,11 @@ router.post('/', [requireAuth, validateNewSpot], async (req, res) => {
         price
     })
     res.status(201).json(newSpot)
+})
+
+router.post('/images/upload', singleMulterUpload("image"), requireAuth, async (req, res) => {
+    const imageUrl = await singlePublicFileUpload(req.file)
+    return imageUrl
 })
 
 router.post('/:spotId/images', requireAuth, async (req, res) => {

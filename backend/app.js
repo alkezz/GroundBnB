@@ -20,6 +20,7 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 //express.json middleware for parsing JSON bodies of
 //requests with Content-Type of "application/json"
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const { ValidationError } = require('sequelize');

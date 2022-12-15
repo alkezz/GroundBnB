@@ -32,6 +32,37 @@ ul.spot-stats-ul > li {
     width: 60%;
     height: 500px;
     margin-left: 20%;
+    display: flex;
+    flex-direction: row;
+}
+
+#one-allSpotsOBJ-image{
+    width: 45%;
+}
+
+.first-image-upload-placeholder{
+    border: 1px dashed black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.second-image-upload-placeholder{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.second-image-upload-container{
+    height: 50%;
+    border: 1px dashed black;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #actual-text-div{

@@ -4,6 +4,7 @@ import * as reviewActions from '../../store/reviews'
 import * as sessionActions from '../../store/session'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { csrfFetch } from '../../store/csrf';
 import "./OneSpot.css"
 
 function SpotById() {
@@ -14,6 +15,7 @@ function SpotById() {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
     const reviews = useSelector(state => state.reviews)
+    const formData = new FormData()
     useEffect(() => {
         dispatch(sessionActions.restoreUser())
         async function getData() {
@@ -27,6 +29,29 @@ function SpotById() {
         if (user === null || reviewArray[i].userId === user.id) {
             hasReview = true
         }
+    }
+    const handleImageUpload = async () => {
+        let correctFile
+        console.log("HIT")
+        let imageInput = document.querySelector("#file-input")
+        console.log(imageInput.files)
+        for (let i = 0; i < imageInput.files.length; i++) {
+            let img = imageInput.files[i]
+            if (img.type !== "image/jpeg" && img.type !== "image/png") {
+                correctFile = false
+            }
+        }
+        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
+        let img = imageInput.files[0]
+        formData.append('file', img)
+        const picture = await csrfFetch("/api/spots/images/upload", {
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData
+        })
+        console.log("IMAGE", picture)
     }
     const allSpotsOBJ = useSelector(state => state.spots[id])
     if (!allSpotsOBJ) return null
@@ -60,6 +85,44 @@ function SpotById() {
                     </div>
                     <div id='img-div'>
                         <img id='one-allSpotsOBJ-image' src={allSpotsOBJ.SpotImages[0].url} alt="cave"></img>
+                        <div className='first-image-upload-placeholder'>
+                            {user.id === allSpotsOBJ.ownerId && (
+                                <>
+                                    <label htmlFor='file-input' onChange={handleImageUpload}>
+                                        <div>
+                                            {!allSpotsOBJ?.SpotImages[1] && (
+                                                <i class="fa-solid fa-circle-plus"></i>
+                                            )}
+                                            {allSpotsOBJ?.SpotImages[1] && (
+                                                <img src={allSpotsOBJ?.SpotImages[1].url}></img>
+                                            )}
+                                        </div>
+                                    </label>
+                                    <input onChange={handleImageUpload} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
+                                </>
+                            )}
+                            {user.id !== allSpotsOBJ.ownerId && (
+                                <img src={allSpotsOBJ?.SpotImages[1] ? allSpotsOBJ?.SpotImages[1]?.url : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
+                            )}
+                        </div>
+                        <div className='second-image-upload-placeholder'>
+                            <div className='second-image-upload-container'>
+                                <label htmlFor='file-input'>
+                                    <div>
+                                        <i class="fa-solid fa-circle-plus"></i>
+                                    </div>
+                                </label>
+                                <input style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
+                            </div>
+                            <div className='second-image-upload-container'>
+                                <label htmlFor='file-input'>
+                                    <div>
+                                        <i class="fa-solid fa-circle-plus"></i>
+                                    </div>
+                                </label>
+                                <input style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
+                            </div>
+                        </div>
                     </div>
                     &nbsp;
                     <div id='under-picture-div'>
