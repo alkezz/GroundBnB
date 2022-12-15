@@ -2,7 +2,7 @@
 
 GroundBnB is a clone of the website [AirBnB](https://airbnb.com/). GroundBnB can be used to view, create, book, and review houses around your area or for a vacation in a new place! A great tool for avid travlers to avoid hotels and sleep in more authentic places wherever you go!
 
-**Live site:** [GroundBnB](https://air-bnb-api-project-sept2022.herokuapp.com/)
+**Live site:** [GroundBnB](https://ground-bnb-2022.onrender.com)
 
 # Wiki Links
 
@@ -43,7 +43,7 @@ Database:
 
 Hosting:
 
-![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
+![Render Badge](https://img.shields.io/badge/Render-46E3B7?logo=render&logoColor=000&style=for-the-badge)
 
 # Home Page
 This is what the home page will look like. A demo user is provided to test the functionality of the website!
