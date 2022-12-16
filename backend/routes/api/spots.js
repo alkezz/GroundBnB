@@ -477,6 +477,35 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     }
 })
 
+// router.put('/:spotId/images', requireAuth, async (req, res) => {
+//     const { user } = req
+//     const { url, preview } = req.body
+//     const spot = await Spot.findByPk(req.params.spotId)
+//     if (spot) {
+//         if (spot.ownerId === user.toSafeObject().id) {
+//             const newImage = await SpotImage.update({
+//                 spotId: req.params.spotId,
+//                 url,
+//                 preview
+//             })
+//             res.status(200).json({
+//                 id: newImage.id,
+//                 url: url,
+//                 preview: preview
+//             })
+//         } else {
+//             res.status(403).json({
+//                 message: 'You must own this spot to add an image'
+//             })
+//         }
+//     } else {
+//         res.status(404).json({
+//             message: "Spot couldn't be found",
+//             statusCode: 404
+//         })
+//     }
+// })
+
 const validateReview = [
     check('review').exists({ checkFalsy: true }).withMessage('Review text is required'),
     check('stars').exists({ checkFalsy: true }).isInt({ min: 1, max: 5 }).withMessage('Stars must be an integer from 1 to 5'),
