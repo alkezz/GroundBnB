@@ -113,17 +113,12 @@ ul.spot-stats-ul > li {
 }
 
 .review-container-div{
-    box-shadow: 12px 12px 2px 1px black;
+    box-shadow: 2px 2px 2px 2px black;
     width: 60%;
     border-radius: 8px;
 }
 .center-review-box{
     display: flex;
-    justify-content: center;
-}
-.center-review-button{
-    display: flex;
-    flex-direction: row;
     justify-content: center;
 }
 .single-review-container{
@@ -174,4 +169,15 @@ ul.spot-stats-ul > li {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.stars-button{
+    background: none;
+    width: fit-content;
+    border: none;
+    cursor: pointer;
+}
+
+#one-spot-star{
+    font-size: 18px;
 }
