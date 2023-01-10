@@ -11,8 +11,9 @@ function SpotById() {
     let hasReview = false
     let todaysDate = new Date()
     let checkInDate = todaysDate.toISOString().substring(0, 10)
-    todaysDate.setDate(todaysDate.getDate() + 1)
-    let checkOutDay = todaysDate.toISOString().substring(0, 10)
+    let laterDate = new Date()
+    laterDate.setDate(todaysDate.getDate() + 1)
+    let checkOutDay = laterDate.toISOString().substring(0, 10)
     const history = useHistory();
     const id = Number(useParams().spotId)
     const stringId = useParams().spotId
@@ -414,7 +415,7 @@ function SpotById() {
                 </div>
                 <div style={{ borderBottom: '1px black solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
             </div>
-            <div style={{ visibility: !user || user.id === allSpotsOBJ.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", paddingBottom: "20px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "110px", marginTop: "-220px" }}>
+            <div style={{ visibility: !user || user.id === allSpotsOBJ.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", paddingBottom: "20px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "110px", marginTop: "-220px", boxShadow: "2px 2px 2px black" }}>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "85%" }}>
                     <h2 style={{ marginBottom: "10px" }}>${allSpotsOBJ.price} <span style={{ fontSize: "16px" }}>night</span></h2>
                     <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
@@ -449,7 +450,7 @@ function SpotById() {
                 {startDate && endDate && startDate > endDate && (
                     <>
                         <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
-                        <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date comes before your after date...</h3>
+                        <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date comes before your end date...</h3>
                     </>
                 )}
                 {startDate && endDate && startDate === endDate && (
