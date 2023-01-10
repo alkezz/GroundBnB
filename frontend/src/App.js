@@ -4,6 +4,8 @@ import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import AllSpotsPage from "./components/AllSpotsPage";
 import SpotById from "./components/OneSpot";
+import SessionUserProfile from "./components/SessionUserProfile";
+import ProfilePage from "./components/ProfilePage";
 import CreateSpotPage from "./components/CreateSpotPage"
 import EditSpotPage from "./components/EditSpotPage"
 import CreateReview from "./components/ReviewFormPage"
@@ -30,6 +32,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route path="/user/:userId">
+            <ProfilePage />
           </Route>
           <Route path="/spots/:spotId/review/create">
             <CreateReview />

@@ -43,30 +43,32 @@ function SpotById() {
     const formData = new FormData()
     useEffect(() => {
         dispatch(sessionActions.restoreUser())
-        if (allSpotsOBJ?.SpotImages[1]) {
-            setFirstPictureId(allSpotsOBJ.SpotImages[1].id)
-            setFirstImage(firstImage)
-        }
-        if (allSpotsOBJ?.SpotImages[2]) {
-            setSecondPictureId(allSpotsOBJ.SpotImages[2].id)
-            setSecondPicture(allSpotsOBJ.SpotImages[2].url)
-        }
-        if (allSpotsOBJ?.SpotImages[3]) {
-            setThirdPictureId(allSpotsOBJ.SpotImages[3].id)
-            setThirdPicture(allSpotsOBJ.SpotImages[3].url)
-        }
-    }, [dispatch, allSpotsOBJ?.SpotImages[3]?.url, allSpotsOBJ?.SpotImages[3]?.id, allSpotsOBJ?.SpotImages[2]?.url, allSpotsOBJ?.SpotImages[2]?.id, allSpotsOBJ?.SpotImages[1]?.id, allSpotsOBJ?.SpotImages[1]?.url])
+        // if (allSpotsOBJ.SpotImages) {
+        //     if (allSpotsOBJ?.SpotImages[1]) {
+        //         setFirstPictureId(allSpotsOBJ.SpotImages[1].id)
+        //         setFirstImage(firstImage)
+        //     }
+        //     if (allSpotsOBJ?.SpotImages[2]) {
+        //         setSecondPictureId(allSpotsOBJ.SpotImages[2].id)
+        //         setSecondPicture(allSpotsOBJ.SpotImages[2].url)
+        //     }
+        //     if (allSpotsOBJ?.SpotImages[3]) {
+        //         setThirdPictureId(allSpotsOBJ.SpotImages[3].id)
+        //         setThirdPicture(allSpotsOBJ.SpotImages[3].url)
+        //     }
+        // }
+    }, [dispatch])
     useEffect(() => {
         (async () => {
             await dispatch(spotActions.getOne(id))
             await dispatch(reviewActions.getReviews(id))
             if (user.id !== null) {
-                const bookingsResponse = await fetch(`/api/bookings/current`)
+                const bookingsResponse = await csrfFetch(`/api/bookings/current`)
                 const bookings = await bookingsResponse.json()
                 setBookings(bookings.Bookings)
             }
         })();
-    }, [dispatch, id, firstImage, firstPictureId, setFirstImage, setFirstPictureId, setStars, setReview, update, setBookings])
+    }, [dispatch, id, firstImage, firstPictureId, setFirstImage, setFirstPictureId, setStars, setReview, update, setUpdate, setBookings])
     const reviewArray = Object.values(reviews)
 
     console.log("BOOKINGS", bookings)
@@ -425,7 +427,7 @@ function SpotById() {
                             <h2 style={{ width: "52%" }}>
                                 {allSpotsOBJ.description}
                             </h2>
-                            <h3>Hosted by {allSpotsOBJ.Owner.firstName}</h3>
+                            <h3>Hosted by <Link style={{ textDecoration: "none", color: "black" }} to={`/user/${allSpotsOBJ.Owner.id}`}>{allSpotsOBJ.Owner.firstName}</Link></h3>
                             {!user || user.id === allSpotsOBJ.ownerId && (
                                 <div className='actual-button-container'>
                                     <div className='card-button-div-container' style={{ visibility: user === null || user.id !== allSpotsOBJ.ownerId ? "hidden" : "visible" }}>
@@ -533,12 +535,12 @@ function SpotById() {
                         <br />
                         <br />
                         {!hasBooking && (
-                            <button onClick={handleBooking} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "pointer", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
+                            <button onClick={(e) => { handleBooking(e); setUpdate(!update) }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "pointer", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
                         )}
                         {hasBooking && (
                             <div>
                                 <button style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Booked</button>
-                                <div style={{ width: "350px", marginTop: "10px" }}>If you'd like to see your booking please visit your <Link>account page</Link></div>
+                                <div style={{ width: "350px", marginTop: "10px" }}>If you'd like to see your booking please visit your <Link to={`/user/${user.id}`}>account page</Link></div>
                             </div>
                         )}
                     </div>

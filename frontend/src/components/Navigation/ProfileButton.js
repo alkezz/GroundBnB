@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import * as spotActions from '../../store/spots'
 import './Navigation.css'
@@ -9,7 +9,7 @@ function ProfileButton({ user }) {
     const history = useHistory()
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
-
+    const sessionUser = useSelector((state) => state.session.user)
     const openMenu = () => {
         if (showMenu) return;
         setShowMenu(true);
@@ -41,12 +41,10 @@ function ProfileButton({ user }) {
             </button>
             {showMenu && (
                 <ul className="profile-dropdown">
-                    <li>{user.username}</li>
+                    <li style={{ paddingTop: "10px" }}><Link style={{ textDecoration: "none", color: "black" }} to={`/user/${sessionUser.id}`}>Profile</Link></li>
                     <div style={{ borderBottom: '1px black solid' }}></div>
-                    <li>{user.email}</li>
-                    <div style={{ borderBottom: '1px black solid' }}></div>
-                    <li>
-                        <button style={{ height: '30px' }} className="log-out-button" onClick={logout}>Log Out</button>
+                    <li style={{ paddingTop: "10px" }}>
+                        <button style={{ height: '25px' }} className="log-out-button" onClick={logout}>Log Out</button>
                     </li>
                 </ul>
             )}

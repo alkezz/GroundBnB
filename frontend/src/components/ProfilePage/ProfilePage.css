@@ -1,0 +1,67 @@
+.profile-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.user-card-left{
+    border: 1px solid gray;
+    width: 200px;
+    border-radius: 15px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    box-shadow: 0px 1px 1px 1px black;
+}
+
+.user-info{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.spots-bookings-container{
+    margin-left: 40px;
+    margin-top: 40px;
+    border-radius: 15px;
+    padding-bottom: 40px;
+}
+
+.profile-buttons{
+    background-color: #d60565;
+    border: none;
+    color: white;
+    width: 100px;
+    height: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.user-spots{
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-left: -39px;
+    padding-left: 15px;
+}
+
+.user-bookings{
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-left: -39px;
+    padding-left: 15px;
+}
+
+.delete-buttons{
+    background-color: #d60565;
+    border: none;
+    color: white;
+    width: 150px;
+    height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 700;
+}
