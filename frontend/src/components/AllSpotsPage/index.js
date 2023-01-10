@@ -27,17 +27,19 @@ function AllSpotsPage() {
                             <div className={`${spot.id}-div`}>
                                 <li key={spot.id} style={{ listStyle: 'none' }}>
                                     <div className='under-pic-elements'>
-                                        <div id={`preview-image-div`}>
+                                        <div id={`preview-image-div`} style={{ cursor: "pointer" }}>
                                             <img src={spot.previewImage} alt='cave'></img>
                                         </div>
                                         <br />
-                                        <div id={`state-div`}>
-                                            {spot.city}, {spot.state} &nbsp;
-                                            <span>
-                                                {isNaN(spot.avgRating) ? "" : <i class="fa-solid fa-star"></i>}
-                                            </span>
-                                            <span>{isNaN(spot.avgRating) ? "No Reviews Yet!" : spot.avgRating}
-                                            </span>
+                                        <div id={`state-div`} style={{ fontWeight: "700", display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+                                            <div style={{ marginLeft: "10px" }}>{spot.city}, {spot.state} &nbsp;</div>
+                                            <div style={{ display: "flex", marginRight: "10px" }}>
+                                                <div>
+                                                    {isNaN(spot.avgRating) ? "" : <i class="fa-solid fa-star"></i>}
+                                                </div>
+                                                <div>{isNaN(spot.avgRating) ? "No Reviews Yet!" : spot.avgRating}
+                                                </div>
+                                            </div>
                                         </div>
                                         <br />
                                         <div id={`price-div`}>
@@ -48,10 +50,11 @@ function AllSpotsPage() {
                                 </li>
                             </div>
                         </button>
-                    )}
-                </div>
+                    )
+                    }
+                </div >
             )}
-        </div>
+        </div >
     )
 }
 

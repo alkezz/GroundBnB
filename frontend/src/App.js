@@ -11,6 +11,7 @@ import Maps from "./components/Maps/Maps";
 import MapContainer from "./components/Maps";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import "./App.css"
 
 function App() {
   const dispatch = useDispatch();

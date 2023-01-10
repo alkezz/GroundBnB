@@ -39,6 +39,11 @@
     flex-direction: row;
     justify-content: space-between;
     list-style-type: none;
+    position: sticky;
+    height: 50px;
+    top: 0px;
+    background-color: #ffffff;
+    padding-bottom: 15px;
 }
 ul.profile-dropdown{
     position: absolute;
@@ -75,15 +80,17 @@ ul.profile-dropdown > li {
 }
 .home-nav-link{
     background-image: url(https://i.imgur.com/B8OhOFJ.png);
-    height: 70px;
-    width: 70px;
+    height: 60px;
+    width: 60px;
     display: block;
-    margin-bottom: 25px;
+    margin-top: -10px;
 }
 .log-out-create-spot-div{
     /* border: 1px hotpink solid; */
     display: flex;
     flex-direction: row;
+    margin-top: 20px;
+    margin-right: -60px;
 }
 .become-host-link{
     text-decoration: none;

@@ -18,7 +18,7 @@ function Navigation({ isLoaded }) {
     if (sessionUser) {
         sessionLinks = (
             <>
-                <div className='log-out-create-spot-div'>
+                <nav className='log-out-create-spot-div' style={{ position: "sticky" }}>
                     <div className='become-host-div'>
                         <Link to='/spot/create' className='become-host-link'>Become a Host</Link>
                     </div>
@@ -26,7 +26,7 @@ function Navigation({ isLoaded }) {
                     <div className='profile-button-div'>
                         <ProfileButton className='profile-button' user={sessionUser} />
                     </div>
-                </div>
+                </nav>
                 <br />
             </>
         );
