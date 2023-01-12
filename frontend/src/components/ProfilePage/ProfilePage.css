@@ -48,6 +48,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     margin-left: -39px;
     padding-left: 15px;
+    width: 900px;
 }
 
 .user-bookings{
@@ -56,6 +57,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     margin-left: -39px;
     padding-left: 15px;
+    width: 900px;
 }
 
 .delete-buttons{

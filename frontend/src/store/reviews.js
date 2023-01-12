@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 const GET_REVIEWS = "/reviews/getReviews"
 const CREATE_REVIEW = "/reviews/createReview"
+const EDIT_REVIEW = "/reviews/editReview"
 const DELETE_REVIEW = "/reviews/deleteReview"
 
 const actionGetReviews = (review) => {
@@ -22,6 +23,13 @@ const actionDeleteReview = (review) => {
     return {
         type: DELETE_REVIEW,
         review
+    }
+}
+
+const actionEditReview = (editedReview) => {
+    return {
+        type: EDIT_REVIEW,
+        editedReview
     }
 }
 
@@ -53,6 +61,24 @@ export const createReview = (newReview) => async (dispatch) => {
     return response
 }
 
+export const editReview = (editedReview) => async (dispatch) => {
+    const { id, review, stars } = editedReview
+    const response = await csrfFetch(`/api/reviews/${id}`, {
+        method: "PUT",
+        Headers: 'application/json',
+        body: JSON.stringify({
+            review,
+            stars
+        })
+    })
+    if (response.ok) {
+        const data = await response.json()
+        await dispatch(actionEditReview(data))
+        return data
+    }
+    return response
+}
+
 export const deleteReview = (review) => async (dispatch) => {
     const { id } = review
     const response = await csrfFetch(`/api/reviews/${id}`, {
@@ -78,6 +104,10 @@ const reviewReducer = (state = initialState, action) => {
         case CREATE_REVIEW:
             newState = { ...state }
             newState[action.review.id] = action.review
+            return newState
+        case EDIT_REVIEW:
+            newState = { ...state }
+            newState[action.editedReview.id] = action.editedReview
             return newState
         case DELETE_REVIEW:
             newState = { ...state }

@@ -61,6 +61,7 @@ export const getOne = (id) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json()
         dispatch(getOneSpot(data))
+        return data
     }
     return response
 }

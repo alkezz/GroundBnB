@@ -16,12 +16,10 @@ const ProfilePage = () => {
     const [showSpots, setShowSpots] = useState(true)
     const [showBookings, setShowBookings] = useState(false)
     const [update, setUpdate] = useState(true)
+    const [style, setStyle] = useState({ display: "none" })
     const ownerId = useParams().userId
     const userId = useParams().userId
     const sessionUser = useSelector((state) => state.session.user)
-    console.log("SESSION", sessionUser.id)
-    console.log(userId)
-    console.log(sessionUser.id === Number(userId))
     useEffect(() => {
         (async () => {
             const userSpots = await dispatch(spotActions.getAllSpots())
@@ -41,9 +39,6 @@ const ProfilePage = () => {
     const currentBookingsArray = []
     const futureBookingsArray = []
     const date = new Date()
-    console.log("BOOK", bookings)
-    console.log("BOOKINGS", bookings[0]?.startDate < date.toISOString().substring(0, 10))
-    console.log("BOOKINGS", bookings[0]?.endDate < date.toISOString().substring(0, 10))
     for (let i = 0; i < bookings?.length; i++) {
         let currBooking = bookings[i]
         if (currBooking?.endDate <= date.toISOString().substring(0, 10)) {
@@ -79,6 +74,13 @@ const ProfilePage = () => {
         setUpdate(true)
         await dispatch(spotActions.deleteSpot(spot))
     }
+    const handleDeleteOldBooking = (e, id) => {
+        e.preventDefault()
+        const indexOfOldBooking = pastBookingsArray.findIndex(x => x.id === id)
+        pastBookingsArray.splice(indexOfOldBooking, 1)
+        setUpdate(false)
+    }
+    console.log("profileUSERSPOTS", pastBookingsArray)
     return (
         <div className="profile-container">
             <div className="user-card-left">
@@ -113,7 +115,12 @@ const ProfilePage = () => {
                     <button onClick={(e) => { setShowSpots(false); setShowBookings(true) }} style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} className="profile-buttons">Bookings</button>
                 </div>
                 <br />
-                {showSpots && (
+                {showSpots && profileUserSpots.length <= 0 && (
+                    <div className="user-spots" style={{ display: "flex", justifyContent: "center" }}>
+                        <h2>You currently are not hosting any spots</h2>
+                    </div>
+                )}
+                {showSpots && profileUserSpots.length >= 1 && (
                     <div className="user-spots">
                         {profileUserSpots.map((spot) => {
                             return <div style={{ marginLeft: "30px" }}>
@@ -138,12 +145,22 @@ const ProfilePage = () => {
                                         <br />
                                         <span style={{ fontWeight: "700" }}>{booking.Spot.name}</span>
                                         <br />
+                                        <br />
+                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                            <span style={{ fontWeight: "700" }}>Start Date:</span>
+                                            <span style={{ fontWeight: "700" }}>End Date:</span>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                            <span>{booking.startDate.substring(0, 10)}</span>
+                                            <span>{booking.endDate.substring(0, 10)}</span>
+                                        </div>
+                                        <br />
                                         <button onClick={(e) => { handleDeleteBooking(e, booking.id); setUpdate(!update) }} className="delete-buttons">Delete booking</button>
                                     </div>
                                 })
                             )}
                             {futureBookingsArray.length <= 0 && (
-                                <h3 style={{ marginLeft: "35px", marginTop: "-20px" }}>You have no future bookings</h3>
+                                <h3 style={{ marginLeft: "33px", marginTop: "-20px" }}>You have no future bookings</h3>
                             )}
                         </div>
                         <h2 style={{ marginLeft: "10px" }}>Current Bookings</h2>
@@ -154,6 +171,16 @@ const ProfilePage = () => {
                                         <img onClick={(e) => history.push(`/spots/${booking.Spot.id}`)} style={{ width: "300px", height: "300px", cursor: "pointer" }} src={booking.Spot.previewImage} />
                                         <br />
                                         <span style={{ fontWeight: "700" }}>{booking.Spot.name}</span>
+                                        <br />
+                                        <br />
+                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                            <span style={{ fontWeight: "700" }}>Start Date:</span>
+                                            <span style={{ fontWeight: "700" }}>End Date:</span>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                            <span>{booking.startDate.substring(0, 10)}</span>
+                                            <span>{booking.endDate.substring(0, 10)}</span>
+                                        </div>
                                     </div>
                                 })
                             )}
@@ -166,9 +193,22 @@ const ProfilePage = () => {
                             {pastBookingsArray.length >= 1 && (
                                 pastBookingsArray.map((booking) => {
                                     return <div style={{ marginLeft: "30px" }}>
-                                        <img onClick={(e) => history.push(`/spots/${booking.Spot.id}`)} style={{ width: "300px", height: "300px", cursor: "pointer" }} src={booking.Spot.previewImage} />
+                                        {/* <button onClick={(e) => { handleDeleteOldBooking(e, booking.id); setUpdate(!update) }} id="x-button" style={{ border: "none", background: "none", zIndex: "999", position: "absolute", marginLeft: "260px", marginTop: "15px" }}>
+                                            <i style={{ color: "red", fontSize: "16px" }} class="fa-solid fa-circle-xmark"></i>
+                                        </button> */}
+                                        <img onClick={(e) => history.push(`/spots/${booking.Spot.id}`)} style={{ width: "300px", height: "300px", cursor: "pointer", position: "relative" }} src={booking.Spot.previewImage} />
                                         <br />
                                         <span style={{ fontWeight: "700" }}>{booking.Spot.name}</span>
+                                        <br />
+                                        <br />
+                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                            <span style={{ fontWeight: "700" }}>Start Date:</span>
+                                            <span style={{ fontWeight: "700" }}>End Date:</span>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                            <span>{booking.startDate.substring(0, 10)}</span>
+                                            <span>{booking.endDate.substring(0, 10)}</span>
+                                        </div>
                                     </div>
                                 })
                             )}
