@@ -495,6 +495,7 @@ function SpotById() {
                     <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
                         <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
                         <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
+                        &nbsp;
                         ·
                         &nbsp;
                         <span>{reviews.length} reviews</span>
@@ -607,6 +608,8 @@ function SpotById() {
                             <button className='stars-button' value={1} onClick={(e) => {
                                 if (stars <= 0) {
                                     setStars(1)
+                                } else if (stars >= 1) {
+                                    setStars(1)
                                 } else {
                                     setStars(0)
                                 }
@@ -620,6 +623,8 @@ function SpotById() {
                             </button>
                             <button className='stars-button' value={2} onClick={(e) => {
                                 if (stars <= 1) {
+                                    setStars(2)
+                                } else if (stars >= 2) {
                                     setStars(2)
                                 } else {
                                     setStars(0)
@@ -635,6 +640,8 @@ function SpotById() {
                             <button className='stars-button' value={3} onClick={(e) => {
                                 if (stars <= 2) {
                                     setStars(3)
+                                } else if (stars >= 3) {
+                                    setStars(3)
                                 } else {
                                     setStars(0)
                                 }
@@ -648,6 +655,8 @@ function SpotById() {
                             </button>
                             <button className='stars-button' value={4} onClick={(e) => {
                                 if (stars <= 3) {
+                                    setStars(4)
+                                } else if (stars >= 4) {
                                     setStars(4)
                                 } else {
                                     setStars(0)

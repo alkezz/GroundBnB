@@ -12,6 +12,7 @@ const ProfilePage = () => {
     const history = useHistory()
     const [spots, setSpots] = useState([])
     const [bookings, setBookings] = useState([])
+    const [reviews, setReviews] = useState([])
     const [pastBookings, setPastBookings] = useState([])
     const [showSpots, setShowSpots] = useState(true)
     const [showBookings, setShowBookings] = useState(false)
