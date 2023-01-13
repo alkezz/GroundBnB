@@ -3,6 +3,7 @@ import * as spotActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getKey } from '../../store/maps';
+import { csrfFetch } from '../../store/csrf';
 import './CreateSpotForm.css'
 
 function CreateSpot() {
@@ -21,6 +22,11 @@ function CreateSpot() {
     const [url, setUrl] = useState("")
     let [preview, setPreview] = useState(true)
     const [errors, setErrors] = useState([])
+    const formData = new FormData()
+    const formData2 = new FormData()
+    const formData3 = new FormData()
+    const formData4 = new FormData()
+    let urlArray = []
     useEffect(() => {
         if (!key) {
             dispatch(getKey());
@@ -44,54 +50,135 @@ function CreateSpot() {
         if (city.length <= 0 || city.length > 15) errors.push("City must be 15 characters or less")
         if (state.length <= 0 || state.length > 15) errors.push("State must be 15 characters or less")
         if (country.length <= 0 || country.length > 10) errors.push("Country must be 10 characters or less")
-        if (name.length <= 0 || name.length > 10) errors.push("Name of location must be 10 characters or less")
+        if (name.length <= 0 || name.length >= 10) errors.push("Name of location must be 10 characters or less")
         if (description.length <= 0 || description.length > 20) errors.push("Description should be 20 characters or less!")
         if (price <= 1) errors.push("Please enter a valid price per night, can not be below $1!")
-        if (!url.includes('https')) errors.push('Url must start with https')
         setErrors(errors)
         preview === 'true' ? preview = true : preview = false;
         if (errors.length) return
-        if (preview === true) {
-            const spot = {
-                address,
-                city,
-                state,
-                country,
-                lat,
-                lng,
-                name,
-                description,
-                price
-            }
-            const image = {
-                url,
-                preview
-            }
-            dispatch(spotActions.createSpot(spot, image)).then((data) => {
-                history.push(`/spots/${data.id}`)
-            })
-        } else {
-            const spot = {
-                address,
-                city,
-                state,
-                country,
-                lat,
-                lng,
-                name,
-                description,
-                price
-            }
-            const image = {
-                url: "https://images.pexels.com/photos/163872/italy-cala-gonone-air-sky-163872.jpeg",
-                preview
-            }
-            dispatch(spotActions.createSpot(spot, image)).then((data) => {
-                history.push(`/spots/${data.id}`)
-            })
+        const spot = {
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
         }
+        dispatch(spotActions.createSpot(spot, urlArray)).then((data) => {
+            history.push(`/spots/${data.id}`)
+        })
     }
-
+    const handleImageUpload = async (e, id) => {
+        e.preventDefault()
+        let correctFile
+        console.log("HIT")
+        let imageInput = document.querySelector("#file-input")
+        // console.log(imageInput.files)
+        for (let i = 0; i < imageInput.files.length; i++) {
+            let img = imageInput.files[i]
+            console.log("IMG", img)
+            if (img.type !== "image/jpeg" && img.type !== "image/png") {
+                correctFile = false
+            }
+        }
+        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
+        let img = imageInput.files[0]
+        formData.append('image', img)
+        const picture = await csrfFetch("/api/spots/images/upload", {
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData
+        })
+        const url = await picture.json()
+        urlArray.push(url)
+        console.log("URLARRAY", urlArray)
+    }
+    const twoHandleImageUpload = async (e, id) => {
+        e.preventDefault()
+        let correctFile
+        console.log("HIT")
+        let imageInput = document.querySelector("#file-input-2")
+        // console.log(imageInput.files)
+        for (let i = 0; i < imageInput.files.length; i++) {
+            let img = imageInput.files[i]
+            console.log("IMG", img)
+            if (img.type !== "image/jpeg" && img.type !== "image/png") {
+                correctFile = false
+            }
+        }
+        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
+        let img = imageInput.files[0]
+        formData2.append('image', img)
+        const picture = await csrfFetch("/api/spots/images/upload", {
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData2
+        })
+        const url = await picture.json()
+        urlArray.push(url)
+        console.log("URLARRAY", urlArray)
+    }
+    const threeHandleImageUpload = async (e, id) => {
+        e.preventDefault()
+        let correctFile
+        console.log("HIT")
+        let imageInput = document.querySelector("#file-input-3")
+        // console.log(imageInput.files)
+        for (let i = 0; i < imageInput.files.length; i++) {
+            let img = imageInput.files[i]
+            console.log("IMG", img)
+            if (img.type !== "image/jpeg" && img.type !== "image/png") {
+                correctFile = false
+            }
+        }
+        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
+        let img = imageInput.files[0]
+        formData3.append('image', img)
+        const picture = await csrfFetch("/api/spots/images/upload", {
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData3
+        })
+        const url = await picture.json()
+        urlArray.push(url)
+        console.log("URLARRAY", urlArray)
+    }
+    const fourHandleImageUpload = async (e, id) => {
+        e.preventDefault()
+        let correctFile
+        console.log("HIT")
+        let imageInput = document.querySelector("#file-input-4")
+        // console.log(imageInput.files)
+        for (let i = 0; i < imageInput.files.length; i++) {
+            let img = imageInput.files[i]
+            console.log("IMG", img)
+            if (img.type !== "image/jpeg" && img.type !== "image/png") {
+                correctFile = false
+            }
+        }
+        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
+        let img = imageInput.files[0]
+        formData4.append('image', img)
+        const picture = await csrfFetch("/api/spots/images/upload", {
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData4
+        })
+        const url = await picture.json()
+        urlArray.push(url)
+        console.log("URLARRAY", urlArray)
+    }
     return (
         <div className='center-create-spot-form-div'>
             <form onSubmit={handleSubmit}>
@@ -221,16 +308,11 @@ function CreateSpot() {
                     </label>
                 </div>
                 <div>
+                    <span>Upload your spot pictures</span>
                     <label>
                         <div>
-                            <input
-                                type='text'
-                                value={url}
-                                placeholder="Upload a picture of your place!"
-                                onChange={(e) => setUrl(e.target.value)}
-                                className={errors.includes('Url must start with https') ? 'error' : "user-signup-input"}
-                            />
-
+                            <i className="fa-solid fa-paperclip"></i>
+                            <input onChange={handleImageUpload} type="file" name="file" id='file-input' encType="multipart/form-data" />
                         </div>
                         <div>
                             {errors.map((error, idx) =>
@@ -238,29 +320,42 @@ function CreateSpot() {
                             )}
                         </div>
                     </label>
+                    <br />
                     <label>
-                        <input
-                            type='radio'
-                            value={true}
-                            name="preview"
-                            onChange={(e) => setPreview(e.target.value)}
-                        />
-                        Show Image Preview
+                        <div>
+                            <i className="fa-solid fa-paperclip"></i>
+                            <input onChange={twoHandleImageUpload} type="file" name="file" id='file-input-2' encType="multipart/form-data" />
+                        </div>
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                        </div>
                     </label>
-                </div>
-                <div>
+                    <br />
                     <label>
-                        <input
-                            type='radio'
-                            value={false}
-                            name="preview"
-                            onChange={(e) => setPreview(e.target.value)}
-                        />
-                        Don't Show Image Preview
+                        <div>
+                            <i className="fa-solid fa-paperclip"></i>
+                            <input onChange={threeHandleImageUpload} type="file" name="file" id='file-input-3' encType="multipart/form-data" />
+                        </div>
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                        </div>
                     </label>
-                </div>
-                <div className='image-preview-warning'>
-                    If you decide to select "Don't show preview image" <br /> a stock image will be provided for you
+                    <br />
+                    <label>
+                        <div>
+                            <i className="fa-solid fa-paperclip"></i>
+                            <input onChange={fourHandleImageUpload} type="file" name="file" id='file-input-4' encType="multipart/form-data" />
+                        </div>
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                        </div>
+                    </label>
                 </div>
                 <br></br>
                 <button type="submit" className='new-spot-submit'>

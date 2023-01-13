@@ -66,7 +66,7 @@ export const getOne = (id) => async (dispatch) => {
     return response
 }
 
-export const editSpot = (spot, image) => async (dispatch) => {
+export const editSpot = (spot, urlArray) => async (dispatch) => {
     const { id, address, city, state, country, name, description, price, lat, lng } = spot
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'PUT',
@@ -84,36 +84,56 @@ export const editSpot = (spot, image) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json()
-        const { url, preview } = image
         const spotId = data.id
         const spot = await csrfFetch(`/api/spots/${spotId}`)
         const spotToJson = await spot.json()
-        const imageId = spotToJson.SpotImages[0].id
-        const deleteSpot = await csrfFetch(`/api/spot-images/${imageId}`, {
-            method: 'DELETE'
-        })
-        if (deleteSpot.ok) {
-            const newImage = await csrfFetch(`/api/spots/${spotId}/images`, {
+        for (let i = 0; i < spotToJson.SpotImages.length; i++) {
+            const img = spotToJson.SpotImages[i]
+            await csrfFetch(`/api/spot-images/${img.id}`, {
+                method: 'DELETE'
+            })
+            //     if (deleteSpot.ok) {
+            //         const newImage = await csrfFetch(`/api/spots/${spotId}/images`, {
+            //             method: 'POST',
+            //             body: JSON.stringify({
+            //                 url,
+            //                 preview: true
+            //             })
+            //         })
+            // }
+            // if (newImage.ok) {
+            //     const jsonSpotImage = await newImage.json()
+            //     data['previewImage'] = jsonSpotImage
+            //     dispatch(actionEditSpot(data))
+            //     return data
+            // }
+            // return deleteSpot
+        }
+        for (let i = 0; i < urlArray.length; i++) {
+            const url = urlArray[i]
+            console.log("URL IN STORE", url)
+            const spotId = data.id
+            const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
                 method: 'POST',
                 body: JSON.stringify({
                     url,
-                    preview
+                    preview: true
                 })
             })
-            if (newImage.ok) {
-                const jsonSpotImage = await newImage.json()
-                data['previewImage'] = jsonSpotImage
-                dispatch(actionEditSpot(data))
-                return data
+            if (spotImage.ok) {
+                const jsonSpotImage = await spotImage.json()
+                if (i === 0) {
+                    data['previewImage'] = jsonSpotImage
+                }
             }
-            return deleteSpot
         }
-        return response
+        dispatch(actionEditSpot(data))
+        return data
     }
     return response
 }
 
-export const createSpot = (spot, image) => async (dispatch) => {
+export const createSpot = (spot, urlArray) => async (dispatch) => {
     const { address, city, state, country, name, description, price, lat, lng } = spot
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
@@ -130,22 +150,28 @@ export const createSpot = (spot, image) => async (dispatch) => {
         })
     })
     if (response.ok) {
-        const { url, preview } = image
+        // const { url, preview } = image
         const data = await response.json()
         const { id } = data
-        const spotImage = await csrfFetch(`/api/spots/${id}/images`, {
-            method: 'POST',
-            body: JSON.stringify({
-                url,
-                preview
+        for (let i = 0; i < urlArray.length; i++) {
+            const url = urlArray[i]
+            console.log("URL IN STORE", url)
+            const spotImage = await csrfFetch(`/api/spots/${id}/images`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    url,
+                    preview: true
+                })
             })
-        })
-        if (spotImage.ok) {
-            const jsonSpotImage = await spotImage.json()
-            data['previewImage'] = jsonSpotImage
-            dispatch(actionCreateSpot(data));
-            return data
+            if (spotImage.ok) {
+                const jsonSpotImage = await spotImage.json()
+                if (i === 0) {
+                    data['previewImage'] = jsonSpotImage
+                }
+            }
         }
+        dispatch(actionCreateSpot(data));
+        return data
     }
     return response
 }

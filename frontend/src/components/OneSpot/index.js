@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf';
 import EditCommentModal from '../EditComment/EditCommentModal';
+import EditSpotModal from '../EditSpotPage/EditSpotModal';
 import "./OneSpot.css"
 
 function SpotById() {
@@ -30,6 +31,8 @@ function SpotById() {
     const allSpotsOBJ = useSelector(state => state.spots[id])
     const spotState = useSelector((state) => state.spots)
     const reviewState = useSelector((state) => state.reviews)
+    const spots = Object.values(spotState)[0]
+    const reviews = Object.values(reviewState)
     // const [spots, setSpots] = useState([])
     // const [reviews, setReviews] = useState([])
     const [startDate, setStartDate] = useState(checkInDate)
@@ -41,14 +44,17 @@ function SpotById() {
     const [update, setUpdate] = useState(false)
     const [bookings, setBookings] = useState([])
     const [firstPictureId, setFirstPictureId] = useState()
-    const [firstImage, setFirstImage] = useState()
+    const [firstImage, setFirstImage] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[0]?.url)
     const [secondPictureId, setSecondPictureId] = useState()
-    const [secondPicture, setSecondPicture] = useState()
+    const [secondPicture, setSecondPicture] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[1]?.url)
     const [thirdPictureId, setThirdPictureId] = useState()
-    const [thirdPicture, setThirdPicture] = useState()
-    const spots = Object.values(spotState)[0]
-    const reviews = Object.values(reviewState)
+    const [thirdPicture, setThirdPicture] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[2]?.url)
+    const [fourthPictureId, setFourthPictureId] = useState()
+    const [fourthPicture, setFourthPicture] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[3]?.url)
     const formData = new FormData()
+    const formData2 = new FormData()
+    const formData3 = new FormData()
+    const formData4 = new FormData()
     useEffect(() => {
         dispatch(sessionActions.restoreUser())
         // if (allSpotsOBJ.SpotImages) {
@@ -78,7 +84,7 @@ function SpotById() {
                 setBookings(bookings.Bookings)
             }
         })();
-    }, [dispatch, id, setStars, setReview, update, setUpdate, setBookings])
+    }, [dispatch, id, setStars, setReview, update, setUpdate, setBookings, setFirstImage, setSecondPicture, setThirdPicture])
     const reviewArray = Object.values(reviews)
     let avgStars = 0
     for (let i = 0; i < reviews.length; i++) {
@@ -106,6 +112,7 @@ function SpotById() {
             hasReview = true
         }
     }
+    console.log("FIRST IMAGE", firstImage)
     const handleImageUpload = async (e, id) => {
         e.preventDefault()
         let correctFile
@@ -122,7 +129,7 @@ function SpotById() {
         let img = imageInput.files[0]
         formData.append('image', img)
         //delete the original picture
-        if (allSpotsOBJ?.SpotImages[1] && id !== undefined) {
+        if ((firstImage || allSpotsOBJ.SpotImages[0]) && id !== undefined) {
             const deletePicture = await csrfFetch(`/api/spot-images/${id}`, {
                 method: "DELETE"
             })
@@ -170,8 +177,9 @@ function SpotById() {
                 body: JSON.stringify(newSpotImage)
             })
             const image = await spotImage.json()
+            console.log("IMAGE", image)
             setFirstPictureId(image.id)
-            setFirstImage(image.url)
+            setFirstImage(url)
             await dispatch(spotActions.getOne(spotId))
         }
     }
@@ -355,6 +363,7 @@ function SpotById() {
         await dispatch(reviewActions.deleteReview(review))
     }
     if (!spots) return null
+    console.log("SPOTS", spots)
     return (
         <>
             {spots.SpotImages && (
@@ -384,66 +393,102 @@ function SpotById() {
                         </div>
                     </div>
                     <div id='img-div'>
-                        <img id='one-allSpotsOBJ-image' src={spots.SpotImages[0].url} alt="cave"></img>
                         <div className='first-image-upload-placeholder'>
-                            {user && user?.id === spots?.ownerId && (
+                            {spots.SpotImages[0].url && (
                                 <>
-                                    <label htmlFor='file-input' onChange={(e) => handleImageUpload(e, firstPictureId)}>
+                                    <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0].url} alt="cave"></img>
+                                    {/* <label htmlFor='file-input'>
                                         <div>
-                                            {!firstPictureId && (
+                                            {!firstImage && !spots.SpotImages[0] && (
                                                 <i class="fa-solid fa-circle-plus"></i>
                                             )}
-                                            {firstPictureId && (
-                                                <img style={{ height: "500px", width: "253px" }} src={firstImage}></img>
+                                            {firstImage && spots.SpotImages[0] && (
+                                                <img style={{ height: "500px", width: "400px" }} src={firstImage} alt="cave"></img>
+                                            )}
+                                            {!firstImage && spots.SpotImages[0] && (
+                                                <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0].url} alt="cave"></img>
+                                            )}
+                                            {console.log("FIRST IMAGE IN HTML", firstImage)}
+                                        </div>
+                                    </label>
+                                    {firstImage && spots.SpotImages[0] && (
+                                        <>
+                                            <input onChange={(e) => handleImageUpload(e, firstPictureId)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
+                                        </>
+                                    )}
+                                    {!firstImage && spots.SpotImages[0] && (
+                                        <>
+                                            <input onChange={(e) => handleImageUpload(e, spots.SpotImages[0].id)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
+                                        </>
+                                    )}
+                                    {!firstImage && !spots.SpotImages[0] && (
+                                        <input onChange={(e) => handleImageUpload(e)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
+                                    )} */}
+                                </>
+                            )}
+                        </div>
+                        <div className='first-image-upload-placeholder'>
+                            {spots?.SpotImages[1]?.url && (
+                                <>
+                                    <img style={{ height: "500px", width: "350px" }} src={spots.SpotImages[1].url}></img>
+                                    {/* <label htmlFor='file-input' onChange={(e) => handleImageUpload(e, firstPictureId)}>
+                                        <div>
+                                            {!spots?.SpotImages[1]?.url && (
+                                                <i class="fa-solid fa-circle-plus"></i>
+                                            )}
+                                            {spots?.SpotImages[1]?.url && (
+                                                <img style={{ height: "500px", width: "350px" }} src={spots.SpotImages[1].url}></img>
                                             )}
                                         </div>
                                     </label>
-                                    <input onChange={(e) => firstPictureId !== undefined ? handleImageUpload(e, firstPictureId) : handleImageUpload(e)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
+                                    <input onChange={(e) => firstPictureId !== undefined ? handleImageUpload(e, firstPictureId) : handleImageUpload(e)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" /> */}
                                 </>
                             )}
-                            {!user || user.id !== spots.ownerId && (
-                                <img src={firstPictureId ? firstImage : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
+                            {!spots?.SpotImages[1]?.url && (
+                                <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
                             )}
                         </div>
                         <div className='second-image-upload-placeholder'>
                             <div className='second-image-upload-container'>
-                                {user && user.id === spots.ownerId && (
+                                {spots?.SpotImages[2]?.url && (
                                     <>
-                                        <label htmlFor='file-input-2' onChange={(e) => handleImageUploadTwo(e, spots?.SpotImages[2].id)}>
+                                        <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[2].url}></img>
+                                        {/* <label htmlFor='file-input-2' onChange={(e) => handleImageUploadTwo(e, spots?.SpotImages[2].id)}>
                                             <div>
-                                                {!secondPictureId && (
+                                                {!spots?.SpotImages[2]?.url && (
                                                     <i class="fa-solid fa-circle-plus"></i>
                                                 )}
-                                                {secondPictureId && (
-                                                    <img style={{ height: "250px", width: "253px" }} src={secondPicture}></img>
+                                                {spots?.SpotImages[2]?.url && (
+                                                    <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[2].url}></img>
                                                 )}
                                             </div>
                                         </label>
-                                        <input onChange={(e) => secondPictureId !== undefined ? handleImageUploadTwo(e, secondPictureId) : handleImageUploadTwo(e)} style={{ visibility: "hidden" }} id='file-input-2' type='file' name='file' encType="multipart/form-data" />
+                                        <input onChange={(e) => spots.SpotImages[2].url !== undefined ? handleImageUploadTwo(e, secondPictureId) : handleImageUploadTwo(e)} style={{ visibility: "hidden" }} id='file-input-2' type='file' name='file' encType="multipart/form-data" /> */}
                                     </>
                                 )}
-                                {!user || user.id !== spots.ownerId && (
-                                    <img src={secondPictureId ? secondPicture : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
+                                {!spots?.SpotImages[2]?.url && (
+                                    <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
                                 )}
                             </div>
                             <div className='second-image-upload-container'>
-                                {user && user.id === spots.ownerId && (
+                                {spots?.SpotImages[3]?.url && (
                                     <>
-                                        <label htmlFor='file-input-3' onChange={(e) => handleImageUploadThree(e, spots?.SpotImages[3].id)}>
+                                        <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[3].url}></img>
+                                        {/* <label htmlFor='file-input-3' onChange={(e) => handleImageUploadThree(e, spots?.SpotImages[3].id)}>
                                             <div>
-                                                {!thirdPictureId && (
+                                                {!spots?.SpotImages[3]?.url && (
                                                     <i class="fa-solid fa-circle-plus"></i>
                                                 )}
-                                                {thirdPictureId && (
-                                                    <img style={{ height: "250px", width: "253px" }} src={thirdPicture}></img>
+                                                {spots?.SpotImages[3]?.url && (
+                                                    <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[3].url}></img>
                                                 )}
                                             </div>
                                         </label>
-                                        <input onChange={(e) => thirdPictureId !== undefined ? handleImageUploadThree(e, thirdPictureId) : handleImageUploadThree(e)} style={{ visibility: "hidden" }} id='file-input-3' type='file' name='file' encType="multipart/form-data" />
+                                        <input onChange={(e) => spots.SpotImages[3].url !== undefined ? handleImageUploadThree(e, thirdPictureId) : handleImageUploadThree(e)} style={{ visibility: "hidden" }} id='file-input-3' type='file' name='file' encType="multipart/form-data" /> */}
                                     </>
                                 )}
-                                {!user || user.id !== spots.ownerId && (
-                                    <img src={thirdPictureId ? thirdPicture : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
+                                {!spots?.SpotImages[3]?.url && (
+                                    <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
                                 )}
                             </div>
                         </div>
@@ -459,7 +504,7 @@ function SpotById() {
                                 <div className='actual-button-container'>
                                     <div className='card-button-div-container' style={{ visibility: user === null || user.id !== spots.ownerId ? "hidden" : "visible" }}>
                                         <div className='button-div-container'>
-                                            <button onClick={() => history.push(`/spot/${id}/edit`)} className="edit-delete-button">Edit Spot</button>
+                                            <EditSpotModal />
                                             <button onClick={() => dispatch(spotActions.deleteSpot(spots)).then(() => history.push('/'))} className="edit-delete-button">Delete Spot</button>
                                         </div>
                                     </div>
@@ -489,99 +534,200 @@ function SpotById() {
                 </div>
                 <div style={{ borderBottom: '1px black solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
             </div>
-            <div style={{ visibility: !user || user.id === spots.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", paddingBottom: "50px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "110px", marginTop: "-220px", boxShadow: "2px 2px 2px black" }}>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "85%" }}>
-                    <h2 style={{ marginBottom: "10px" }}>${spots.price} <span style={{ fontSize: "16px" }}>night</span></h2>
-                    <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
-                        <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
-                        <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
-                        &nbsp;
-                        ·
-                        &nbsp;
-                        <span>{reviews.length} reviews</span>
+            {user?.id !== spots?.ownerId && (
+                <div style={{ visibility: !user || user.id === spots.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", paddingBottom: "50px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "110px", marginTop: "-220px", boxShadow: "2px 2px 2px black" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "85%" }}>
+                        <h2 style={{ marginBottom: "10px" }}>${spots.price} <span style={{ fontSize: "16px" }}>night</span></h2>
+                        <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
+                            <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
+                            <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
+                            &nbsp;
+                            ·
+                            &nbsp;
+                            <span>{reviews.length} reviews</span>
+                        </div>
                     </div>
-                </div>
-                <div style={{ display: "flex" }}>
-                    <label style={{ border: "1px solid black", height: "55px", borderTopLeftRadius: "15px", borderBottomLeftRadius: "15px" }}>
-                        <span style={{ fontWeight: "700", fontSize: "14px", marginLeft: "35px" }}>CHECK-IN</span>
-                        <br />
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <input value={startDate} style={{ border: "none", marginRight: "10px" }} type="date" onChange={(e) => setStartDate(e.target.value)} />
-                    </label>
-                    <label style={{ borderTop: "1px solid black", borderRight: "1px solid black", borderBottom: "1px solid black", borderTopRightRadius: "15px", borderBottomRightRadius: "15px" }}>
-                        <span style={{ fontWeight: "700", fontSize: "14px", marginLeft: "20px" }}>&nbsp;&nbsp;CHECKOUT</span>
-                        <br />
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <input value={endDate} style={{ border: "none", marginRight: "10px" }} type="date" onChange={(e) => setEndDate(e.target.value)} />
-                    </label>
-                </div>
-                <br />
-                <br />
-                {startDate && endDate && startDate > endDate && (
-                    <>
-                        <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
-                        <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date comes before your end date...</h3>
-                    </>
-                )}
-                {startDate && endDate && startDate === endDate && (
-                    <>
-                        <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
-                        <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date and end date differ...</h3>
-                    </>
-                )}
-                {startDate && endDate && startDate < todaysDate.toISOString().substring(0, 10) && (
-                    <>
-                        <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
-                        <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date does not come before todays date...</h3>
-                    </>
-                )}
-                {startDate && endDate && startDate < endDate && startDate >= todaysDate.toISOString().substring(0, 10) && (
-                    <div>
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <span style={{ textDecoration: "underline" }}>
-                                ${spots.price} x {Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights:
-                            </span>
-                            <span>${spots.price * Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)}</span>
-                        </div>
-                        <br />
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <span style={{ textDecoration: "underline" }}>Cleaning fee:</span>
-                            <span>$50</span>
-                        </div>
-                        <br />
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "350px" }}>
-                            <span style={{ textDecoration: "underline" }}>Service fee:</span>
-                            <span>$50</span>
-                        </div>
-                        <br />
-                        <div style={{ borderBottom: "1px solid black" }} />
-                        <br />
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <span style={{ fontWeight: "700" }}>Total before taxes</span>
-                            <span style={{ fontWeight: "700" }}>${spots.price * Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000) + 100}</span>
-                        </div>
-                        <br />
-                        <br />
-                        <br />
-                        {!hasBooking && (
-                            <button onClick={(e) => { handleBooking(e); setUpdate(!update) }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "pointer", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
-                        )}
-                        {hasBooking && (
-                            <div>
-                                <button style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Booked</button>
-                                <div style={{ width: "350px", marginTop: "10px" }}>If you'd like to see your booking please visit your <Link to={`/user/${user.id}`}>account page</Link></div>
+                    <div style={{ display: "flex" }}>
+                        <label style={{ border: "1px solid black", height: "55px", borderTopLeftRadius: "15px", borderBottomLeftRadius: "15px" }}>
+                            <span style={{ fontWeight: "700", fontSize: "14px", marginLeft: "35px" }}>CHECK-IN</span>
+                            <br />
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <input value={startDate} style={{ border: "none", marginRight: "10px" }} type="date" onChange={(e) => setStartDate(e.target.value)} />
+                        </label>
+                        <label style={{ borderTop: "1px solid black", borderRight: "1px solid black", borderBottom: "1px solid black", borderTopRightRadius: "15px", borderBottomRightRadius: "15px" }}>
+                            <span style={{ fontWeight: "700", fontSize: "14px", marginLeft: "20px" }}>&nbsp;&nbsp;CHECKOUT</span>
+                            <br />
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <input value={endDate} style={{ border: "none", marginRight: "10px" }} type="date" onChange={(e) => setEndDate(e.target.value)} />
+                        </label>
+                    </div>
+                    <br />
+                    <br />
+                    {startDate && endDate && startDate > endDate && (
+                        <>
+                            <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
+                            <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date comes before your end date...</h3>
+                        </>
+                    )}
+                    {startDate && endDate && startDate === endDate && (
+                        <>
+                            <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
+                            <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date and end date differ...</h3>
+                        </>
+                    )}
+                    {startDate && endDate && startDate < todaysDate.toISOString().substring(0, 10) && (
+                        <>
+                            <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
+                            <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date does not come before todays date...</h3>
+                        </>
+                    )}
+                    {startDate && endDate && startDate < endDate && startDate >= todaysDate.toISOString().substring(0, 10) && (
+                        <div>
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                <span style={{ textDecoration: "underline" }}>
+                                    ${spots.price} x {Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights:
+                                </span>
+                                <span>${spots.price * Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)}</span>
                             </div>
-                        )}
+                            <br />
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                <span style={{ textDecoration: "underline" }}>Cleaning fee:</span>
+                                <span>$50</span>
+                            </div>
+                            <br />
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "350px" }}>
+                                <span style={{ textDecoration: "underline" }}>Service fee:</span>
+                                <span>$50</span>
+                            </div>
+                            <br />
+                            <div style={{ borderBottom: "1px solid black" }} />
+                            <br />
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                <span style={{ fontWeight: "700" }}>Total before taxes</span>
+                                <span style={{ fontWeight: "700" }}>${spots.price * Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000) + 100}</span>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            {!hasBooking && (
+                                <button onClick={(e) => { handleBooking(e); setUpdate(!update) }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "pointer", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
+                            )}
+                            {hasBooking && (
+                                <div>
+                                    <button style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Booked</button>
+                                    <div style={{ width: "350px", marginTop: "10px" }}>If you'd like to see your booking please visit your <Link to={`/user/${user.id}`}>account page</Link></div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            )}
+            {user?.id === spots?.ownerId && (
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", paddingBottom: "50px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "110px", marginTop: "-220px", boxShadow: "2px 2px 2px black" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "85%" }}>
+                        <h2 style={{ marginBottom: "10px" }}>${spots.price} <span style={{ fontSize: "16px" }}>night</span></h2>
+                        <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
+                            <span key={spots.id}> <i class="fa-solid fa-star"></i> </span>
+                            <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? 0 : avgRating} </span>
+                            &nbsp;
+                            ·
+                            &nbsp;
+                            <span>{reviews.length} reviews</span>
+                        </div>
                     </div>
-                )}
-            </div>
+                    <div style={{ display: "flex" }}>
+                        <label style={{ border: "1px solid black", height: "55px", borderTopLeftRadius: "15px", borderBottomLeftRadius: "15px" }}>
+                            <span style={{ fontWeight: "700", fontSize: "14px", marginLeft: "35px" }}>CHECK-IN</span>
+                            <br />
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <input value={startDate} style={{ border: "none", marginRight: "10px" }} type="date" onChange={(e) => setStartDate(e.target.value)} />
+                        </label>
+                        <label style={{ borderTop: "1px solid black", borderRight: "1px solid black", borderBottom: "1px solid black", borderTopRightRadius: "15px", borderBottomRightRadius: "15px" }}>
+                            <span style={{ fontWeight: "700", fontSize: "14px", marginLeft: "20px" }}>&nbsp;&nbsp;CHECKOUT</span>
+                            <br />
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <input value={endDate} style={{ border: "none", marginRight: "10px" }} type="date" onChange={(e) => setEndDate(e.target.value)} />
+                        </label>
+                    </div>
+                    <br />
+                    <br />
+                    {startDate && endDate && startDate > endDate && (
+                        <>
+                            <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
+                            <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date comes before your end date...</h3>
+                        </>
+                    )}
+                    {startDate && endDate && startDate === endDate && (
+                        <>
+                            <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
+                            <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date and end date differ...</h3>
+                        </>
+                    )}
+                    {startDate && endDate && startDate < todaysDate.toISOString().substring(0, 10) && (
+                        <>
+                            <i style={{ color: "red" }} className="fa-solid fa-circle-xmark fa-3x"></i>
+                            <h3 style={{ color: "red", marginLeft: "15px" }}>Please make sure your start date does not come before todays date...</h3>
+                        </>
+                    )}
+                    {startDate && endDate && startDate < endDate && startDate >= todaysDate.toISOString().substring(0, 10) && (
+                        <div>
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                <span style={{ textDecoration: "underline" }}>
+                                    ${spots.price} x {Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights:
+                                </span>
+                                <span>${spots.price * Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)}</span>
+                            </div>
+                            <br />
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                <span style={{ textDecoration: "underline" }}>Cleaning fee:</span>
+                                <span>$50</span>
+                            </div>
+                            <br />
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "350px" }}>
+                                <span style={{ textDecoration: "underline" }}>Service fee:</span>
+                                <span>$50</span>
+                            </div>
+                            <br />
+                            <div style={{ borderBottom: "1px solid black" }} />
+                            <br />
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                <span style={{ fontWeight: "700" }}>Total before taxes</span>
+                                <span style={{ fontWeight: "700" }}>${spots.price * Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000) + 100}</span>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            {!hasBooking && (
+                                <>
+                                    <button disabled onClick={(e) => { window.alert("You can't book your own spot!") }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
+                                    <br />
+                                    <br />
+                                    <div style={{ color: "red", fontWeight: "700", display: "flex", justifyContent: "center", width: "100%" }}>
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        &nbsp;
+                                        <span>You can't reserve a spot you own</span>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    )}
+                </div>
+            )}
             <div style={{ marginTop: "-200px", paddingBottom: "50px" }}>
                 <h1 style={{ marginLeft: "21%" }}>Reviews:</h1>
+                {/* {spots.ownerId === user.id && (
+                    <h1>yo</h1>
+                )} */}
                 {hasOldBooking && !hasReview && (
                     <div style={{ display: "flex", flexDirection: "column", marginLeft: "21%" }}>
                         {errors.length > 0 && (
@@ -690,12 +836,12 @@ function SpotById() {
                         </div>
                         {reviewArray.length >= 1 && (
                             <div className='center-review-button'>
-                                <button style={{ cursor: "pointer", visibility: (user === null || user.id === spots.ownerId) || hasReview === true ? 'hidden' : 'visible', border: "none", width: "100px", height: "30px" }} className='add-review-button' onClick={(e) => { handleReview(e); setStars(0) }}>Submit</button>
+                                <button style={{ cursor: "pointer", visibility: (!user || user?.id === spots?.ownerId) || hasReview === true ? 'hidden' : 'visible', border: "none", width: "100px", height: "30px" }} className='add-review-button' onClick={(e) => { handleReview(e); setStars(0) }}>Submit</button>
                             </div>
                         )}
                     </div>
                 )}
-                {!hasOldBooking && (
+                {!hasOldBooking && spots?.ownerId !== user?.id && (
                     <>
                         <h3 style={{ marginLeft: "21%" }}>To leave a review you must have had booked this spot in the past</h3>
                         <div style={{ display: "flex", flexDirection: "column", marginLeft: "21%" }}>

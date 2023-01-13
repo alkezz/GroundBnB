@@ -2,7 +2,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 500px;
+    padding-bottom: 50px;
 }
 .spot-submit{
-    width: 68%;
+    width: 100%;
+}
+#edit-spot-errors{
+    color: red;
+    margin-top: -5px;
+    margin-bottom: 3px;
+    list-style-type: none;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 3px;
+}
+
+.edit-spot-error-input{
+    border-color: red;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    padding-left: 8px;
 }

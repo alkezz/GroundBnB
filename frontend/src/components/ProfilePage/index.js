@@ -25,9 +25,11 @@ const ProfilePage = () => {
         (async () => {
             const userSpots = await dispatch(spotActions.getAllSpots())
             await setSpots(userSpots)
-            const userBookings = await csrfFetch("/api/bookings/current")
-            const userBookingsData = await userBookings.json()
-            await setBookings(userBookingsData.Bookings)
+            if (sessionUser) {
+                const userBookings = await csrfFetch("/api/bookings/current")
+                const userBookingsData = await userBookings.json()
+                await setBookings(userBookingsData.Bookings)
+            }
         })();
     }, [dispatch, setBookings, setSpots, update])
     let profileUserSpots = []
@@ -113,7 +115,9 @@ const ProfilePage = () => {
             <div className="spots-bookings-container">
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", position: "sticky", top: "20px" }}>
                     <button onClick={(e) => { setShowSpots(true); setShowBookings(false) }} className="profile-buttons">Spots</button>
-                    <button onClick={(e) => { setShowSpots(false); setShowBookings(true) }} style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} className="profile-buttons">Bookings</button>
+                    {sessionUser && (
+                        <button onClick={(e) => { setShowSpots(false); setShowBookings(true) }} style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} className="profile-buttons">Bookings</button>
+                    )}
                 </div>
                 <br />
                 {showSpots && profileUserSpots.length <= 0 && (
@@ -129,8 +133,12 @@ const ProfilePage = () => {
                                 <br />
                                 <span style={{ fontWeight: "700" }}>{spot.name}</span>
                                 <br />
-                                <button style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} onClick={(e) => { handleDeleteSpot(e, spot); setUpdate(!update) }} className="delete-buttons">Delete Spot</button>
-                                <button style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} onClick={() => history.push(`/spot/${spot.id}/edit`)} className="delete-buttons">Edit Spot</button>
+                                {sessionUser && (
+                                    <>
+                                        <button style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} onClick={(e) => { handleDeleteSpot(e, spot); setUpdate(!update) }} className="delete-buttons">Delete Spot</button>
+                                        <button style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} onClick={() => history.push(`/spot/${spot.id}/edit`)} className="delete-buttons">Edit Spot</button>
+                                    </>
+                                )}
                             </div>
                         })}
                     </div>
