@@ -8,7 +8,7 @@ const EditCommentModal = ({ user, reviews }) => {
 
     return (
         <>
-            <button className='add-review-button' style={{ visibility: user === null || user.id !== reviews.userId ? 'hidden' : 'visible', cursor: "pointer" }} onClick={() => setShowModal(true)}>Edit Comment</button>
+            <button className='delete-buttons' style={{ visibility: user === null || user.id !== reviews.userId ? 'hidden' : 'visible', cursor: "pointer" }} onClick={() => setShowModal(true)}>Edit Comment</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <EditCommentForm user={user} reviews={reviews} onClick={() => setShowModal(false)} />

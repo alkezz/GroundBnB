@@ -36,17 +36,33 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <button className="profile-button" onClick={openMenu}>
-                <i className="fa-solid fa-user"></i>
+            <button className='dropdown-btn' onClick={openMenu}>
+                <div>
+                    <i style={{ marginTop: "5px" }} class="fa-solid fa-bars"></i>
+                </div>
+                &nbsp;
+                &nbsp;
+                <div className='user-icon'>
+                    <i style={{ color: "#717171" }} class="fa-solid fa-circle-user fa-2x"></i>
+                </div>
             </button>
             {showMenu && (
-                <ul className="profile-dropdown">
-                    <li style={{ paddingTop: "10px" }}><Link style={{ textDecoration: "none", color: "black" }} to={`/user/${sessionUser.id}`}>Profile</Link></li>
-                    <div style={{ borderBottom: '1px black solid' }}></div>
-                    <li style={{ paddingTop: "10px" }}>
-                        <button style={{ height: '25px' }} className="log-out-button" onClick={logout}>Log Out</button>
-                    </li>
-                </ul>
+                <div className='user-button'>
+                    <div style={{ position: "absolute", zIndex: "999", backgroundColor: "white", border: "1px solid #dddddd", borderRadius: "15px", width: "170px", right: "0", top: "10px", height: "108px" }}>
+                        <div className="selection-div" style={{ marginTop: "10px", height: "30px", borderRadius: "5px" }}>
+                            <Link className='modal-button' onClick={() => history.push(`/user/${sessionUser.id}`)}>Profile</Link>
+                        </div>
+                        <div style={{ borderBottom: "1px solid #dddddd" }} />
+                        <div style={{ height: "30px" }} className="selection-div">
+                            <Link style={{ textDecoration: "none", color: "black", fontSize: "14px", fontWeight: "700", marginLeft: "5%" }} to="/spot/create">Groundbnb your cave</Link>
+                        </div>
+                        <div className="selection-div" style={{ height: "30px", borderRadius: "5px" }}>
+                            <div>
+                                <Link style={{ textDecoration: "none", color: "black", fontSize: "14px", fontWeight: "700", marginLeft: "5%" }} onClick={logout}>Log out</Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
         </>
     );

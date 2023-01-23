@@ -84,51 +84,55 @@ export const editSpot = (spot, urlArray) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json()
-        const spotId = data.id
-        const spot = await csrfFetch(`/api/spots/${spotId}`)
-        const spotToJson = await spot.json()
-        for (let i = 0; i < spotToJson.SpotImages.length; i++) {
-            const img = spotToJson.SpotImages[i]
-            await csrfFetch(`/api/spot-images/${img.id}`, {
-                method: 'DELETE'
-            })
-            //     if (deleteSpot.ok) {
-            //         const newImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-            //             method: 'POST',
-            //             body: JSON.stringify({
-            //                 url,
-            //                 preview: true
-            //             })
-            //         })
-            // }
-            // if (newImage.ok) {
-            //     const jsonSpotImage = await newImage.json()
-            //     data['previewImage'] = jsonSpotImage
-            //     dispatch(actionEditSpot(data))
-            //     return data
-            // }
-            // return deleteSpot
-        }
-        for (let i = 0; i < urlArray.length; i++) {
-            const url = urlArray[i]
-            console.log("URL IN STORE", url)
+        if (urlArray.length >= 4) {
             const spotId = data.id
-            const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    url,
-                    preview: true
+            const spot = await csrfFetch(`/api/spots/${spotId}`)
+            const spotToJson = await spot.json()
+            for (let i = 0; i < spotToJson.SpotImages.length; i++) {
+                const img = spotToJson.SpotImages[i]
+                await csrfFetch(`/api/spot-images/${img.id}`, {
+                    method: 'DELETE'
                 })
-            })
-            if (spotImage.ok) {
-                const jsonSpotImage = await spotImage.json()
-                if (i === 0) {
-                    data['previewImage'] = jsonSpotImage
+                //     if (deleteSpot.ok) {
+                //         const newImage = await csrfFetch(`/api/spots/${spotId}/images`, {
+                //             method: 'POST',
+                //             body: JSON.stringify({
+                //                 url,
+                //                 preview: true
+                //             })
+                //         })
+                // }
+                // if (newImage.ok) {
+                //     const jsonSpotImage = await newImage.json()
+                //     data['previewImage'] = jsonSpotImage
+                //     dispatch(actionEditSpot(data))
+                //     return data
+                // }
+                // return deleteSpot
+            }
+            for (let i = 0; i < urlArray.length; i++) {
+                const url = urlArray[i]
+                const spotId = data.id
+                const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        url,
+                        preview: true
+                    })
+                })
+                if (spotImage.ok) {
+                    const jsonSpotImage = await spotImage.json()
+                    if (i === 0) {
+                        data['previewImage'] = jsonSpotImage
+                    }
                 }
             }
+            dispatch(actionEditSpot(data))
+            return data
+        } else {
+            dispatch(actionEditSpot(data))
+            return data
         }
-        dispatch(actionEditSpot(data))
-        return data
     }
     return response
 }

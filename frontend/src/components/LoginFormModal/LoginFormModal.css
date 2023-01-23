@@ -73,6 +73,8 @@
     color: white;
     background-color: #d60565;
     border-radius: 8px;
+    border: none;
+    cursor: pointer;
 }
 
 .demo-user-button{
@@ -83,6 +85,10 @@
     font-size: 18px;
     margin-left: 20%;
     margin-bottom: 15%;
+    border: none;
+    width: 60%;
+    height: 40px;
+    cursor: pointer;
 }
 
 #welcome-head{
@@ -101,52 +107,45 @@
 
 .modal-button{
   /* background-color: #f1f1f1; */
-  color: white;
-    background-color: #d60565;
+    display: flex;
+    width: 80px;
+    color: black;
     border-radius: 8px;
     font-weight: bold;
-    font-size: 18px;
-    width: 100%;
-    /* margin-left: 20%; */
+    font-size: 14px;
+    margin-left: 5%;
     margin-bottom: 15%;
+    border: none;
+    text-decoration: none;
 }
 
-/* .modal-button:hover{
-    background-color: #f9f9f9;
-} */
+.selection-div:hover{
+    background-color: rgb(247, 247, 247);
+}
 
 .dropdown-btn{
-    border-radius: 10px;
-    border: none;
+    border-radius: 100px;
+    border: 1px solid #dddddd;
     display: flex;
     flex-direction: row;
-    /* height: 25px; */
+    justify-content: center;
+    padding-top: 7px;
+    width: 80px;
+    height: 40px;
+    background-color: white;
+    cursor: pointer;
 }
 
-/* .user-icon{
-    padding-left: 10px;
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-} */
+.user-icon{
+    color: #717171;
+}
 
 .user-button{
     display: flex;
     flex-direction: column;
     /* background-color: lightgray; */
-    list-style: none;
-}
-ul.user-button{
-    /* position: absolute; */
-    padding: 0;
-    /* border: 1px black solid; */
-    /* box-shadow: 12px 12px 2px 1px black; */
-}
-
-ul.user-button > li{
-    border-radius: 15px;
-    /* position: absolute; */
-    text-decoration: none;
+    position: relative;
+    width: 80px;
 }
 
 /* ul.profile-dropdown{

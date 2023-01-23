@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "../../context/Modal"
-import EditSpot from ".";
+import EditBookingForm from ".";
 
-const EditSpotModal = ({ spots }) => {
+const EditBookingModal = ({ booking }) => {
     const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <button className='delete-buttons' onClick={() => setShowModal(true)}>Edit Spot</button>
+            <button className='delete-buttons' onClick={() => setShowModal(true)}>Edit Booking</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <EditSpot spots={spots} onClick={() => setShowModal(false)} />
+                    <EditBookingForm booking={booking} onClick={() => setShowModal(false)} />
                 </Modal>
             )}
         </>
     )
 }
 
-export default EditSpotModal
+export default EditBookingModal

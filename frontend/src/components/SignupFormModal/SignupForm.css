@@ -23,10 +23,12 @@
     font-weight: bold;
     color: white;
     background-color: #d60565;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-left: 4%;
     margin-bottom: 10%;
     height: 40px;
+    border: none;
+    cursor: pointer;
 }
 .new-user-input{
     margin-bottom: 10px;

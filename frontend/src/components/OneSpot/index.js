@@ -102,11 +102,12 @@ function SpotById() {
     }
     for (let i = 0; i < bookings.length; i++) {
         if (user === null || bookings[i].spotId === id) {
-            hasOldBooking = true
-        } else {
-            hasOldBooking = false
+            if (bookings[i].endDate < todaysDate.toISOString().substring(0, 10)) {
+                hasOldBooking = true
+            }
         }
     }
+    console.log(hasOldBooking, "HASOLDBOOKING")
     for (let i = 0; i < reviewArray.length; i++) {
         if (user === null || reviewArray[i].userId === user.id) {
             hasReview = true
@@ -388,7 +389,7 @@ function SpotById() {
                                 &nbsp;
                                 <span>·</span>
                                 &nbsp;
-                                <li key={spots.id + 4} style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{spots.city}, {allSpotsOBJ.state}, {allSpotsOBJ.country}</li>
+                                <li key={spots.id + 4} style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{spots.city}, {spots.state}, {spots.country}</li>
                             </ul>
                         </div>
                     </div>
@@ -505,7 +506,7 @@ function SpotById() {
                                     <div className='card-button-div-container' style={{ visibility: user === null || user.id !== spots.ownerId ? "hidden" : "visible" }}>
                                         <div className='button-div-container'>
                                             <EditSpotModal />
-                                            <button onClick={() => dispatch(spotActions.deleteSpot(spots)).then(() => history.push('/'))} className="edit-delete-button">Delete Spot</button>
+                                            <button onClick={() => dispatch(spotActions.deleteSpot(spots)).then(() => history.push('/'))} className="delete-buttons">Delete Spot</button>
                                         </div>
                                     </div>
                                 </div>
@@ -834,7 +835,7 @@ function SpotById() {
                             <textarea onChange={(e) => { setReview(e.target.value); setCount(e.target.value.length) }} placeholder='Write a review...' maxLength={60} type="text" style={{ width: "300px", height: "100px", resize: "none" }} />
                             <p style={{ marginTop: "-22px", marginLeft: "260px" }}>{count}/60</p>
                         </div>
-                        {reviewArray.length >= 1 && (
+                        {reviewArray.length >= 0 && (
                             <div className='center-review-button'>
                                 <button style={{ cursor: "pointer", visibility: (!user || user?.id === spots?.ownerId) || hasReview === true ? 'hidden' : 'visible', border: "none", width: "100px", height: "30px" }} className='add-review-button' onClick={(e) => { handleReview(e); setStars(0) }}>Submit</button>
                             </div>
@@ -956,10 +957,7 @@ function SpotById() {
                 <br />
                 {reviewArray.length <= 0 && (
                     <>
-                        <div style={{ marginLeft: '46.5%' }}>No Reviews Yet!</div>
-                        <div style={{ visibility: user === null || user.id === spots.ownerId ? 'hidden' : 'visible', marginLeft: '38%' }}>
-                            Why don't you get started and create a review for this spot!
-                        </div>
+                        <div style={{ marginLeft: '40%' }}>No Reviews Yet!</div>
                     </>
                 )}
                 <div className='center-review-box'>
@@ -983,7 +981,7 @@ function SpotById() {
                                             {/* <i class="fa-solid fa-star"></i> &nbsp;{review.stars} */}
                                         </div>
                                         <div style={{ paddingBottom: "10px", paddingTop: "10px" }}>
-                                            <button onClick={async (e) => { handleDeleteReview(e, review); }} style={{ visibility: user === null || user.id !== review.userId ? 'hidden' : 'visible', cursor: "pointer" }} className='add-review-button'>Delete Review</button>
+                                            <button onClick={async (e) => { handleDeleteReview(e, review); }} style={{ visibility: user === null || user.id !== review.userId ? 'hidden' : 'visible', cursor: "pointer" }} className='delete-buttons'>Delete Review</button>
                                             <EditCommentModal user={user} reviews={review} />
                                         </div>
                                     </div>
@@ -992,7 +990,7 @@ function SpotById() {
                             )}
                         </div>
                     )}
-                    {reviewArray.length <= 0 && (
+                    {/* {reviewArray.length <= 0 && (
                         <>
                             <div>
                                 <div className='review-button-div'>
@@ -1000,7 +998,7 @@ function SpotById() {
                                 </div>
                             </div>
                         </>
-                    )}
+                    )} */}
                 </div>
             </div>
         </>

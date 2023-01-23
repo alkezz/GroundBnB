@@ -5,35 +5,39 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf';
 import "./ProfilePage.css"
-import { useJsApiLoader } from "@react-google-maps/api";
+import EditSpotModal from '../EditSpotPage/EditSpotModal';
+import EditBookingModal from "../EditBooking/EditBookingModal";
 
 const ProfilePage = () => {
     const dispatch = useDispatch()
     const history = useHistory()
-    const [spots, setSpots] = useState([])
+    // const [spots, setSpots] = useState(useSelector((state) => state.spots))
     const [bookings, setBookings] = useState([])
     const [reviews, setReviews] = useState([])
     const [pastBookings, setPastBookings] = useState([])
+    const [endDate, setEndDate] = useState("")
+    const [startDate, setStartDate] = useState("")
     const [showSpots, setShowSpots] = useState(true)
     const [showBookings, setShowBookings] = useState(false)
     const [update, setUpdate] = useState(true)
     const [style, setStyle] = useState({ display: "none" })
     const ownerId = useParams().userId
     const userId = useParams().userId
+    const spots = useSelector((state) => state.spots)
     const sessionUser = useSelector((state) => state.session.user)
+    let profileUserSpots = []
     useEffect(() => {
         (async () => {
-            const userSpots = await dispatch(spotActions.getAllSpots())
-            await setSpots(userSpots)
+            await dispatch(spotActions.getAllSpots())
+            // await setSpots(userSpots)
             if (sessionUser) {
                 const userBookings = await csrfFetch("/api/bookings/current")
                 const userBookingsData = await userBookings.json()
                 await setBookings(userBookingsData.Bookings)
             }
         })();
-    }, [dispatch, setBookings, setSpots, update])
-    let profileUserSpots = []
-    spots.forEach((spot) => {
+    }, [dispatch, setBookings, update, setUpdate, csrfFetch])
+    Object.values(spots).forEach((spot) => {
         if (spot.ownerId === Number(ownerId)) {
             profileUserSpots.push(spot)
         }
@@ -44,13 +48,13 @@ const ProfilePage = () => {
     const date = new Date()
     for (let i = 0; i < bookings?.length; i++) {
         let currBooking = bookings[i]
-        if (currBooking?.endDate <= date.toISOString().substring(0, 10)) {
+        if (currBooking?.endDate.substring(0, 10) <= date.toISOString().substring(0, 10)) {
             pastBookingsArray.push(currBooking)
-        } else if (currBooking?.startDate < date.toISOString().substring(0, 10) &&
-            currBooking?.endDate > date.toISOString().substring(0, 10)) {
+        } else if (currBooking?.startDate.substring(0, 10) <= date.toISOString().substring(0, 10) &&
+            currBooking?.endDate.substring(0, 10) >= date.toISOString().substring(0, 10)) {
             currentBookingsArray.push(currBooking)
-        } else if (currBooking?.startDate > date.toISOString().substring(0, 10) &&
-            currBooking?.endDate > date.toISOString().substring(0, 10)) {
+        } else if (currBooking?.startDate.substring(0, 10) > date.toISOString().substring(0, 10) &&
+            currBooking?.endDate.substring(0, 10) > date.toISOString().substring(0, 10)) {
             futureBookingsArray.push(currBooking)
         }
     }
@@ -77,13 +81,6 @@ const ProfilePage = () => {
         setUpdate(true)
         await dispatch(spotActions.deleteSpot(spot))
     }
-    const handleDeleteOldBooking = (e, id) => {
-        e.preventDefault()
-        const indexOfOldBooking = pastBookingsArray.findIndex(x => x.id === id)
-        pastBookingsArray.splice(indexOfOldBooking, 1)
-        setUpdate(false)
-    }
-    console.log("profileUSERSPOTS", pastBookingsArray)
     return (
         <div className="profile-container">
             <div className="user-card-left">
@@ -136,7 +133,7 @@ const ProfilePage = () => {
                                 {sessionUser && (
                                     <>
                                         <button style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} onClick={(e) => { handleDeleteSpot(e, spot); setUpdate(!update) }} className="delete-buttons">Delete Spot</button>
-                                        <button style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} onClick={() => history.push(`/spot/${spot.id}/edit`)} className="delete-buttons">Edit Spot</button>
+                                        <span style={{ visibility: Number(sessionUser.id) === Number(userId) ? "visible" : "hidden" }} className="delete-buttons"><EditSpotModal spots={spot} /></span>
                                     </>
                                 )}
                             </div>
@@ -164,6 +161,7 @@ const ProfilePage = () => {
                                             <span>{booking.endDate.substring(0, 10)}</span>
                                         </div>
                                         <br />
+                                        <EditBookingModal booking={booking} />
                                         <button onClick={(e) => { handleDeleteBooking(e, booking.id); setUpdate(!update) }} className="delete-buttons">Delete booking</button>
                                     </div>
                                 })
