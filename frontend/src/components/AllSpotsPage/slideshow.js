@@ -10,7 +10,6 @@ const SlideShow = ({ key, spot }) => {
     const [index, setActiveStep] = useState(0);
     const [showArrows, setShowArrows] = useState(false)
     const CollectionSize = 4
-    const history = useHistory()
     const goToNextPicture = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -80,7 +79,9 @@ const SlideShow = ({ key, spot }) => {
                 <>
                     <div style={{ top: "-350px", position: "relative", height: "310px", width: "335px", marginLeft: "-10px", marginTop: "45px" }} onMouseLeave={() => setShowArrows(false)}>
                         <i onClick={() => index !== CollectionSize - 1 ? goToNextPicture() : setActiveStep(0)} style={{ fontSize: "26px", color: "white", position: "relative", right: "-300px", marginTop: "150px" }} class="fa-solid fa-circle-chevron-right"></i>
-                        <i onClick={() => index !== 0 ? goToPrevPicture() : setActiveStep(3)} style={{ fontSize: "26px", color: "white", position: "relative", left: "-15px" }} class="fa-solid fa-circle-chevron-left"></i>
+                        {index !== 0 && (
+                            <i onClick={() => index !== 0 ? goToPrevPicture() : null} style={{ fontSize: "26px", color: "white", position: "relative", left: "-15px" }} class="fa-solid fa-circle-chevron-left"></i>
+                        )}
                     </div>
                     <div style={{ position: "relative", top: "-355px" }}>
                         {pictureLocation}
