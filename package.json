@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "react-calendar": "^4.0.0"
   },
   "scripts": {
     "render-postbuild": "npm run build --prefix frontend",

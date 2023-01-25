@@ -44,11 +44,11 @@ function AllSpotsPage() {
                                                 <SlideShow spot={spot} />
                                             </div>
                                             <br />
-                                            <div id={`state-div`} style={{ fontSize: "16px", display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+                                            <div id={`state-div`} style={{ fontSize: "16px", display: "flex", flexDirection: "row", width: "97%", justifyContent: "space-between" }}>
                                                 <Link to={`/spots/${spot.id}`} style={{ marginLeft: "10px", fontWeight: "750", textDecoration: "none", color: "black" }}>{spot.city}, {spot.state} &nbsp;</Link>
                                                 <div style={{ display: "flex", marginRight: "10px" }}>
                                                     <div>
-                                                        {isNaN(spot.avgRating) ? "" : <i class="fa-solid fa-star"></i>}
+                                                        {isNaN(spot.avgRating) ? "" : <i style={{ fontSize: "12px", position: "relative", top: "-2px" }} class="fa-solid fa-star"></i>}
                                                     </div>
                                                     &nbsp;
                                                     <div>{isNaN(spot.avgRating) ? "No Reviews Yet!" : spot.avgRating}

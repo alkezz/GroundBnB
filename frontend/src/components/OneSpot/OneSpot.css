@@ -45,7 +45,6 @@ ul.spot-stats-ul > li {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* border-radius: 15px; */
 }
 
 .second-image-upload-placeholder{
@@ -111,7 +110,7 @@ ul.spot-stats-ul > li {
 }
 
 .review-container-div{
-    box-shadow: 2px 2px 2px 2px black;
+    /* box-shadow: 2px 2px 2px 2px black; */
     width: 60%;
     border-radius: 8px;
 }

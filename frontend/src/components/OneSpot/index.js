@@ -8,6 +8,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf';
 import EditCommentModal from '../EditComment/EditCommentModal';
 import EditSpotModal from '../EditSpotPage/EditSpotModal';
+import Calendar from 'react-calendar';
+import "./Calendar.css"
 import "./OneSpot.css"
 
 function SpotById() {
@@ -31,50 +33,27 @@ function SpotById() {
     const allSpotsOBJ = useSelector(state => state.spots[id])
     const spotState = useSelector((state) => state.spots)
     const reviewState = useSelector((state) => state.reviews)
-    const spots = Object.values(spotState)[0]
+    // const spots = Object.values(spotState)[0]
     const reviews = Object.values(reviewState)
     // const [spots, setSpots] = useState([])
     // const [reviews, setReviews] = useState([])
+    const [spots, setSpots] = useState([])
     const [startDate, setStartDate] = useState(checkInDate)
     const [endDate, setEndDate] = useState(checkOutDay)
+    const [date, setDate] = useState(new Date())
     const [stars, setStars] = useState(0)
     const [review, setReview] = useState("")
     const [count, setCount] = useState(0)
     const [errors, setErrors] = useState([])
     const [update, setUpdate] = useState(false)
     const [bookings, setBookings] = useState([])
-    const [firstPictureId, setFirstPictureId] = useState()
-    const [firstImage, setFirstImage] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[0]?.url)
-    const [secondPictureId, setSecondPictureId] = useState()
-    const [secondPicture, setSecondPicture] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[1]?.url)
-    const [thirdPictureId, setThirdPictureId] = useState()
-    const [thirdPicture, setThirdPicture] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[2]?.url)
-    const [fourthPictureId, setFourthPictureId] = useState()
-    const [fourthPicture, setFourthPicture] = useState(allSpotsOBJ?.SpotImages?.url === undefined ? "" : allSpotsOBJ?.SpotImages[3]?.url)
-    const formData = new FormData()
-    const formData2 = new FormData()
-    const formData3 = new FormData()
-    const formData4 = new FormData()
     useEffect(() => {
         dispatch(sessionActions.restoreUser())
-        // if (allSpotsOBJ.SpotImages) {
-        //     if (allSpotsOBJ?.SpotImages[1]) {
-        //         setFirstPictureId(allSpotsOBJ.SpotImages[1].id)
-        //         setFirstImage(firstImage)
-        //     }
-        //     if (allSpotsOBJ?.SpotImages[2]) {
-        //         setSecondPictureId(allSpotsOBJ.SpotImages[2].id)
-        //         setSecondPicture(allSpotsOBJ.SpotImages[2].url)
-        //     }
-        //     if (allSpotsOBJ?.SpotImages[3]) {
-        //         setThirdPictureId(allSpotsOBJ.SpotImages[3].id)
-        //         setThirdPicture(allSpotsOBJ.SpotImages[3].url)
-        //     }
-        // }
     }, [dispatch])
     useEffect(() => {
         (async () => {
-            await dispatch(spotActions.getOne(id))
+            const spot = await dispatch(spotActions.getOne(id))
+            setSpots(spot)
             // setSpots(spot)
             await dispatch(reviewActions.getReviews(id))
             // setReviews(allReviews.Reviews)
@@ -84,7 +63,11 @@ function SpotById() {
                 setBookings(bookings.Bookings)
             }
         })();
-    }, [dispatch, id, setStars, setReview, update, setUpdate, setBookings, setFirstImage, setSecondPicture, setThirdPicture])
+    }, [dispatch, id, setStars, setReview, update, setUpdate, setBookings, setSpots])
+    // console.log("SPOTOTOTOTOTOT", spot)
+    if (!spots.SpotImages) {
+        return null
+    }
     const reviewArray = Object.values(reviews)
     let avgStars = 0
     for (let i = 0; i < reviews.length; i++) {
@@ -112,7 +95,6 @@ function SpotById() {
             hasReview = true
         }
     }
-    //! Filter SpotImages array for id and use that maybe?
     const handleBooking = async (e) => {
         e.preventDefault()
         const bookSpot = await csrfFetch(`/api/spots/${spotId}/bookings`, {
@@ -258,7 +240,10 @@ function SpotById() {
                             <h2 style={{ width: "52%" }}>
                                 {spots.description}
                             </h2>
-                            <h3>Hosted by <Link style={{ textDecoration: "none", color: "black" }} to={`/user/${spots?.Owner?.id}`}>{spots?.Owner?.firstName}</Link></h3>
+                            <div style={{ display: "flex", marginBottom: "-15px", marginTop: "-25px" }}>
+                                <h3>Hosted by <Link style={{ textDecoration: "none", color: "black" }} to={`/user/${spots?.Owner?.id}`}>{spots?.Owner?.firstName}</Link></h3>
+                                {/* <i style={{ fontSize: "40px", marginLeft: "575px", color: "#717171", marginTop: "-15px" }} className="fa-solid fa-circle-user fa-4x"></i> */}
+                            </div>
                             {!user || user.id === spots.ownerId && (
                                 <div className='actual-button-container'>
                                     <div className='card-button-div-container' style={{ visibility: user === null || user.id !== spots.ownerId ? "hidden" : "visible" }}>
@@ -274,27 +259,67 @@ function SpotById() {
                 </div>
             )}
             <br></br>
-            <div style={{ borderBottom: '1px black solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
+            <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
+            <br />
+            <img style={{ height: "25px", width: "125px", marginLeft: "20.5%", zIndex: "9999" }} src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg'></img>
+            <br />
+            <span style={{ marginLeft: "20.5%", width: "38%", display: "block", fontSize: "16px" }}>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</span>
+            <br />
+            <Link target="_blank" to={{ pathname: "https://www.github.com/alkezz" }} style={{ marginLeft: "20.5%", width: "38%", display: "block", color: "black", fontWeight: "600", fontSize: "16px" }}>Learn more</Link>
+            <br />
+            <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
             <div>
                 <div className='extra-info-div'>
+                    <h3 style={{ marginLeft: "2.5%" }}>What this place offers</h3>
                     <ul style={{ listStyle: 'none' }}>
                         <li key='closed-door'>
-                            <i class="fa-solid fa-door-closed"></i> &nbsp;Self check-in
+                            <i style={{ width: "25px" }} class="fa-solid fa-door-closed"></i> Self check-in
                         </li>
                         <br />
-                        <li key='calender'>
-                            <i class="fa-solid fa-calendar"></i> &nbsp; Free cancellation for 48 hours.
+                        <li>
+                            <i style={{ width: "25px" }} class="fa-solid fa-car"></i> Free parking on premises
+                        </li>
+                        <br />
+                        <li >
+                            <i style={{ width: "25px" }} class="fa-solid fa-bed"></i> Beds provided
+                        </li>
+                        <br />
+                        <li >
+                            <i style={{ width: "25px" }} class="fa-solid fa-fire-burner"></i> Basic kitchen
                         </li>
                         <br />
                         <li key='wifi'>
-                            <i class="fa-solid fa-wifi"></i> &nbsp;Free WiFi
+                            <i style={{ width: "25px" }} class="fa-solid fa-wifi"></i> WiFi
                         </li>
+                        {/* <br /> */}
+                        {/* <li key='wifi' style={{ width: "fit-content" }}>
+                            <i style={{ width: "25px" }} class="fa-solid fa-medal"></i> {spots?.Owner?.firstName} is a Superhost
+                            <br />
+                            <span>Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</span>
+                        </li> */}
                     </ul>
                 </div>
-                <div style={{ borderBottom: '1px black solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
+                <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
             </div>
+            <br />
+            <div style={{ marginLeft: "20.5%" }}>
+                {startDate && endDate && (
+                    <div>
+                        <h2 style={{ marginBottom: "0px" }}>{Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights in {spots.name}</h2>
+                        <span style={{ color: "#717171", fontSize: "14px" }}>{startDate} - {endDate}</span>
+                    </div>
+                )}
+                <Calendar
+                    selectRange={true}
+                    onChange={(e) => { setDate(e); setStartDate(e[0]?.toISOString().substring(0, 10)); setEndDate(e[1]?.toISOString().substring(0, 10)) }}
+                    value={date}
+                />
+            </div>
+            <br />
+            <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
+            &nbsp;
             {user?.id !== spots?.ownerId && (
-                <div style={{ visibility: !user || user.id === spots.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", paddingBottom: "50px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "110px", marginTop: "-220px", boxShadow: "2px 2px 2px black" }}>
+                <div style={{ visibility: !user || user.id === spots.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #dddddd", paddingBottom: "50px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "100px", marginTop: "-1050px", boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)" }}>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "85%" }}>
                         <h2 style={{ marginBottom: "10px" }}>${spots.price} <span style={{ fontSize: "16px" }}>night</span></h2>
                         <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
@@ -347,24 +372,34 @@ function SpotById() {
                     )}
                     {startDate && endDate && startDate < endDate && startDate >= todaysDate.toISOString().substring(0, 10) && (
                         <div>
+                            {!hasBooking && (
+                                <button onClick={(e) => { handleBooking(e); setUpdate(!update) }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "10px", cursor: "pointer", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
+                            )}
+                            {hasBooking && (
+                                <div>
+                                    <button style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Booked</button>
+                                    <div style={{ width: "350px", marginTop: "10px" }}>If you'd like to see your booking please visit your <Link to={`/user/${user.id}`}>account page</Link></div>
+                                </div>
+                            )}
+                            &nbsp;
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                                 <span style={{ textDecoration: "underline" }}>
-                                    ${spots.price} x {Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights:
+                                    ${spots.price} x {Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights
                                 </span>
                                 <span>${spots.price * Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)}</span>
                             </div>
                             <br />
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                                <span style={{ textDecoration: "underline" }}>Cleaning fee:</span>
+                                <span style={{ textDecoration: "underline" }}>Cleaning fee</span>
                                 <span>$50</span>
                             </div>
                             <br />
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "350px" }}>
-                                <span style={{ textDecoration: "underline" }}>Service fee:</span>
+                                <span style={{ textDecoration: "underline" }}>Service fee</span>
                                 <span>$50</span>
                             </div>
                             <br />
-                            <div style={{ borderBottom: "1px solid black" }} />
+                            <div style={{ borderBottom: "1px solid #dddddd" }} />
                             <br />
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                                 <span style={{ fontWeight: "700" }}>Total before taxes</span>
@@ -373,15 +408,6 @@ function SpotById() {
                             <br />
                             <br />
                             <br />
-                            {!hasBooking && (
-                                <button onClick={(e) => { handleBooking(e); setUpdate(!update) }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "pointer", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
-                            )}
-                            {hasBooking && (
-                                <div>
-                                    <button style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Booked</button>
-                                    <div style={{ width: "350px", marginTop: "10px" }}>If you'd like to see your booking please visit your <Link to={`/user/${user.id}`}>account page</Link></div>
-                                </div>
-                            )}
                         </div>
                     )}
                 </div>
@@ -482,8 +508,8 @@ function SpotById() {
                     )}
                 </div>
             )}
-            <div style={{ marginTop: "-200px", paddingBottom: "50px" }}>
-                <h1 style={{ marginLeft: "21%" }}>Reviews:</h1>
+            <div style={{ paddingBottom: "50px", marginTop: "600px" }}>
+                {/* <h1 style={{ marginLeft: "21%" }}>Reviews:</h1> */}
                 {/* {spots.ownerId === user.id && (
                     <h1>yo</h1>
                 )} */}
@@ -718,9 +744,19 @@ function SpotById() {
                         <div style={{ marginLeft: '40%' }}>No Reviews Yet!</div>
                     </>
                 )}
+                <div style={{ borderBottom: '1px solid #dddddd', width: "40%", marginLeft: "20.5%" }}></div>
+                <div style={{ fontWeight: "600", fontSize: "22px", marginLeft: "20.5%" }}>
+                    <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
+                    <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
+                    &nbsp;
+                    ·
+                    &nbsp;
+                    <span>{reviews.length} reviews</span>
+                </div>
+                <br />
                 <div className='center-review-box'>
                     {reviewArray.length >= 1 && (
-                        <div style={{ border: '1px black solid', width: "40%", marginLeft: "-350px" }} className='review-container-div'>
+                        <div style={{ border: '1px black #dddddd', width: "40%", marginLeft: "-350px" }} className='review-container-div'>
                             {reviewArray.map((review) =>
                                 <div >
                                     <div className='single-review-container'>
@@ -743,7 +779,7 @@ function SpotById() {
                                             <EditCommentModal user={user} reviews={review} />
                                         </div>
                                     </div>
-                                    <div style={{ borderBottom: '1px solid black' }}></div>
+                                    <div style={{ borderBottom: '1px solid #dddddd' }}></div>
                                 </div>
                             )}
                         </div>
