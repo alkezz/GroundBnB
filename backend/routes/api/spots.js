@@ -125,7 +125,6 @@ router.get('/', async (req, res) => {
                 [Sequelize.col('SpotImages.url'), 'previewImage']
             ],
         },
-        group: ['SpotImages.url', 'Spot.id'],
         include: [
             {
                 model: SpotImage,
@@ -135,6 +134,7 @@ router.get('/', async (req, res) => {
                 required: false
             }
         ],
+        group: ['SpotImages.url', 'Spot.id', 'SpotImages.id'],
         ...pagination
     })
     for (let i = 0; i < allSpots.length; i++) {
