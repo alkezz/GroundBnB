@@ -15,9 +15,9 @@ const s3 = new AWS.S3({
 router.get('/', async (req, res) => {
     let { page, size } = req.query
     if (!page) page = 1
-    if (!size) size = 20
+    if (!size) size = 100
     if (page > 10) page = 10
-    if (size > 20) size = 20
+    if (size > 100) size = 100
     page = parseInt(page)
     size = parseInt(size)
     const pagination = {}
@@ -129,7 +129,9 @@ router.get('/', async (req, res) => {
         include: [
             {
                 model: SpotImage,
-                attributes: [],
+                attributes: {
+                    exclude: ['spotId', 'createdAt', 'updatedAt']
+                },
                 required: false
             }
         ],

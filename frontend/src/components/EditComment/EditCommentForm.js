@@ -46,7 +46,7 @@ const EditCommentForm = ({ user, reviews }) => {
 
     return (
         <div className='edit-comment-modal-container'>
-            <h3 style={{ marginLeft: "110px" }}>Edit Comment:</h3>
+            <h3 style={{ marginLeft: "110px" }}>Edit Review:</h3>
             <div style={{ display: "flex", flexDirection: "column", marginLeft: "21%" }}>
                 {errors.length > 0 && (
                     <div style={{ backgroundColor: "red", width: "78%", marginBottom: "25px", paddingTop: "20px", display: "flex", paddingLeft: "10px" }}>

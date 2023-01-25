@@ -117,15 +117,15 @@ module.exports = {
       },
       {
         ownerId: 9,
-        address: "51000 Two Rivers Plaza Road",
-        city: "Glenwood Springs",
-        state: "Colorado",
-        country: "United States of America",
+        address: "Calle José Joaquín Pérez",
+        city: "Chile Chico",
+        state: "Aysén",
+        country: "Chile",
         lat: 93.1783271,
         lng: 99.1940090,
-        name: "Glenwood Caverns",
-        description: "It's both an action park and a cave, what more could you ask for",
-        price: 45.99
+        name: "Marble Caves",
+        description: "Water has eroded these calcium carbonate cliffs to create a beautiful cave system.",
+        price: 145.99
       },
       {
         ownerId: 10,

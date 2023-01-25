@@ -203,7 +203,7 @@ const ProfilePage = () => {
                                         {/* <button onClick={(e) => { handleDeleteOldBooking(e, booking.id); setUpdate(!update) }} id="x-button" style={{ border: "none", background: "none", zIndex: "999", position: "absolute", marginLeft: "260px", marginTop: "15px" }}>
                                             <i style={{ color: "red", fontSize: "16px" }} class="fa-solid fa-circle-xmark"></i>
                                         </button> */}
-                                        <img onClick={(e) => history.push(`/spots/${booking.Spot.id}`)} style={{ width: "300px", height: "300px", cursor: "pointer", position: "relative" }} src={booking.Spot.previewImage} />
+                                        <img onClick={(e) => history.push(`/spots/${booking.Spot.id}`)} style={{ width: "300px", height: "300px", cursor: "pointer" }} src={booking.Spot.previewImage} />
                                         <br />
                                         <span style={{ fontWeight: "700" }}>{booking.Spot.name}</span>
                                         <br />
@@ -216,6 +216,7 @@ const ProfilePage = () => {
                                             <span>{booking.startDate.substring(0, 10)}</span>
                                             <span>{booking.endDate.substring(0, 10)}</span>
                                         </div>
+                                        <br />
                                     </div>
                                 })
                             )}

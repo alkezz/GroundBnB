@@ -107,219 +107,9 @@ function SpotById() {
             }
         }
     }
-    console.log(hasOldBooking, "HASOLDBOOKING")
     for (let i = 0; i < reviewArray.length; i++) {
         if (user === null || reviewArray[i].userId === user.id) {
             hasReview = true
-        }
-    }
-    console.log("FIRST IMAGE", firstImage)
-    const handleImageUpload = async (e, id) => {
-        e.preventDefault()
-        let correctFile
-        console.log("HIT")
-        let imageInput = document.querySelector("#file-input")
-        console.log(imageInput.files)
-        for (let i = 0; i < imageInput.files.length; i++) {
-            let img = imageInput.files[i]
-            if (img.type !== "image/jpeg" && img.type !== "image/png") {
-                correctFile = false
-            }
-        }
-        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
-        let img = imageInput.files[0]
-        formData.append('image', img)
-        //delete the original picture
-        if ((firstImage || allSpotsOBJ.SpotImages[0]) && id !== undefined) {
-            const deletePicture = await csrfFetch(`/api/spot-images/${id}`, {
-                method: "DELETE"
-            })
-            if (deletePicture.ok) {
-                const picture = await csrfFetch("/api/spots/images/upload", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    body: formData
-                })
-                const url = await picture.json()
-                const newSpotImage = {
-                    spotId,
-                    url,
-                    preview: false
-                }
-                const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-                    method: "POST",
-                    body: JSON.stringify(newSpotImage)
-                })
-                const image = await spotImage.json()
-                setFirstPictureId(image.id)
-                setFirstImage(url)
-                await dispatch(spotActions.getOne(spotId))
-            } else {
-                console.log(await deletePicture.json())
-            }
-        } else {
-            const picture = await csrfFetch("/api/spots/images/upload", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                body: formData
-            })
-            const url = await picture.json()
-            const newSpotImage = {
-                spotId,
-                url,
-                preview: false
-            }
-            const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-                method: "POST",
-                body: JSON.stringify(newSpotImage)
-            })
-            const image = await spotImage.json()
-            console.log("IMAGE", image)
-            setFirstPictureId(image.id)
-            setFirstImage(url)
-            await dispatch(spotActions.getOne(spotId))
-        }
-    }
-    const handleImageUploadTwo = async (e, id) => {
-        e.preventDefault()
-        let correctFile
-        console.log("HIT")
-        let imageInput = document.querySelector("#file-input-2")
-        console.log(imageInput.files)
-        for (let i = 0; i < imageInput.files.length; i++) {
-            let img = imageInput.files[i]
-            if (img.type !== "image/jpeg" && img.type !== "image/png") {
-                correctFile = false
-            }
-        }
-        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
-        let img = imageInput.files[0]
-        formData.append('image', img)
-        //delete the original picture
-        if (allSpotsOBJ?.SpotImages[2]) {
-            const deletePicture = await csrfFetch(`/api/spot-images/${id}`, {
-                method: "DELETE"
-            })
-            if (deletePicture.ok) {
-                const picture = await csrfFetch("/api/spots/images/upload", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    body: formData
-                })
-                const url = await picture.json()
-                const newSpotImage = {
-                    spotId,
-                    url,
-                    preview: false
-                }
-                const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-                    method: "POST",
-                    body: JSON.stringify(newSpotImage)
-                })
-                const image = await spotImage.json()
-                setSecondPicture(image.url)
-                setSecondPictureId(image.id)
-                await dispatch(spotActions.getOne(spotId))
-            } else {
-                console.log(await deletePicture.json())
-            }
-        } else {
-            const picture = await csrfFetch("/api/spots/images/upload", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                body: formData
-            })
-            const url = await picture.json()
-            const newSpotImage = {
-                spotId,
-                url,
-                preview: false
-            }
-            const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-                method: "POST",
-                body: JSON.stringify(newSpotImage)
-            })
-            const image = await spotImage.json()
-            setSecondPicture(image.url)
-            setSecondPictureId(image.id)
-            await dispatch(spotActions.getOne(spotId))
-        }
-    }
-    const handleImageUploadThree = async (e, id) => {
-        e.preventDefault()
-        let correctFile
-        console.log("HIT")
-        let imageInput = document.querySelector("#file-input-3")
-        console.log(imageInput.files)
-        for (let i = 0; i < imageInput.files.length; i++) {
-            let img = imageInput.files[i]
-            if (img.type !== "image/jpeg" && img.type !== "image/png") {
-                correctFile = false
-            }
-        }
-        if (correctFile === false) return window.alert("Please use correct file extensions (jpg, jpeg, png)")
-        let img = imageInput.files[0]
-        formData.append('image', img)
-        //delete the original picture
-        if (allSpotsOBJ?.SpotImages[3]) {
-            const deletePicture = await csrfFetch(`/api/spot-images/${id}`, {
-                method: "DELETE"
-            })
-            if (deletePicture.ok) {
-                const picture = await csrfFetch("/api/spots/images/upload", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    body: formData
-                })
-                const url = await picture.json()
-                const newSpotImage = {
-                    spotId,
-                    url,
-                    preview: false
-                }
-                const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-                    method: "POST",
-                    body: JSON.stringify(newSpotImage)
-                })
-                const image = await spotImage.json()
-                setThirdPicture(image.url)
-                setThirdPictureId(image.id)
-                await dispatch(spotActions.getOne(spotId))
-            } else {
-                console.log(await deletePicture.json())
-            }
-        } else {
-            const picture = await csrfFetch("/api/spots/images/upload", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                body: formData
-            })
-            const url = await picture.json()
-            const newSpotImage = {
-                spotId,
-                url,
-                preview: false
-            }
-            const spotImage = await csrfFetch(`/api/spots/${spotId}/images`, {
-                method: "POST",
-                body: JSON.stringify(newSpotImage)
-            })
-            const image = await spotImage.json()
-            setThirdPicture(image.url)
-            setThirdPictureId(image.id)
-            await dispatch(spotActions.getOne(spotId))
         }
     }
     //! Filter SpotImages array for id and use that maybe?
@@ -398,33 +188,6 @@ function SpotById() {
                             {spots.SpotImages[0].url && (
                                 <>
                                     <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0].url} alt="cave"></img>
-                                    {/* <label htmlFor='file-input'>
-                                        <div>
-                                            {!firstImage && !spots.SpotImages[0] && (
-                                                <i class="fa-solid fa-circle-plus"></i>
-                                            )}
-                                            {firstImage && spots.SpotImages[0] && (
-                                                <img style={{ height: "500px", width: "400px" }} src={firstImage} alt="cave"></img>
-                                            )}
-                                            {!firstImage && spots.SpotImages[0] && (
-                                                <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0].url} alt="cave"></img>
-                                            )}
-                                            {console.log("FIRST IMAGE IN HTML", firstImage)}
-                                        </div>
-                                    </label>
-                                    {firstImage && spots.SpotImages[0] && (
-                                        <>
-                                            <input onChange={(e) => handleImageUpload(e, firstPictureId)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
-                                        </>
-                                    )}
-                                    {!firstImage && spots.SpotImages[0] && (
-                                        <>
-                                            <input onChange={(e) => handleImageUpload(e, spots.SpotImages[0].id)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
-                                        </>
-                                    )}
-                                    {!firstImage && !spots.SpotImages[0] && (
-                                        <input onChange={(e) => handleImageUpload(e)} style={{ visibility: "hidden" }} id='file-input' type='file' name='file' encType="multipart/form-data" />
-                                    )} */}
                                 </>
                             )}
                         </div>
@@ -472,10 +235,9 @@ function SpotById() {
                                 )}
                             </div>
                             <div className='second-image-upload-container'>
-                                {spots?.SpotImages[3]?.url && (
-                                    <>
-                                        <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[3].url}></img>
-                                        {/* <label htmlFor='file-input-3' onChange={(e) => handleImageUploadThree(e, spots?.SpotImages[3].id)}>
+                                <>
+                                    <img style={{ height: "250px", width: "253px" }} src={spots?.SpotImages[3]?.url}></img>
+                                    {/* <label htmlFor='file-input-3' onChange={(e) => handleImageUploadThree(e, spots?.SpotImages[3].id)}>
                                             <div>
                                                 {!spots?.SpotImages[3]?.url && (
                                                     <i class="fa-solid fa-circle-plus"></i>
@@ -486,11 +248,7 @@ function SpotById() {
                                             </div>
                                         </label>
                                         <input onChange={(e) => spots.SpotImages[3].url !== undefined ? handleImageUploadThree(e, thirdPictureId) : handleImageUploadThree(e)} style={{ visibility: "hidden" }} id='file-input-3' type='file' name='file' encType="multipart/form-data" /> */}
-                                    </>
-                                )}
-                                {!spots?.SpotImages[3]?.url && (
-                                    <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
-                                )}
+                                </>
                             </div>
                         </div>
                     </div>
@@ -500,7 +258,7 @@ function SpotById() {
                             <h2 style={{ width: "52%" }}>
                                 {spots.description}
                             </h2>
-                            <h3>Hosted by <Link style={{ textDecoration: "none", color: "black" }} to={`/user/${spots.Owner.id}`}>{spots.Owner.firstName}</Link></h3>
+                            <h3>Hosted by <Link style={{ textDecoration: "none", color: "black" }} to={`/user/${spots?.Owner?.id}`}>{spots?.Owner?.firstName}</Link></h3>
                             {!user || user.id === spots.ownerId && (
                                 <div className='actual-button-container'>
                                     <div className='card-button-div-container' style={{ visibility: user === null || user.id !== spots.ownerId ? "hidden" : "visible" }}>
