@@ -35,27 +35,27 @@ module.exports = {
       {
         reviewId: 5,
         url: 'www.kcdksps.com'
-      },
-      {
-        reviewId: 6,
-        url: 'www.erftg.com'
-      },
-      {
-        reviewId: 7,
-        url: 'www.sdq3ewrf.com'
-      },
-      {
-        reviewId: 8,
-        url: 'www.tjny.com'
-      },
-      {
-        reviewId: 9,
-        url: 'www.ytjesd.com'
-      },
-      {
-        reviewId: 10,
-        url: 'www.nfbmasd.com'
       }
+      // {
+      //   reviewId: 6,
+      //   url: 'www.erftg.com'
+      // },
+      // {
+      //   reviewId: 7,
+      //   url: 'www.sdq3ewrf.com'
+      // },
+      // {
+      //   reviewId: 8,
+      //   url: 'www.tjny.com'
+      // },
+      // {
+      //   reviewId: 9,
+      //   url: 'www.ytjesd.com'
+      // },
+      // {
+      //   reviewId: 10,
+      //   url: 'www.nfbmasd.com'
+      // }
     ])
   },
 

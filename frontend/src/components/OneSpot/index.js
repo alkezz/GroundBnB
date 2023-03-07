@@ -167,10 +167,13 @@ function SpotById() {
                     </div>
                     <div id='img-div'>
                         <div className='first-image-upload-placeholder'>
-                            {spots.SpotImages[0].url && (
+                            {spots?.SpotImages[0]?.url && (
                                 <>
                                     <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0].url} alt="cave"></img>
                                 </>
+                            )}
+                            {!spots?.SpotImages[0]?.url && (
+                                <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}></img>
                             )}
                         </div>
                         <div className='first-image-upload-placeholder'>

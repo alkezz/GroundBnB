@@ -6,6 +6,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf';
 import SlideShow from './slideshow';
+import Maps from '../Maps/Maps';
 import './AllSpots.css'
 
 function AllSpotsPage() {
@@ -70,6 +71,9 @@ function AllSpotsPage() {
                             </div>
                         </>
                     )}
+                    <div>
+                        <Maps allSpots={allSpots} />
+                    </div>
                 </div>
             )}
         </div>
