@@ -1,8 +1,8 @@
 .all-spots-div{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 335px);
+    grid-template-columns: repeat(auto-fill, 500px);
     padding: 5%;
-    /* border: 1px black solid; */
+    border: 1px black solid;
     justify-content: center;
 }
 #spot-buttons{
@@ -10,7 +10,7 @@
     border: none;
     height: 400px;
     display: flex;
-    /* border: 1px solid hotpink; */
+    border: 1px solid hotpink;
 }
 img {
     border-radius: 15px;
@@ -33,4 +33,17 @@ img {
 #preview-image-div{
     height: 300px;
     width: 320px;
+}
+
+.landing-page-container{
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+}
+.right-landing-page-container{
+    margin-top: -16px;
+}
+.left-landing-page-container{
+    /* margin-right: 48%; */
+    padding-right: 500px;
 }

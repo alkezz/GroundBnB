@@ -5,7 +5,7 @@ let key
 const Maps = ({ allSpots }) => {
     key = useSelector((state) => state.maps.key);
     return (
-        <Map style={{ width: "500px", height: "500px" }} zoom={10} initialCenter={{ lat: 40.7831, lng: -73.9712 }} google={window.google}>
+        <Map containerStyle={{ width: "50%", height: "100%" }} style={{ width: "100%", height: "100%" }} zoom={10} initialCenter={{ lat: 40.7831, lng: -73.9712 }} google={window.google}>
             {allSpots.map((item, index) => (
                 <Marker key={index} position={{ lat: item.lat, lng: item.lng }} title={item.name} />
             ))}
