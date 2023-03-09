@@ -3,5 +3,5 @@
     src: local('Circular'), url(./fonts/Circular/CircularStd-Light.otf) format('opentype');
 }
 body{
-    background-color: #262626;
+    background-color: white;
 }

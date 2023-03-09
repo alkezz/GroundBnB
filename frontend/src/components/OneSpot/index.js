@@ -220,20 +220,7 @@ function SpotById() {
                                 )}
                             </div>
                             <div className='second-image-upload-container'>
-                                <>
-                                    <img style={{ height: "250px", width: "253px" }} src={spots?.SpotImages[3]?.url}></img>
-                                    {/* <label htmlFor='file-input-3' onChange={(e) => handleImageUploadThree(e, spots?.SpotImages[3].id)}>
-                                            <div>
-                                                {!spots?.SpotImages[3]?.url && (
-                                                    <i class="fa-solid fa-circle-plus"></i>
-                                                )}
-                                                {spots?.SpotImages[3]?.url && (
-                                                    <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[3].url}></img>
-                                                )}
-                                            </div>
-                                        </label>
-                                        <input onChange={(e) => spots.SpotImages[3].url !== undefined ? handleImageUploadThree(e, thirdPictureId) : handleImageUploadThree(e)} style={{ visibility: "hidden" }} id='file-input-3' type='file' name='file' encType="multipart/form-data" /> */}
-                                </>
+                                <img style={{ height: "250px", width: "253px" }} src={spots?.SpotImages[3]?.url}></img>
                             </div>
                         </div>
                     </div>
@@ -322,11 +309,11 @@ function SpotById() {
             <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
             &nbsp;
             {user?.id !== spots?.ownerId && (
-                <div style={{ visibility: !user || user.id === spots.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #dddddd", paddingBottom: "50px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "550px", position: "sticky", top: "100px", marginTop: "-1050px", boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)" }}>
+                <div style={{ visibility: !user || user.id === spots.ownerId ? "hidden" : "visible", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #dddddd", paddingBottom: "50px", borderRadius: "15px", backgroundColor: "#ffffff", width: "400px", height: "400px", marginBottom: "10px", marginLeft: "62%", bottom: "-1000px", position: "sticky", top: "-1000px", boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)" }}>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "85%" }}>
                         <h2 style={{ marginBottom: "10px" }}>${spots.price} <span style={{ fontSize: "16px" }}>night</span></h2>
                         <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
-                            <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
+                            <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) || !user ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
                             <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
                             &nbsp;
                             ·

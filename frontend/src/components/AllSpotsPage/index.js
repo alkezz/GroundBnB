@@ -76,6 +76,12 @@ function AllSpotsPage() {
         //     )}
         // </div>
         <div className='landing-page-container'>
+            {allSpots && (
+                <div className='right-landing-page-container'>
+                    <Maps allSpots={allSpots} />
+                    {/* <h1>yoyoyoyo</h1> */}
+                </div>
+            )}
             <div className='all-spots'>
                 {allSpots.map((spot, idx) =>
                     <>
@@ -87,21 +93,23 @@ function AllSpotsPage() {
                                             <SlideShow spot={spot} />
                                         </div>
                                         <br />
-                                        <div style={{ fontSize: "16px", fontWeight: "700" }}>&nbsp;&nbsp;{spot.name}</div>
-                                        <div id={`state-div`} style={{ fontSize: "16px", display: "flex", flexDirection: "row", width: "97%", justifyContent: "space-between" }}>
-                                            <Link to={`/spots/${spot.id}`} style={{ marginLeft: "10px", fontWeight: "750", textDecoration: "none", color: "white" }}>{spot.city}, {spot.state} &nbsp;</Link>
-                                            <div style={{ display: "flex", marginRight: "10px" }}>
-                                                <div>
-                                                    {isNaN(spot.avgRating) ? "" : <i style={{ fontSize: "12px", position: "relative", top: "-2px" }} class="fa-solid fa-star"></i>}
-                                                </div>
-                                                &nbsp;
-                                                <div>{isNaN(spot.avgRating) ? "No Reviews Yet!" : spot.avgRating}
+                                        <div style={{ cursor: "pointer" }} onClick={(e) => history.push(`/spots/${spot.id}`)}>
+                                            <div style={{ fontSize: "16px", fontWeight: "700" }}><Link style={{ fontWeight: "750", textDecoration: "none", color: "black" }} to={`/spots/${spot.id}`}>&nbsp;&nbsp;{spot.name}</Link></div>
+                                            <div id={`state-div`} style={{ fontSize: "16px", display: "flex", flexDirection: "row", width: "97%", justifyContent: "space-between" }}>
+                                                <Link to={`/spots/${spot.id}`} style={{ marginLeft: "10px", fontWeight: "750", textDecoration: "none", color: "black" }}>{spot.city}, {spot.state} &nbsp;</Link>
+                                                <div style={{ display: "flex", marginRight: "10px" }}>
+                                                    <div>
+                                                        {isNaN(spot.avgRating) ? "" : <i style={{ fontSize: "12px", position: "relative", top: "-2px" }} class="fa-solid fa-star"></i>}
+                                                    </div>
+                                                    &nbsp;
+                                                    <div>{isNaN(spot.avgRating) ? "No Reviews Yet!" : spot.avgRating}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <br />
-                                        <div id={`price-div`}>
-                                            <span style={{ fontWeight: "900" }}>${spot.price}</span>/night
+                                            <br />
+                                            <div id={`price-div`}>
+                                                <span style={{ fontWeight: "900" }}>${spot.price}</span>/night
+                                            </div>
                                         </div>
                                         <br />
                                     </div>
@@ -111,13 +119,6 @@ function AllSpotsPage() {
                     </>
                 )}
             </div>
-            &nbsp;
-            {allSpots && (
-                <div className='right-landing-page-container'>
-                    <Maps allSpots={allSpots} />
-                    {/* <h1>yoyoyoyo</h1> */}
-                </div>
-            )}
         </div>
     )
 }

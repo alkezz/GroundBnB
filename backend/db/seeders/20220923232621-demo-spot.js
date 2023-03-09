@@ -23,7 +23,7 @@ module.exports = {
         ownerId: 1,
         address: "123 Main St",
         city: "New York",
-        state: "NY",
+        state: "New York",
         country: "USA",
         lat: 40.7128,
         lng: -74.0060,

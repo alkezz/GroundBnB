@@ -34,7 +34,7 @@
     padding-bottom: 2%;
 } */
 .nav-ul{
-    border-bottom: 1px #262626 solid;
+    /* border-bottom: 1px #262626 solid; */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -42,7 +42,7 @@
     position: sticky;
     height: 50px;
     top: 0px;
-    background-color: #262626;
+    background-color: white;
     padding-bottom: 15px;
 }
 ul.profile-dropdown{

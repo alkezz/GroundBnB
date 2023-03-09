@@ -12,7 +12,14 @@
     display: flex;
     border: 1px solid hotpink;
 } */
-img {
+/* img {
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+} */
+#all-spots-images{
     border-radius: 15px;
     width: 100%;
     height: 100%;
@@ -29,7 +36,7 @@ img {
 
 #price-div{
     margin-left: 3%;
-    color: white
+    color: black
 }
 #preview-image-div{
     height: 300px;
@@ -51,7 +58,7 @@ img {
 } */
 .all-spots{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 350px);
+    grid-template-columns: repeat(auto-fill, 340px);
     padding: 5%;
     /* border: 1px black solid; */
     /* justify-content: center; */
@@ -59,8 +66,12 @@ img {
     /* margin-right: 850px; */
     /* margin-left: 50px; */
     overflow-y:scroll;
-    color: white;
+    color: black;
     height: 550px;
     overflow-x: hidden;
-    margin-right: 30%;
+    margin-left: 41.7%;
+}
+
+::-webkit-scrollbar{
+    width: 5px;
 }
