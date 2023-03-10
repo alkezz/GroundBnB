@@ -4,11 +4,11 @@ ul.spot-stats-ul > li {
 }
 
 .one-spot-name{
-    margin-left: 20%;
+    /* margin-left: 20%; */
 }
 
 .one-spot-stats{
-    margin-left: 18%;
+    /* margin-left: 18%; */
 }
 
 .above-picture-info{
@@ -31,7 +31,7 @@ ul.spot-stats-ul > li {
     /* margin-left: 20%; */
     width: 60%;
     height: 500px;
-    margin-left: 20%;
+    /* margin-left: 20%; */
     display: flex;
     flex-direction: row;
 }
@@ -64,7 +64,7 @@ ul.spot-stats-ul > li {
 
 #actual-text-div{
     font-size: 12px;
-    margin-left: 20.5%;
+    /* margin-left: 20.5%; */
 }
 
 .button-div-container{
@@ -91,9 +91,6 @@ ul.spot-stats-ul > li {
     background-color: #d60565;
     border-radius: 8px;
 }
-.extra-info-div{
-    margin-left: 18.5%;
-}
 
 .review-button-div{
     margin-top: 10%;
@@ -119,8 +116,8 @@ ul.spot-stats-ul > li {
     justify-content: center;
 }
 .single-review-container{
-    margin-top: 3%;
-    margin-left: 3%;
+    /* margin-top: 3%; */
+    /* margin-left: 3%; */
 }
 /* #actual-text-div > h2{
     display: flex;
@@ -194,6 +191,7 @@ body{
     position: sticky;
     margin-top: -1020px;
     top: 100px;
-    left: 75%;
+    left: 55.5%;
+    /* left: 830px; */
     box-shadow: black 2px 2px 2px;
 }

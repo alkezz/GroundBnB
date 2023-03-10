@@ -140,7 +140,7 @@ function SpotById() {
     }
     if (!spots) return null
     return (
-        <>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             {spots.SpotImages && (
                 <div className='entire-one-spot-info'>
                     <div className='above-picture-info'>
@@ -169,14 +169,14 @@ function SpotById() {
                     </div>
                     <div id='img-div'>
                         <div className='first-image-upload-placeholder'>
-                            <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0].url} alt="cave"></img>
+                            <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0]?.url} alt="cave"></img>
                         </div>
                         <div className='first-image-upload-placeholder'>
-                            <img style={{ height: "500px", width: "350px" }} src={spots.SpotImages[1].url}></img>
+                            <img style={{ height: "500px", width: "350px" }} src={spots.SpotImages[1]?.url}></img>
                         </div>
                         <div className='second-image-upload-placeholder'>
                             <div className='second-image-upload-container'>
-                                <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[2].url}></img>
+                                <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[2]?.url}></img>
                             </div>
                             <div className='second-image-upload-container'>
                                 <img style={{ height: "250px", width: "253px" }} src={spots?.SpotImages[3]?.url}></img>
@@ -207,19 +207,19 @@ function SpotById() {
                     </div>
                 </div>
             )}
-            <br></br>
-            <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
             <br />
-            <img style={{ height: "25px", width: "125px", marginLeft: "20.5%", zIndex: "9999" }} src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg'></img>
-            <br />
-            <span style={{ marginLeft: "20.5%", width: "38%", display: "block", fontSize: "16px" }}>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</span>
-            <br />
-            <Link target="_blank" to={{ pathname: "https://www.github.com/alkezz" }} style={{ marginLeft: "20.5%", width: "38%", display: "block", color: "black", fontWeight: "600", fontSize: "16px" }}>Learn more</Link>
-            <br />
-            <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
-            <div>
+            <div style={{ borderBottom: '1px #dddddd solid', display: 'flex' }}></div>
+            <div style={{ marginRight: "150px" }}>
+                <br />
+                <img style={{ height: "25px", width: "125px", zIndex: "9999" }} src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg'></img>
+                <br />
+                <span style={{ width: "45%", display: "block", fontSize: "16px" }}>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</span>
+                <br />
+                <Link target="_blank" to={{ pathname: "https://www.github.com/alkezz" }} style={{ width: "38%", display: "block", color: "black", fontWeight: "600", fontSize: "16px" }}>Learn more</Link>
+                <br />
+                <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "65%" }}></div>
                 <div className='extra-info-div'>
-                    <h3 style={{ marginLeft: "2.5%" }}>What this place offers</h3>
+                    <h3>What this place offers</h3>
                     <ul style={{ listStyle: 'none' }}>
                         <li key='closed-door'>
                             <i style={{ width: "25px" }} class="fa-solid fa-door-closed"></i> Self check-in
@@ -241,22 +241,21 @@ function SpotById() {
                             <i style={{ width: "25px" }} class="fa-solid fa-wifi"></i> WiFi
                         </li>
                     </ul>
+                    <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "65%" }}></div>
                 </div>
-                <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
-            </div>
-            <br />
-            <div style={{ marginLeft: "20.5%" }}>
-                {startDate && endDate && (
-                    <div>
-                        <h2 style={{ marginBottom: "0px" }}>{Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights in {spots.name}</h2>
-                        <span style={{ color: "#717171", fontSize: "14px" }}>{startDate} - {endDate}</span>
-                    </div>
-                )}
-                <Calendar
-                    selectRange={true}
-                    onChange={(e) => { setDate(e); setStartDate(e[0]?.toISOString().substring(0, 10)); setEndDate(e[1]?.toISOString().substring(0, 10)) }}
-                    value={date}
-                />
+                <div>
+                    {startDate && endDate && (
+                        <div>
+                            <h2 style={{ marginBottom: "0px" }}>{Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights in {spots.name}</h2>
+                            <span style={{ color: "#717171", fontSize: "14px" }}>{startDate} - {endDate}</span>
+                        </div>
+                    )}
+                    <Calendar
+                        selectRange={true}
+                        onChange={(e) => { setDate(e); setStartDate(e[0]?.toISOString().substring(0, 10)); setEndDate(e[1]?.toISOString().substring(0, 10)) }}
+                        value={date}
+                    />
+                </div>
             </div>
             <br />
             <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
@@ -548,12 +547,8 @@ function SpotById() {
                 </div>
             )}
             <div style={{ paddingBottom: "50px", marginTop: "600px" }}>
-                {/* <h1 style={{ marginLeft: "21%" }}>Reviews:</h1> */}
-                {/* {spots.ownerId === user.id && (
-                    <h1>yo</h1>
-                )} */}
-                {hasOldBooking && !hasReview && (
-                    <div style={{ display: "flex", flexDirection: "column", marginLeft: "21%" }}>
+                {!hasReview && (
+                    <div style={{ display: "flex", flexDirection: "column", marginRight: "660px" }}>
                         {errors.length > 0 && (
                             <div style={{ backgroundColor: "red", width: "fit-content", marginBottom: "25px", paddingTop: "20px", display: "flex", paddingLeft: "10px" }}>
                                 <i style={{ color: "white", paddingBottom: "10px" }} className="fa-solid fa-circle-xmark fa-3x"></i>
@@ -567,13 +562,6 @@ function SpotById() {
                                 </div>
                             </div>
                         )}
-                        {/* <input
-                        max={5}
-                        min={1}
-                        type="number"
-                        placeholder='Stars'
-                        defaultValue={1}
-                    /> */}
                         <div style={{ display: "flex", flexDirection: "row", paddingBottom: "15px" }}>
                             <button className='stars-button' value={1} onClick={(e) => {
                                 if (stars <= 0) {
@@ -656,7 +644,7 @@ function SpotById() {
                         </div>
                         <div>
                             <textarea onChange={(e) => { setReview(e.target.value); setCount(e.target.value.length) }} placeholder='Write a review...' maxLength={60} type="text" style={{ width: "300px", height: "100px", resize: "none" }} />
-                            <p style={{ marginTop: "-22px", marginLeft: "260px" }}>{count}/60</p>
+                            <p style={{ marginTop: "-25px", marginLeft: "260px" }}>{count}/60</p>
                         </div>
                         {reviewArray.length >= 0 && (
                             <div className='center-review-button'>
@@ -665,119 +653,17 @@ function SpotById() {
                         )}
                     </div>
                 )}
-                {!hasOldBooking && spots?.ownerId !== user?.id && (
-                    <>
-                        <h3 style={{ marginLeft: "21%" }}>To leave a review you must have had booked this spot in the past</h3>
-                        <div style={{ display: "flex", flexDirection: "column", marginLeft: "21%" }}>
-                            {errors.length > 0 && (
-                                <div style={{ backgroundColor: "red", width: "fit-content", marginBottom: "25px", paddingTop: "20px", display: "flex", paddingLeft: "10px" }}>
-                                    <i style={{ color: "white", paddingBottom: "10px" }} className="fa-solid fa-circle-xmark fa-3x"></i>
-                                    <div style={{ display: "flex", flexDirection: "column", marginLeft: "10px", marginRight: "10px", justifyContent: "center" }}>
-                                        {errors.map((error) => {
-                                            return <>
-                                                <div style={{ color: "white" }}>{error}</div>
-                                                <br />
-                                            </>
-                                        })}
-                                    </div>
-                                </div>
-                            )}
-                            <div style={{ display: "flex", flexDirection: "row", paddingBottom: "15px" }}>
-                                <button className='stars-button' value={1} onClick={(e) => {
-                                    if (stars <= 0) {
-                                        setStars(1)
-                                    } else {
-                                        setStars(0)
-                                    }
-                                }}>
-                                    {stars >= 1 && (
-                                        <i style={{ fontSize: "18px" }} class="fa-solid fa-star fa-2x"></i>
-                                    )}
-                                    {stars === undefined || stars <= 0 && (
-                                        <i id="one-spot-star" class="fa-regular fa-star"></i>
-                                    )}
-                                </button>
-                                <button className='stars-button' value={2} onClick={(e) => {
-                                    if (stars <= 1) {
-                                        setStars(2)
-                                    } else {
-                                        setStars(0)
-                                    }
-                                }} style={{ background: "none", width: "fit-content", border: "none", cursor: "pointer" }}>
-                                    {stars >= 2 && (
-                                        <i style={{ fontSize: "18px" }} class="fa-solid fa-star"></i>
-                                    )}
-                                    {stars === undefined || stars <= 1 && (
-                                        <i id="one-spot-star" style={{ fontSize: "18px" }} class="fa-regular fa-star"></i>
-                                    )}
-                                </button>
-                                <button className='stars-button' value={3} onClick={(e) => {
-                                    if (stars <= 2) {
-                                        setStars(3)
-                                    } else {
-                                        setStars(0)
-                                    }
-                                }} style={{ background: "none", width: "fit-content", border: "none", cursor: "pointer" }}>
-                                    {stars >= 3 && (
-                                        <i style={{ fontSize: "18px" }} class="fa-solid fa-star"></i>
-                                    )}
-                                    {stars === undefined || stars <= 2 && (
-                                        <i id="one-spot-star" style={{ fontSize: "18px" }} class="fa-regular fa-star"></i>
-                                    )}
-                                </button>
-                                <button className='stars-button' value={4} onClick={(e) => {
-                                    if (stars <= 3) {
-                                        setStars(4)
-                                    } else {
-                                        setStars(0)
-                                    }
-                                }} style={{ background: "none", width: "fit-content", border: "none", cursor: "pointer" }}>
-                                    {stars >= 4 && (
-                                        <i style={{ fontSize: "18px" }} class="fa-solid fa-star"></i>
-                                    )}
-                                    {stars === undefined || stars <= 3 && (
-                                        <i id="one-spot-star" style={{ fontSize: "18px" }} class="fa-regular fa-star"></i>
-                                    )}
-                                </button>
-                                <button className='stars-button' value={5} onClick={(e) => {
-                                    if (stars <= 4) {
-                                        setStars(5)
-                                    } else {
-                                        setStars(0)
-                                    }
-                                }} style={{ background: "none", width: "fit-content", border: "none", cursor: "pointer" }}>
-                                    {stars === 5 && (
-                                        <i style={{ fontSize: "18px" }} class="fa-solid fa-star"></i>
-                                    )}
-                                    {stars === undefined || stars <= 4 && (
-                                        <i id="one-spot-star" style={{ fontSize: "18px" }} class="fa-regular fa-star"></i>
-                                    )}
-                                </button>
-                            </div>
-                            <div>
-                                <textarea onChange={(e) => { setReview(e.target.value); setCount(e.target.value.length) }} placeholder='Write a review...' maxLength={60} type="text" style={{ width: "300px", height: "100px", resize: "none" }} />
-                                <p style={{ marginTop: "-22px", marginLeft: "260px" }}>{count}/60</p>
-                            </div>
-                            {reviewArray.length >= 1 && (
-                                <div className='center-review-button'>
-                                    <button disabled style={{ cursor: "not-allowed", visibility: (user === null || user.id === spots.ownerId) || hasReview === true ? 'hidden' : 'visible', border: "none", width: "100px", height: "30px" }} className='add-review-button' onClick={(e) => { handleReview(e); setStars(0) }}>Submit</button>
-                                </div>
-                            )}
-                        </div>
-                    </>
-                )}
-                {hasReview && (
-                    <h2 style={{ marginLeft: "21%" }}>Thanks for your review!</h2>
-
+                {hasReview && user && (
+                    <h2>Thanks for your review!</h2>
                 )}
                 <br />
                 {reviewArray.length <= 0 && (
                     <>
-                        <div style={{ marginLeft: '40%' }}>No Reviews Yet!</div>
+                        <div>No Reviews Yet!</div>
                     </>
                 )}
-                <div style={{ borderBottom: '1px solid #dddddd', width: "40%", marginLeft: "20.5%" }}></div>
-                <div style={{ fontWeight: "600", fontSize: "22px", marginLeft: "20.5%" }}>
+                <div style={{ borderBottom: '1px solid #dddddd', width: "55%" }}></div>
+                <div style={{ fontWeight: "600", fontSize: "22px" }}>
                     <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
                     <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
                     &nbsp;
@@ -788,7 +674,7 @@ function SpotById() {
                 <br />
                 <div className='center-review-box'>
                     {reviewArray.length >= 1 && (
-                        <div style={{ border: '1px black #dddddd', width: "40%", marginLeft: "-350px" }} className='review-container-div'>
+                        <div style={{ border: '1px black #dddddd', width: "100%", marginRight: "550px" }} className='review-container-div'>
                             {reviewArray.map((review) =>
                                 <div >
                                     <div className='single-review-container'>
@@ -804,30 +690,20 @@ function SpotById() {
                                             {[...Array(review.stars)].map((_, i) =>
                                                 <i key={i} class="fa-solid fa-star"></i>
                                             )}
-                                            {/* <i class="fa-solid fa-star"></i> &nbsp;{review.stars} */}
                                         </div>
                                         <div style={{ paddingBottom: "10px", paddingTop: "10px" }}>
                                             <button onClick={async (e) => { handleDeleteReview(e, review); }} style={{ visibility: user === null || user.id !== review.userId ? 'hidden' : 'visible', cursor: "pointer" }} className='delete-buttons'>Delete Review</button>
                                             <EditCommentModal user={user} reviews={review} />
                                         </div>
                                     </div>
-                                    <div style={{ borderBottom: '1px solid #dddddd' }}></div>
+                                    <div style={{ borderBottom: '1px solid #dddddd', width: "130%" }}></div>
                                 </div>
                             )}
                         </div>
                     )}
-                    {/* {reviewArray.length <= 0 && (
-                        <>
-                            <div>
-                                <div className='review-button-div'>
-                                    <button style={{ visibility: user === null || user.id === spots.ownerId ? 'hidden' : 'visible' }} className='add-review-button' onClick={() => history.push(`/spots/${stringId}/review/create`)}>Create a Review</button>
-                                </div>
-                            </div>
-                        </>
-                    )} */}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
