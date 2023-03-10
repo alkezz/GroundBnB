@@ -73,7 +73,7 @@ const SlideShow = ({ key, spot }) => {
     return (
         <>
             <Link to={`/spots/${spot.id}`} style={{ zIndex: "999" }} onMouseEnter={() => setShowArrows(true)}>
-                <img src={spot?.SpotImages[index]?.url} alt='cave'></img>
+                <img id="all-spots-images" src={spot?.SpotImages[index]?.url} alt='cave'></img>
             </Link>
             {showArrows && (
                 <>

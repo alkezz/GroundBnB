@@ -23,7 +23,7 @@ function Navigation({ isLoaded }) {
             <>
                 <nav className='log-out-create-spot-div' style={{ position: "sticky" }}>
                     <div style={{ marginTop: "12px" }} className='become-host-div'>
-                        <Link to='/spot/create' className='become-host-link'>Groundbnb your cave</Link>
+                        <Link to='/spot/create' className='become-host-link'>Groundbnb your home</Link>
                     </div>
                     &nbsp;
                     &nbsp;
@@ -39,7 +39,7 @@ function Navigation({ isLoaded }) {
         sessionLinks = (
             <>
                 <div className='become-host-div'>
-                    <Link className='become-host-link' onClick={() => setShowLogInModal(true)}>Groundbnb your cave</Link>
+                    <Link className='become-host-link' onClick={() => setShowLogInModal(true)}>Groundbnb your home</Link>
                     {showLogInModal && (
                         <Modal onClose={() => setShowLogInModal(false)}>
                             {/* //clicking again makes it disappear or outside the box */}

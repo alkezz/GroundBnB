@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getKey } from '../../store/maps';
 import { csrfFetch } from '../../store/csrf';
+import Geocode from "react-geocode"
 import './CreateSpotForm.css'
-
+let key
 function CreateSpot() {
     const history = useHistory()
-    const key = useSelector(state => state.maps.key)
     const dispatch = useDispatch();
     const [address, setAddress] = useState("")
     const [city, setCity] = useState("")
@@ -26,36 +26,27 @@ function CreateSpot() {
     const formData2 = new FormData()
     const formData3 = new FormData()
     const formData4 = new FormData()
+    key = useSelector((state) => state.maps.key);
+    Geocode.setLanguage("en")
+    Geocode.setApiKey(key)
     let urlArray = []
-    useEffect(() => {
-        if (!key) {
-            dispatch(getKey());
-        }
-        // const errors = []
-        // if (address.length < 10 || address.length > 15) errors.push("Address must be between 10 and 15 characters")
-        // if (city.length <= 0 || city.length > 15) errors.push("City must be 15 characters or less")
-        // if (state.length <= 0 || state.length > 15) errors.push("State must be 15 characters or less")
-        // if (country.length <= 0 || country.length > 10) errors.push("Country must be 10 characters or less")
-        // if (name.length <= 0 || name.length > 10) errors.push("Name of location must be 10 characters or less")
-        // if (description.length <= 0 || description.length > 20) errors.push("Description should be 20 characters or less!")
-        // if (price <= 1) errors.push("Please enter a valid price per night, can not be below $1!")
-        // if (!url.includes('https')) errors.push('Url must start with https')
-        // setErrors(errors)
-    }, [dispatch, key]);
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
         const errors = []
-        if (address.length < 10 || address.length > 15) errors.push("Address must be between 10 and 15 characters")
+        if (address.length < 10 || address.length > 30) errors.push("Address must be between 10 and 30 characters")
         if (city.length <= 0 || city.length > 15) errors.push("City must be 15 characters or less")
         if (state.length <= 0 || state.length > 15) errors.push("State must be 15 characters or less")
-        if (country.length <= 0 || country.length > 10) errors.push("Country must be 10 characters or less")
-        if (name.length <= 0 || name.length >= 10) errors.push("Name of location must be 10 characters or less")
-        if (description.length <= 0 || description.length > 20) errors.push("Description should be 20 characters or less!")
+        if (country.length <= 0 || country.length > 30) errors.push("Country must be 30 characters or less")
+        if (name.length <= 0 || name.length >= 30) errors.push("Name of location must be 30 characters or less")
+        if (description.length <= 0 || description.length > 60) errors.push("Description should be 60 characters or less!")
         if (price <= 1) errors.push("Please enter a valid price per night, can not be below $1!")
         setErrors(errors)
         preview === 'true' ? preview = true : preview = false;
         if (errors.length) return
+        const latAndLng = await Geocode.fromAddress(`${address}, ${city} ${state}`)
+        setLat(latAndLng.results[0].geometry.location.lat)
+        setLng(latAndLng.results[0].geometry.location.lng)
         const spot = {
             address,
             city,
@@ -150,14 +141,11 @@ function CreateSpot() {
         })
         const url = await picture.json()
         urlArray.push(url)
-        console.log("URLARRAY", urlArray)
     }
     const fourHandleImageUpload = async (e, id) => {
         e.preventDefault()
         let correctFile
-        console.log("HIT")
         let imageInput = document.querySelector("#file-input-4")
-        // console.log(imageInput.files)
         for (let i = 0; i < imageInput.files.length; i++) {
             let img = imageInput.files[i]
             console.log("IMG", img)
@@ -177,7 +165,6 @@ function CreateSpot() {
         })
         const url = await picture.json()
         urlArray.push(url)
-        console.log("URLARRAY", urlArray)
     }
     return (
         <div className='center-create-spot-form-div'>

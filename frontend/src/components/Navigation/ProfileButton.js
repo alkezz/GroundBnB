@@ -10,22 +10,7 @@ function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const sessionUser = useSelector((state) => state.session.user)
-    const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
-    };
-
-    useEffect(() => {
-        if (!showMenu) return;
-
-        const closeMenu = () => {
-            setShowMenu(false);
-        };
-
-        document.addEventListener('click', closeMenu);
-
-        return () => document.removeEventListener("click", closeMenu);
-    }, [showMenu]);
+    const openMenu = () => showMenu ? setShowMenu(false) : setShowMenu(true)
 
     const logout = (e) => {
         e.preventDefault();
