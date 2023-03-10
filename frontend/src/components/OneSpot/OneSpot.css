@@ -181,3 +181,19 @@ ul.spot-stats-ul > li {
 body{
     color: black;
 }
+.book-spot-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    padding-bottom: 50px;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+    width: 400px;
+    height: 400px;
+    position: sticky;
+    margin-top: -1020px;
+    top: 100px;
+    left: 75%;
+    box-shadow: black 2px 2px 2px;
+}
