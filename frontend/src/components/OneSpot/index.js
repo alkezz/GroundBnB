@@ -682,13 +682,6 @@ function SpotById() {
                                     </div>
                                 </div>
                             )}
-                            {/* <input
-                        max={5}
-                        min={1}
-                        type="number"
-                        placeholder='Stars'
-                        defaultValue={1}
-                    /> */}
                             <div style={{ display: "flex", flexDirection: "row", paddingBottom: "15px" }}>
                                 <button className='stars-button' value={1} onClick={(e) => {
                                     if (stars <= 0) {

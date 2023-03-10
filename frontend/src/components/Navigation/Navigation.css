@@ -41,9 +41,10 @@
     list-style-type: none;
     position: sticky;
     height: 50px;
-    top: 0px;
+    top: 0;
     background-color: white;
     padding-bottom: 15px;
+    margin-top: -50px;
 }
 ul.profile-dropdown{
     position: absolute;
@@ -97,7 +98,7 @@ ul.profile-dropdown > li {
 }
 .become-host-link{
     text-decoration: none;
-    color: white;
+    color: black;
     padding: 10px;
     font-size: 14px;
     font-weight: 600;
@@ -105,7 +106,7 @@ ul.profile-dropdown > li {
 .become-host-link:hover{
     border: none;
     border-radius: 22px;
-    background: black;
+    background: #dedede;
 
 }
 .log-out-button{
