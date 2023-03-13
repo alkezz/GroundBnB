@@ -23,7 +23,7 @@ const Maps = ({ allSpots }) => {
     };
     key = useSelector((state) => state.maps.key);
     return (
-        <Map zoom={12.5} containerStyle={{ width: "25%", marginRight: "-655px", height: "100%" }} style={{ width: "663px", height: "700px" }} initialCenter={{ lat: 40.6991, lng: -73.9712 }} google={window.google}>
+        <Map zoom={13} containerStyle={{ width: "25%", marginRight: "-655px", height: "100%" }} style={{ width: "663px", height: "700px" }} initialCenter={{ lat: 40.75237519025471, lng: -73.98409806945087 }} google={window.google}>
             {allSpots.map((item, index) => (
                 <Marker onClick={(e, marker) => onMarkerClick(marker, item)} key={index} position={{ lat: item.lat, lng: item.lng }} title={item.name} />
             ))}
