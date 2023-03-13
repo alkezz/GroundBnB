@@ -4,9 +4,10 @@ import * as sessionActions from '../../store/session'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf';
+import { Grow } from '@mui/material';
 import "./EditSpotPage.css"
 
-function EditSpot({ spots }) {
+function EditSpot({ spots, setShowModal }) {
     const dispatch = useDispatch()
     const history = useHistory()
     const id = Number(useParams().spotId)
@@ -53,7 +54,7 @@ function EditSpot({ spots }) {
         if (state.length <= 0 || state.length > 30) errorArray.push("State must be 30 characters or less")
         if (country.length <= 0 || country.length > 30) errorArray.push("Country must be 30 characters or less")
         if (name.length <= 0 || name.length > 30) errorArray.push("Name of location must be 30 characters or less")
-        if (description.length <= 0 || description.length > 50) errorArray.push("Description should be 50 characters or less!")
+        if (description.length <= 0 || description.length > 100) errorArray.push("Description should be 100 characters or less!")
         if (price <= 1) errorArray.push("Please enter a valid price per night, can not be below $1!")
         setErrors(errorArray)
         if (errors.length) return
@@ -202,382 +203,387 @@ function EditSpot({ spots }) {
     return (
         <>
             {spot?.id && (
-                <div className='center-edit-form-div'>
-                    <div>
-                        <h1 id='finish-signup'>Edit your spot</h1>
-                        <label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder='Address'
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                    className={errors.includes("Address must be between 10 and 30 characters") ? 'edit-spot-error-input' : "user-signup-input"}
-                                />
-                            </div>
-                            <div>
-                                {errors.map((error, idx) =>
-                                    error === "Address must be between 10 and 30 characters" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                )}
-                            </div>
-                        </label>
-                        <label>
-                            <div>
-                                <input
-                                    type="text"
-                                    value={city}
-                                    placeholder='City'
-                                    onChange={(e) => setCity(e.target.value)}
-                                    className={errors.includes("City must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
-                                />
-                            </div>
-                            <div>
-                                {errors.map((error, idx) =>
-                                    error === "City must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                )}
-                            </div>
-                        </label>
+                <Grow in={true}>
+
+                    <div className='center-edit-form-div'>
                         <div>
+                            <h1 id='finish-signup'>Edit your spot</h1>
                             <label>
                                 <div>
                                     <input
                                         type="text"
-                                        value={state}
-                                        placeholder='State'
-                                        onChange={(e) => setState(e.target.value)}
-                                        className={errors.includes("State must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        placeholder='Address'
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        className={errors.includes("Address must be between 10 and 30 characters") ? 'edit-spot-error-input' : "user-signup-input"}
                                     />
                                 </div>
                                 <div>
                                     {errors.map((error, idx) =>
-                                        error === "State must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        error === "Address must be between 10 and 30 characters" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
                                     )}
                                 </div>
                             </label>
-                        </div>
-                        <div>
                             <label>
                                 <div>
                                     <input
                                         type="text"
-                                        value={country}
-                                        placeholder='Country'
-                                        onChange={(e) => setCountry(e.target.value)}
-                                        className={errors.includes("Country must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        value={city}
+                                        placeholder='City'
+                                        onChange={(e) => setCity(e.target.value)}
+                                        className={errors.includes("City must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
                                     />
                                 </div>
                                 <div>
                                     {errors.map((error, idx) =>
-                                        error === "Country must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        error === "City must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
                                     )}
                                 </div>
                             </label>
-                        </div>
-                        <div>
-                            <label>
-                                <div>
-                                    <input
-                                        type="text"
-                                        value={price}
-                                        placeholder='Price per night'
-                                        onChange={(e) => setPrice(e.target.value)}
-                                        className={errors.includes('Please enter a valid price per night, can not be below $1!') ? 'edit-spot-error-input' : "user-signup-input"}
-                                    />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Please enter a valid price per night, can not be below $1!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                        <br />
-                        <br />
-                        <div>
-                            <label>
-                                <div>
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        placeholder='Name of place'
-                                        onChange={(e) => setName(e.target.value)}
-                                        className={errors.includes("Name of location must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
-                                    />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Name of location must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <div>
-                                    <textarea
-                                        type="textarea"
-                                        value={description}
-                                        placeholder='Describe your place'
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        className={errors.includes("Description should be 50 characters or less!") ? 'edit-spot-error-input' : "user-signup-input"}
-                                    />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Description should be 50 characters or less!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                        <br />
-                        <div>
-                            <span style={{ display: "flex", justifyContent: "center", width: "100%" }}>Upload your spot pictures</span>
-                            <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Please make sure to upload 4 pictures</span>
-                            <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Valid file extensions: JPG/JPEG/PNG</span>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={state}
+                                            placeholder='State'
+                                            onChange={(e) => setState(e.target.value)}
+                                            className={errors.includes("State must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "State must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={country}
+                                            placeholder='Country'
+                                            onChange={(e) => setCountry(e.target.value)}
+                                            className={errors.includes("Country must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Country must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={price}
+                                            placeholder='Price per night'
+                                            onChange={(e) => setPrice(e.target.value)}
+                                            className={errors.includes('Please enter a valid price per night, can not be below $1!') ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Please enter a valid price per night, can not be below $1!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
                             <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={handleImageUpload} accept=".jpg, .png, .jpeg" type="file" name="file" id='file-input' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
                             <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={twoHandleImageUpload} type="file" name="file" id='file-input-2' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={name}
+                                            placeholder='Name of place'
+                                            onChange={(e) => setName(e.target.value)}
+                                            className={errors.includes("Name of location must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Name of location must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <div>
+                                        <textarea
+                                            type="textarea"
+                                            value={description}
+                                            placeholder='Describe your place'
+                                            onChange={(e) => setDescription(e.target.value)}
+                                            className={errors.includes("Description should be 50 characters or less!") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Description should be 50 characters or less!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
                             <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={threeHandleImageUpload} type="file" name="file" id='file-input-3' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                            <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={fourHandleImageUpload} type="file" name="file" id='file-input-4' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
+                            <div>
+                                <span style={{ display: "flex", justifyContent: "center", width: "100%" }}>Upload your spot pictures</span>
+                                <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Please make sure to upload 4 pictures</span>
+                                <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Valid file extensions: JPG/JPEG/PNG</span>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={handleImageUpload} accept=".jpg, .png, .jpeg" type="file" name="file" id='file-input' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={twoHandleImageUpload} type="file" name="file" id='file-input-2' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={threeHandleImageUpload} type="file" name="file" id='file-input-3' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={fourHandleImageUpload} type="file" name="file" id='file-input-4' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <br></br>
+                            <button onClick={(e) => { handleSubmit(e); setUpdate(!update); setShowModal(false) }} className='spot-submit'>
+                                Submit
+                            </button>
                         </div>
-                        <br></br>
-                        <button onClick={(e) => { handleSubmit(e); setUpdate(!update) }} className='spot-submit'>
-                            Submit
-                        </button>
                     </div>
-                </div>
+                </Grow>
             )}
             {spots?.id && (
-                <div className='center-edit-form-div'>
-                    <div>
-                        <h1 id='finish-signup'>Edit your spot!</h1>
-                        <label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder='Address'
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                    className={errors.includes("Address must be between 10 and 30 characters") ? 'edit-spot-error-input' : "user-signup-input"}
-                                />
-                            </div>
-                            <div>
-                                {errors.map((error, idx) =>
-                                    error === "Address must be between 10 and 30 characters" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                )}
-                            </div>
-                        </label>
-                        <label>
-                            <div>
-                                <input
-                                    type="text"
-                                    value={city}
-                                    placeholder='City'
-                                    onChange={(e) => setCity(e.target.value)}
-                                    className={errors.includes("City must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
-                                />
-                            </div>
-                            <div>
-                                {errors.map((error, idx) =>
-                                    error === "City must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                )}
-                            </div>
-                        </label>
+                <Grow in={true}>
+                    <div className='center-edit-form-div'>
                         <div>
+                            <h1 id='finish-signup'>Edit your spot!</h1>
                             <label>
                                 <div>
                                     <input
                                         type="text"
-                                        value={state}
-                                        placeholder='State'
-                                        onChange={(e) => setState(e.target.value)}
-                                        className={errors.includes("State must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        placeholder='Address'
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        className={errors.includes("Address must be between 10 and 30 characters") ? 'edit-spot-error-input' : "user-signup-input"}
                                     />
                                 </div>
                                 <div>
                                     {errors.map((error, idx) =>
-                                        error === "State must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        error === "Address must be between 10 and 30 characters" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
                                     )}
                                 </div>
                             </label>
-                        </div>
-                        <div>
                             <label>
                                 <div>
                                     <input
                                         type="text"
-                                        value={country}
-                                        placeholder='Country'
-                                        onChange={(e) => setCountry(e.target.value)}
-                                        className={errors.includes("Country must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        value={city}
+                                        placeholder='City'
+                                        onChange={(e) => setCity(e.target.value)}
+                                        className={errors.includes("City must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
                                     />
                                 </div>
                                 <div>
                                     {errors.map((error, idx) =>
-                                        error === "Country must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        error === "City must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
                                     )}
                                 </div>
                             </label>
-                        </div>
-                        <div>
-                            <label>
-                                <div>
-                                    <input
-                                        type="text"
-                                        value={price}
-                                        placeholder='Price per night'
-                                        onChange={(e) => setPrice(e.target.value)}
-                                        className={errors.includes('Please enter a valid price per night, can not be below $1!') ? 'edit-spot-error-input' : "user-signup-input"}
-                                    />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Please enter a valid price per night, can not be below $1!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                        <br />
-                        <br />
-                        <div>
-                            <label>
-                                <div>
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        placeholder='Name of place'
-                                        onChange={(e) => setName(e.target.value)}
-                                        className={errors.includes("Name of location must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
-                                    />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Name of location must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <div>
-                                    <textarea
-                                        type="textarea"
-                                        value={description}
-                                        placeholder='Describe your place'
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        className={errors.includes("Description should be 50 characters or less!") ? 'edit-spot-error-input' : "user-signup-input"}
-                                    />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Description should be 50 characters or less!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                        <br />
-                        <div>
-                            <span style={{ display: "flex", justifyContent: "center", width: "100%" }}>Upload your spot pictures</span>
-                            <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Please make sure to upload 4 pictures</span>
-                            <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Valid file extensions: JPG/JPEG/PNG</span>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={state}
+                                            placeholder='State'
+                                            onChange={(e) => setState(e.target.value)}
+                                            className={errors.includes("State must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "State must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={country}
+                                            placeholder='Country'
+                                            onChange={(e) => setCountry(e.target.value)}
+                                            className={errors.includes("Country must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Country must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={price}
+                                            placeholder='Price per night'
+                                            onChange={(e) => setPrice(e.target.value)}
+                                            className={errors.includes('Please enter a valid price per night, can not be below $1!') ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Please enter a valid price per night, can not be below $1!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
                             <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={handleImageUpload} accept=".jpg, .png, .jpeg" type="file" name="file" id='file-input' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
                             <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={twoHandleImageUpload} type="file" name="file" id='file-input-2' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
+                            <div>
+                                <label>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={name}
+                                            placeholder='Name of place'
+                                            onChange={(e) => setName(e.target.value)}
+                                            className={errors.includes("Name of location must be 30 characters or less") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Name of location must be 30 characters or less" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <div>
+                                        <textarea
+                                            type="textarea"
+                                            value={description}
+                                            placeholder='Describe your place'
+                                            onChange={(e) => setDescription(e.target.value)}
+                                            className={errors.includes("Description should be 50 characters or less!") ? 'edit-spot-error-input' : "user-signup-input"}
+                                        />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Description should be 50 characters or less!" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
                             <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={threeHandleImageUpload} type="file" name="file" id='file-input-3' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
-                            <br />
-                            <label>
-                                <div>
-                                    <i className="fa-solid fa-paperclip"></i>
-                                    <input onChange={fourHandleImageUpload} type="file" name="file" id='file-input-4' encType="multipart/form-data" />
-                                </div>
-                                <div>
-                                    {errors.map((error, idx) =>
-                                        error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
-                                    )}
-                                </div>
-                            </label>
+                            <div>
+                                <span style={{ display: "flex", justifyContent: "center", width: "100%" }}>Upload your spot pictures</span>
+                                <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Please make sure to upload 4 pictures</span>
+                                <span style={{ display: "flex", justifyContent: "center", width: "100%", fontSize: "12px" }}>Valid file extensions: JPG/JPEG/PNG</span>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={handleImageUpload} accept=".jpg, .png, .jpeg" type="file" name="file" id='file-input' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={twoHandleImageUpload} type="file" name="file" id='file-input-2' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={threeHandleImageUpload} type="file" name="file" id='file-input-3' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                                <br />
+                                <label>
+                                    <div>
+                                        <i className="fa-solid fa-paperclip"></i>
+                                        <input onChange={fourHandleImageUpload} type="file" name="file" id='file-input-4' encType="multipart/form-data" />
+                                    </div>
+                                    <div>
+                                        {errors.map((error, idx) =>
+                                            error === "Url must start with https" ? <li key={idx} id='edit-spot-errors'>{error}</li> : null
+                                        )}
+                                    </div>
+                                </label>
+                            </div>
+                            <br></br>
+                            <button onClick={(e) => { handleSubmit(e); setUpdate(!update); setShowModal(false) }} style={{ width: "100%" }} className='delete-buttons'>
+                                Submit
+                            </button>
                         </div>
-                        <br></br>
-                        <button onClick={(e) => { handleSubmit(e); setUpdate(!update) }} style={{ width: "100%" }} className='delete-buttons'>
-                            Submit
-                        </button>
                     </div>
-                </div>
+                </Grow>
             )}
         </>
     )

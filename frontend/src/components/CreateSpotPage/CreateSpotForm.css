@@ -13,6 +13,8 @@
     background-color: #d60565;
     border-radius: 8px;
     width: 100%;
+    border: none;
+    height: 40px;
 }
 .image-preview-warning{
     font-size: 13px;
@@ -24,6 +26,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: white;
+    width: 30%;
+    height: 700px;
+    overflow-y: scroll;
+    padding-bottom: 20px;
+    border-radius: 15px;
 }
 .user-signup-input{
     width: 100%;

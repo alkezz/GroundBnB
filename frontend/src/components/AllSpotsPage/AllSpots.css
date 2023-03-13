@@ -46,8 +46,11 @@
 .landing-page-container{
     display: flex;
     flex-direction: row;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    margin-top: 75px;
+}
+.right-landing-page-container{
+    margin-left: 50px;
+    margin-right: -50px;
 }
 /* .right-landing-page-container{
     margin-top: -16px;
@@ -58,20 +61,21 @@
 } */
 .all-spots{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 340px);
+    grid-template-columns: repeat(auto-fill, 350px);
     padding: 5%;
     /* border: 1px black solid; */
     /* justify-content: center; */
     width: 100%;
+    /* justify-content: flex-end; */
     /* margin-right: 850px; */
     /* margin-left: 50px; */
-    overflow-y:scroll;
     color: black;
-    height: 550px;
+    height: 565px;
     overflow-x: hidden;
     margin-left: 41.7%;
+    margin-right: 80px;
 }
 
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
     width: 5px;
-}
+} */

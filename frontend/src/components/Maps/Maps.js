@@ -6,7 +6,6 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Modal from '@mui/material/Modal'
-let key
 const Maps = ({ allSpots, spots }) => {
     const [activeMarker, setActiveMarker] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -21,10 +20,10 @@ const Maps = ({ allSpots, spots }) => {
         setActiveMarker(null);
         setSelectedLocation(null);
     };
-    key = useSelector((state) => state.maps.key);
+    const apiKey = process.env.REACT_APP_API_KEY
     if (allSpots && !spots) {
         return (
-            <Map zoom={13} containerStyle={{ width: "25%", marginRight: "-655px", height: "100%" }} style={{ width: "663px", height: "700px" }} initialCenter={{ lat: 40.75237519025471, lng: -73.98409806945087 }} google={window.google}>
+            <Map apiKey={apiKey} zoom={13} containerStyle={{ width: "25%", position: "static" }} style={{ width: "37%", height: "700px", marginLeft: "100px", marginTop: "175px" }} initialCenter={{ lat: 40.75237519025471, lng: -73.98409806945087 }} google={window.google}>
                 {allSpots.map((item, index) => (
                     <Marker onClick={(e, marker) => onMarkerClick(marker, item)} key={index} position={{ lat: item.lat, lng: item.lng }} title={item.name} />
                 ))}
@@ -48,7 +47,7 @@ const Maps = ({ allSpots, spots }) => {
         );
     } else if (spots && !allSpots) {
         return (
-            <Map zoom={15} containerStyle={{ width: "25%", height: "100%", marginTop: "20px" }} style={{ width: "425px", height: "550px", borderRadius: "20px" }} initialCenter={{ lat: spots.lat, lng: spots.lng }} google={window.google}>
+            <Map apiKey={apiKey} zoom={15} containerStyle={{ width: "25%", height: "100%", marginTop: "20px" }} style={{ width: "425px", height: "550px", borderRadius: "20px" }} initialCenter={{ lat: spots.lat, lng: spots.lng }} google={window.google}>
                 <Marker onClick={(e, marker) => onMarkerClick(marker, spots)} key={spots.id} position={{ lat: spots.lat, lng: spots.lng }} title={spots.name} />
             </Map>
         );
@@ -56,5 +55,5 @@ const Maps = ({ allSpots, spots }) => {
 };
 
 export default GoogleApiWrapper({
-    apiKey: key
+    apiKey: process.env.REACT_APP_API_KEY
 })(Maps);
