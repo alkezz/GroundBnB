@@ -5,6 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { getKey } from '../../store/maps';
 import { csrfFetch } from '../../store/csrf';
 import Geocode from "react-geocode"
+import Fade from '@mui/material/Fade';
+import { Grow } from '@mui/material';
+import Slide from '@mui/material/Slide';
 import './CreateSpotForm.css'
 let key
 function CreateSpot() {
@@ -28,7 +31,7 @@ function CreateSpot() {
     const formData4 = new FormData()
     key = useSelector((state) => state.maps.key);
     Geocode.setLanguage("en")
-    Geocode.setApiKey(key)
+    Geocode.setApiKey(process.env.REACT_APP_API_KEY)
     let urlArray = []
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -58,6 +61,7 @@ function CreateSpot() {
             description,
             price
         }
+        console.log("SPOT", spot)
         dispatch(spotActions.createSpot(spot, urlArray)).then((data) => {
             history.push(`/spots/${data.id}`)
         })
@@ -167,189 +171,191 @@ function CreateSpot() {
         urlArray.push(url)
     }
     return (
-        <div className='center-create-spot-form-div'>
-            <form onSubmit={handleSubmit}>
-                <h1 id='finish-signup'>Create your own spot!</h1>
-                <label>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder='Address'
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            className={errors.includes('Address must be between 10 and 15 characters') ? 'error' : "user-signup-input"}
-                        />
-                    </div>
-                    <div>
-                        {errors.map((error, idx) =>
-                            error === "Address must be between 10 and 15 characters" ? <li key={idx} id='error-list'>{error}</li> : null
-                        )}
-                    </div>
-                </label>
-                <label>
-                    <div>
-                        <input
-                            type="text"
-                            value={city}
-                            placeholder='City'
-                            onChange={(e) => setCity(e.target.value)}
-                            className={errors.includes('City must be 15 characters or less') ? 'error' : "user-signup-input"}
-                        />
-                    </div>
-                    <div>
-                        {errors.map((error, idx) =>
-                            error === "City must be 15 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
-                        )}
-                    </div>
-                </label>
-                <div>
+        <Grow in={true}>
+            <div className='center-create-spot-form-div'>
+                <form onSubmit={handleSubmit}>
+                    <h1 id='finish-signup'>Create a spot</h1>
                     <label>
                         <div>
                             <input
                                 type="text"
-                                value={state}
-                                placeholder='State'
-                                onChange={(e) => setState(e.target.value)}
-                                className={errors.includes("State must be 15 characters or less") ? 'error' : "user-signup-input"}
+                                placeholder='Address'
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                                className={errors.includes('Address must be between 10 and 15 characters') ? 'error' : "user-signup-input"}
                             />
                         </div>
                         <div>
                             {errors.map((error, idx) =>
-                                error === "State must be 15 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "Address must be between 10 and 15 characters" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </label>
-                </div>
-                <div>
                     <label>
                         <div>
                             <input
                                 type="text"
-                                value={country}
-                                placeholder='Country'
-                                onChange={(e) => setCountry(e.target.value)}
-                                className={errors.includes('Country must be 10 characters or less') ? 'error' : "user-signup-input"}
+                                value={city}
+                                placeholder='City'
+                                onChange={(e) => setCity(e.target.value)}
+                                className={errors.includes('City must be 15 characters or less') ? 'error' : "user-signup-input"}
                             />
                         </div>
                         <div>
                             {errors.map((error, idx) =>
-                                error === "Country must be 10 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
+                                error === "City must be 15 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
                             )}
                         </div>
                     </label>
-                </div>
-                <div>
-                    <label>
-                        <div>
-                            <input
-                                type="text"
-                                value={price}
-                                placeholder='Price per night'
-                                onChange={(e) => setPrice(e.target.value)}
-                                className={errors.includes('Please enter a valid price per night, can not be below $1!') ? 'error' : "user-signup-input"}
-                            />
-                        </div>
-                        <div>
-                            {errors.map((error, idx) =>
-                                error === "Please enter a valid price per night, can not be below $1!" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
-                        </div>
-                    </label>
-                </div>
-                <br />
-                <br />
-                <div>
-                    <label>
-                        <div>
-                            <input
-                                type="text"
-                                value={name}
-                                placeholder='Name of place'
-                                onChange={(e) => setName(e.target.value)}
-                                className={errors.includes('Name of location must be 10 characters or less') ? 'error' : "user-signup-input"}
-                            />
-                        </div>
-                        <div>
-                            {errors.map((error, idx) =>
-                                error === "Name of location must be 10 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
-                        </div>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <div>
-                            <textarea
-                                type="textarea"
-                                value={description}
-                                placeholder='Describe your place'
-                                onChange={(e) => setDescription(e.target.value)}
-                                className={errors.includes('Description should be 20 characters or less!') ? 'error' : "user-signup-input"}
-                            />
-                        </div>
-                        <div>
-                            {errors.map((error, idx) =>
-                                error === "Description should be 20 characters or less!" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
-                        </div>
-                    </label>
-                </div>
-                <div>
-                    <span>Upload your spot pictures</span>
-                    <label>
-                        <div>
-                            <i className="fa-solid fa-paperclip"></i>
-                            <input onChange={handleImageUpload} type="file" name="file" id='file-input' encType="multipart/form-data" />
-                        </div>
-                        <div>
-                            {errors.map((error, idx) =>
-                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
-                        </div>
-                    </label>
+                    <div>
+                        <label>
+                            <div>
+                                <input
+                                    type="text"
+                                    value={state}
+                                    placeholder='State'
+                                    onChange={(e) => setState(e.target.value)}
+                                    className={errors.includes("State must be 15 characters or less") ? 'error' : "user-signup-input"}
+                                />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "State must be 15 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <div>
+                                <input
+                                    type="text"
+                                    value={country}
+                                    placeholder='Country'
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    className={errors.includes('Country must be 10 characters or less') ? 'error' : "user-signup-input"}
+                                />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Country must be 10 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <div>
+                                <input
+                                    type="text"
+                                    value={price}
+                                    placeholder='Price per night'
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    className={errors.includes('Please enter a valid price per night, can not be below $1!') ? 'error' : "user-signup-input"}
+                                />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Please enter a valid price per night, can not be below $1!" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                    </div>
                     <br />
-                    <label>
-                        <div>
-                            <i className="fa-solid fa-paperclip"></i>
-                            <input onChange={twoHandleImageUpload} type="file" name="file" id='file-input-2' encType="multipart/form-data" />
-                        </div>
-                        <div>
-                            {errors.map((error, idx) =>
-                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
-                        </div>
-                    </label>
                     <br />
-                    <label>
-                        <div>
-                            <i className="fa-solid fa-paperclip"></i>
-                            <input onChange={threeHandleImageUpload} type="file" name="file" id='file-input-3' encType="multipart/form-data" />
-                        </div>
-                        <div>
-                            {errors.map((error, idx) =>
-                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
-                        </div>
-                    </label>
-                    <br />
-                    <label>
-                        <div>
-                            <i className="fa-solid fa-paperclip"></i>
-                            <input onChange={fourHandleImageUpload} type="file" name="file" id='file-input-4' encType="multipart/form-data" />
-                        </div>
-                        <div>
-                            {errors.map((error, idx) =>
-                                error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
-                            )}
-                        </div>
-                    </label>
-                </div>
-                <br></br>
-                <button type="submit" className='new-spot-submit'>
-                    Submit Spot
-                </button>
-            </form>
-        </div>
+                    <div>
+                        <label>
+                            <div>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    placeholder='Name of place'
+                                    onChange={(e) => setName(e.target.value)}
+                                    className={errors.includes('Name of location must be 10 characters or less') ? 'error' : "user-signup-input"}
+                                />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Name of location must be 10 characters or less" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <div>
+                                <textarea
+                                    type="textarea"
+                                    value={description}
+                                    placeholder='Describe your place'
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    className={errors.includes('Description should be 20 characters or less!') ? 'error' : "user-signup-input"}
+                                />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Description should be 20 characters or less!" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <span>Upload your spot pictures</span>
+                        <label>
+                            <div>
+                                <i className="fa-solid fa-paperclip"></i>
+                                <input onChange={handleImageUpload} type="file" name="file" id='file-input' encType="multipart/form-data" />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                        <br />
+                        <label>
+                            <div>
+                                <i className="fa-solid fa-paperclip"></i>
+                                <input onChange={twoHandleImageUpload} type="file" name="file" id='file-input-2' encType="multipart/form-data" />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                        <br />
+                        <label>
+                            <div>
+                                <i className="fa-solid fa-paperclip"></i>
+                                <input onChange={threeHandleImageUpload} type="file" name="file" id='file-input-3' encType="multipart/form-data" />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                        <br />
+                        <label>
+                            <div>
+                                <i className="fa-solid fa-paperclip"></i>
+                                <input onChange={fourHandleImageUpload} type="file" name="file" id='file-input-4' encType="multipart/form-data" />
+                            </div>
+                            <div>
+                                {errors.map((error, idx) =>
+                                    error === "Url must start with https" ? <li key={idx} id='error-list'>{error}</li> : null
+                                )}
+                            </div>
+                        </label>
+                    </div>
+                    <br></br>
+                    <button type="submit" className='new-spot-submit'>
+                        Submit Spot
+                    </button>
+                </form>
+            </div>
+        </Grow>
     )
 }
 

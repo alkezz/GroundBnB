@@ -8,6 +8,7 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { Modal } from '../../context/Modal';
 import LoginForm from '../LoginFormModal/LoginForm';
+import CreateSpotModal from '../CreateSpotPage/CreateSpotModal';
 import '../Navigation/Navigation.css';
 
 function Navigation({ isLoaded }) {
@@ -23,7 +24,7 @@ function Navigation({ isLoaded }) {
             <>
                 <nav className='log-out-create-spot-div' style={{ position: "sticky" }}>
                     <div style={{ marginTop: "12px" }} className='become-host-div'>
-                        <Link to='/spot/create' className='become-host-link'>Groundbnb your home</Link>
+                        <CreateSpotModal />
                     </div>
                     &nbsp;
                     &nbsp;

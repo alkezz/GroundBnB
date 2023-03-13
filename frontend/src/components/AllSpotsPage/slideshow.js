@@ -16,6 +16,7 @@ const SlideShow = ({ key, spot }) => {
     const goToPrevPicture = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     }
+    if (!spot) return null
     console.log("INDEX", index)
     let pictureLocation
     if (index === 0) {
@@ -78,10 +79,8 @@ const SlideShow = ({ key, spot }) => {
             {showArrows && (
                 <>
                     <div style={{ top: "-350px", position: "relative", height: "310px", width: "335px", marginLeft: "-10px", marginTop: "45px" }} onMouseLeave={() => setShowArrows(false)}>
-                        <i onClick={() => index !== CollectionSize - 1 ? goToNextPicture() : setActiveStep(0)} style={{ fontSize: "26px", color: "white", position: "relative", right: "-300px", marginTop: "150px" }} class="fa-solid fa-circle-chevron-right"></i>
-                        {index !== 0 && (
-                            <i onClick={() => index !== 0 ? goToPrevPicture() : null} style={{ fontSize: "26px", color: "white", position: "relative", left: "-15px" }} class="fa-solid fa-circle-chevron-left"></i>
-                        )}
+                        <i onClick={() => index !== CollectionSize - 1 ? goToNextPicture() : setActiveStep(0)} style={{ fontSize: "26px", color: "#d60565", position: "relative", right: "-300px", marginTop: "150px", backgroundColor: "white", borderRadius: "100px" }} class="fa-solid fa-circle-chevron-right"></i>
+                        <i onClick={() => index !== 0 ? goToPrevPicture() : setActiveStep(3)} style={{ fontSize: "26px", color: "#d60565", position: "relative", left: "-15px", backgroundColor: "white", borderRadius: "100px" }} class="fa-solid fa-circle-chevron-left"></i>
                     </div>
                     <div style={{ position: "relative", top: "-355px" }}>
                         {pictureLocation}
