@@ -20,6 +20,7 @@ const Maps = ({ allSpots, spots }) => {
         setActiveMarker(null);
         setSelectedLocation(null);
     };
+    console.log("SPOTS", spots)
     const apiKey = process.env.REACT_APP_API_KEY
     if (allSpots && !spots) {
         return (
@@ -47,7 +48,7 @@ const Maps = ({ allSpots, spots }) => {
         );
     } else if (spots && !allSpots) {
         return (
-            <Map apiKey={apiKey} zoom={15} containerStyle={{ width: "25%", height: "100%", marginTop: "20px" }} style={{ width: "425px", height: "550px", borderRadius: "20px" }} initialCenter={{ lat: spots.lat, lng: spots.lng }} google={window.google}>
+            <Map apiKey={apiKey} zoom={15} containerStyle={{ width: "25%", height: "100%" }} style={{ width: "425px", height: "550px", borderRadius: "20px", margin: "0px", padding: "0px" }} initialCenter={{ lat: spots.lat, lng: spots.lng }} google={window.google}>
                 <Marker onClick={(e, marker) => onMarkerClick(marker, spots)} key={spots.id} position={{ lat: spots.lat, lng: spots.lng }} title={spots.name} />
             </Map>
         );

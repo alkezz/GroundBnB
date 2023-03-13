@@ -31,7 +31,7 @@ function CreateSpot() {
     const formData4 = new FormData()
     key = useSelector((state) => state.maps.key);
     Geocode.setLanguage("en")
-    Geocode.setApiKey(key)
+    Geocode.setApiKey(process.env.REACT_APP_API_KEY)
     let urlArray = []
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -61,6 +61,7 @@ function CreateSpot() {
             description,
             price
         }
+        console.log("SPOT", spot)
         dispatch(spotActions.createSpot(spot, urlArray)).then((data) => {
             history.push(`/spots/${data.id}`)
         })

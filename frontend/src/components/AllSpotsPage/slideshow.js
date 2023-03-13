@@ -16,6 +16,7 @@ const SlideShow = ({ key, spot }) => {
     const goToPrevPicture = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     }
+    if (!spot) return null
     console.log("INDEX", index)
     let pictureLocation
     if (index === 0) {

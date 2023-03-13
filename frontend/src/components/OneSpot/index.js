@@ -248,7 +248,9 @@ function SpotById() {
                 </div>
                 <br />
                 <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "65%" }}></div>
-                <Maps spots={spots} />
+                <div style={{ height: "fit-content" }}>
+                    <Maps spots={spots} />
+                </div>
             </div>
             <br />
             &nbsp;
@@ -538,7 +540,7 @@ function SpotById() {
                     )}
                 </div>
             )}
-            <div style={{ paddingBottom: "50px", marginTop: "1125px" }}>
+            <div style={{ paddingBottom: "50px", marginTop: "1100px" }}>
                 <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "60%" }} />
                 <br />
                 {!hasReview && (
