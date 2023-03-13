@@ -204,7 +204,7 @@ function EditSpot({ spots }) {
             {spot?.id && (
                 <div className='center-edit-form-div'>
                     <div>
-                        <h1 id='finish-signup'>Edit your spot!</h1>
+                        <h1 id='finish-signup'>Edit your spot</h1>
                         <label>
                             <div>
                                 <input

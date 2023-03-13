@@ -8,9 +8,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf';
 import EditCommentModal from '../EditComment/EditCommentModal';
 import { Modal } from '../../context/Modal';
+// import {Modal} as materialModal from '@mui/material';
 import LoginForm from '../LoginFormModal/LoginForm'
 import EditSpotModal from '../EditSpotPage/EditSpotModal';
 import Calendar from 'react-calendar';
+import Maps from '../Maps/Maps';
+import OneSpotPicturesModal from './OneSpotPicturesModal';
 import "./Calendar.css"
 import "./OneSpot.css"
 
@@ -168,20 +171,7 @@ function SpotById() {
                         </div>
                     </div>
                     <div id='img-div'>
-                        <div className='first-image-upload-placeholder'>
-                            <img style={{ height: "500px", width: "400px" }} src={spots.SpotImages[0]?.url} alt="cave"></img>
-                        </div>
-                        <div className='first-image-upload-placeholder'>
-                            <img style={{ height: "500px", width: "350px" }} src={spots.SpotImages[1]?.url}></img>
-                        </div>
-                        <div className='second-image-upload-placeholder'>
-                            <div className='second-image-upload-container'>
-                                <img style={{ height: "250px", width: "253px" }} src={spots.SpotImages[2]?.url}></img>
-                            </div>
-                            <div className='second-image-upload-container'>
-                                <img style={{ height: "250px", width: "253px" }} src={spots?.SpotImages[3]?.url}></img>
-                            </div>
-                        </div>
+                        <OneSpotPicturesModal spots={spots} />
                     </div>
                     &nbsp;
                     <div id='under-picture-div'>
@@ -256,9 +246,11 @@ function SpotById() {
                         value={date}
                     />
                 </div>
+                <br />
+                <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "65%" }}></div>
+                <Maps spots={spots} />
             </div>
             <br />
-            <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', marginLeft: '20%', marginRight: '40%' }}></div>
             &nbsp;
             {user?.id !== spots?.ownerId && user && (
                 <div className='book-spot-card'>
@@ -408,7 +400,7 @@ function SpotById() {
                     )}
                     {startDate && endDate && startDate < endDate && startDate >= todaysDate.toISOString().substring(0, 10) && (
                         <div>
-                            {!hasBooking && (
+                            {!hasBooking && !user && (
                                 <>
                                     <button onClick={(e) => setShowLogInModal(true)} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "10px", cursor: "pointer", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
                                     {showLogInModal && (
@@ -503,7 +495,19 @@ function SpotById() {
                         </>
                     )}
                     {startDate && endDate && startDate < endDate && startDate >= todaysDate.toISOString().substring(0, 10) && (
-                        <div>
+                        <div >
+                            {!hasBooking && (
+                                <>
+                                    <button disabled onClick={(e) => { window.alert("You can't book your own spot!") }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
+                                    <br />
+                                    <br />
+                                    <div style={{ color: "red", fontWeight: "700", display: "flex", justifyContent: "center", width: "100%" }}>
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        &nbsp;
+                                        <span>You can't reserve a spot you own</span>
+                                    </div>
+                                </>
+                            )}
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                                 <span style={{ textDecoration: "underline" }}>
                                     ${spots.price} x {Math.floor((Date.parse(endDate) - Date.parse(startDate)) / 86400000)} nights:
@@ -530,23 +534,13 @@ function SpotById() {
                             <br />
                             <br />
                             <br />
-                            {!hasBooking && (
-                                <>
-                                    <button disabled onClick={(e) => { window.alert("You can't book your own spot!") }} style={{ backgroundColor: "#d60565", color: "white", borderRadius: "5px", cursor: "not-allowed", width: "100%", height: "50px", fontWeight: "700", fontSize: "16px", border: "none" }}>Reserve</button>
-                                    <br />
-                                    <br />
-                                    <div style={{ color: "red", fontWeight: "700", display: "flex", justifyContent: "center", width: "100%" }}>
-                                        <i class="fa-solid fa-circle-exclamation"></i>
-                                        &nbsp;
-                                        <span>You can't reserve a spot you own</span>
-                                    </div>
-                                </>
-                            )}
                         </div>
                     )}
                 </div>
             )}
-            <div style={{ paddingBottom: "50px", marginTop: "600px" }}>
+            <div style={{ paddingBottom: "50px", marginTop: "1125px" }}>
+                <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "60%" }} />
+                <br />
                 {!hasReview && (
                     <div style={{ display: "flex", flexDirection: "column", marginRight: "660px" }}>
                         {errors.length > 0 && (
@@ -662,7 +656,6 @@ function SpotById() {
                         <div>No Reviews Yet!</div>
                     </>
                 )}
-                <div style={{ borderBottom: '1px solid #dddddd', width: "55%" }}></div>
                 <div style={{ fontWeight: "600", fontSize: "22px" }}>
                     <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
                     <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
