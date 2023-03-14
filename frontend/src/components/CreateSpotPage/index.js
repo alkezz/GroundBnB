@@ -33,6 +33,16 @@ function CreateSpot() {
     Geocode.setLanguage("en")
     Geocode.setApiKey(process.env.REACT_APP_API_KEY)
     let urlArray = []
+    useEffect(() => {
+        async function fetchData() {
+            if (address && city && state) {
+                const latAndLng = await Geocode.fromAddress(`${address}, ${city} ${state}`)
+                setLat(latAndLng.results[0].geometry.location.lat)
+                setLng(latAndLng.results[0].geometry.location.lng)
+            }
+        }
+        fetchData()
+    }, [setAddress, setCity, setState])
     const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
@@ -47,9 +57,6 @@ function CreateSpot() {
         setErrors(errors)
         preview === 'true' ? preview = true : preview = false;
         if (errors.length) return
-        const latAndLng = await Geocode.fromAddress(`${address}, ${city} ${state}`)
-        setLat(latAndLng.results[0].geometry.location.lat)
-        setLng(latAndLng.results[0].geometry.location.lng)
         const spot = {
             address,
             city,
@@ -61,10 +68,10 @@ function CreateSpot() {
             description,
             price
         }
-        console.log("SPOT", spot)
-        dispatch(spotActions.createSpot(spot, urlArray)).then((data) => {
-            history.push(`/spots/${data.id}`)
-        })
+        console.log("SPOT1", spot)
+        // dispatch(spotActions.createSpot(spot, urlArray)).then((data) => {
+        //     history.push(`/spots/${data.id}`)
+        // })
     }
     const handleImageUpload = async (e, id) => {
         e.preventDefault()
