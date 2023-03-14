@@ -45,12 +45,8 @@
 
 .landing-page-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-top: 75px;
-}
-.right-landing-page-container{
-    margin-left: 50px;
-    margin-right: -50px;
 }
 /* .right-landing-page-container{
     margin-top: -16px;
@@ -61,19 +57,20 @@
 } */
 .all-spots{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 350px);
+    grid-template-columns: repeat(auto-fill, 330px);
     padding: 5%;
     /* border: 1px black solid; */
     /* justify-content: center; */
-    width: 100%;
+    width: 50%;
     /* justify-content: flex-end; */
     /* margin-right: 850px; */
     /* margin-left: 50px; */
     color: black;
     height: 565px;
-    overflow-x: hidden;
+    overflow-y: scroll;
     margin-left: 41.7%;
     margin-right: 80px;
+    margin-top: -30px;
 }
 
 /* ::-webkit-scrollbar{

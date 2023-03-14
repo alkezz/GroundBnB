@@ -25,12 +25,9 @@ function AllSpotsPage() {
     const allSpots = Object.values(allSpotsOBJ)
     return (
         <div className='landing-page-container'>
-            <Maps allSpots={allSpots} />
-            {/* {allSpots && (
-                <div className='right-landing-page-container'>
-                    <Maps allSpots={allSpots} />
-                </div>
-            )} */}
+            <div>
+                <Maps allSpots={allSpots} />
+            </div>
             <div className='all-spots'>
                 {allSpots.map((spot, idx) =>
                     <div>

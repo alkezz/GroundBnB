@@ -24,7 +24,7 @@ const Maps = ({ allSpots, spots }) => {
     const apiKey = process.env.REACT_APP_API_KEY
     if (allSpots && !spots) {
         return (
-            <Map apiKey={apiKey} zoom={13} containerStyle={{ width: "25%", position: "static" }} style={{ width: "37%", height: "700px", marginLeft: "100px", marginTop: "175px" }} initialCenter={{ lat: 40.75237519025471, lng: -73.98409806945087 }} google={window.google}>
+            <Map apiKey={apiKey} zoom={13} containerStyle={{ width: "25%", position: "static" }} style={{ width: "37%", height: "700px", marginLeft: "100px", marginTop: "130px" }} initialCenter={{ lat: 40.75237519025471, lng: -73.98409806945087 }} google={window.google}>
                 {allSpots.map((item, index) => (
                     <Marker onClick={(e, marker) => onMarkerClick(marker, item)} key={index} position={{ lat: item.lat, lng: item.lng }} title={item.name} />
                 ))}
