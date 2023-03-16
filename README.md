@@ -47,18 +47,26 @@ Hosting:
 
 # Home Page
 This is what the home page will look like. A demo user is provided to test the functionality of the website!
+<img width="1512" alt="image" src="https://user-images.githubusercontent.com/105993056/225701044-5a233faa-a3af-4bba-a665-3e59b75cd6e6.png">
 
-![HomePage](https://i.imgur.com/AkcUnxM.png)
-Demo User functionality
-![DemoUser](https://i.imgur.com/wHWxPj0.png)
-You can make an account
-![Account-Create](https://i.imgur.com/klufFlx.png)
-You can create your own spot
-![Spot-Create](https://i.imgur.com/rX0ZoxC.png)
-As well as creating reviews for spots(that aren't owned by you!)
-![Review-Create](https://i.imgur.com/zy02wc6.png)
-You can even delete reviews
-![Review-Delete](https://i.imgur.com/nCGrRbO.png)
+![Screen_Recording_2023-03-16_at_1_50_31_PM_AdobeExpress](https://user-images.githubusercontent.com/105993056/225710445-1a8b4db0-7c3c-40a7-bf85-683d3fb77aa0.gif)
+
+### Demo User
+<img width="1512" alt="image" src="https://user-images.githubusercontent.com/105993056/225701171-453de7bd-c8c2-4667-ad15-c2895888d333.png">
+
+### Account Creation Form
+<img width="1512" alt="image" src="https://user-images.githubusercontent.com/105993056/225701262-90630c89-7eb6-4f02-92ef-a32122a4271f.png">
+
+### Clicking into specific spot
+![Screen Recording 2023-03-16 at 1 37 57 PM](https://user-images.githubusercontent.com/105993056/225706770-8db4ebdb-8d1b-40cd-908e-0249c8363f13.gif)
+
+![yes](https://user-images.githubusercontent.com/105993056/225708638-06b2a8eb-7585-4446-814e-21d645c663dc.gif)
+
+### Create Spot Form
+<img width="1512" alt="image" src="https://user-images.githubusercontent.com/105993056/225703489-a95e720f-600d-4fa9-8b7e-6dd66491614b.png">
+
+![CreateSPOT](https://user-images.githubusercontent.com/105993056/225703953-bbd895cd-05eb-484a-9616-bfdbd28c8d6c.gif)
+
 # Contact Info
 
 To contact me for any issues that arise or a suggestion, please feel free to reach out on:
