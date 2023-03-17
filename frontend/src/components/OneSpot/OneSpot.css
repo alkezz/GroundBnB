@@ -2,6 +2,7 @@ ul.spot-stats-ul > li {
     display: inline-block;
 }
 
+
 .one-spot-name{
     /* margin-left: 20%; */
 }
@@ -46,6 +47,26 @@ ul.spot-stats-ul > li {
     justify-content: center;
     border-radius: 10px;
 }
+.first-image-upload-placeholder:hover{
+    -webkit-animation: anvil1 0.1s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+    animation:anvil1 0.1s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+}
+.second-image-upload-container:hover{
+    -webkit-animation: anvil1 0.1s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+    animation:anvil1 0.1s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+}
+@keyframes anvil1 {
+    0% {
+      transform: scale(1) translateY(0px);
+      opacity: 1;
+      /* box-shadow: 0px 1px 5px 0px #000000; */
+    }
+    100% {
+      transform: scale(1.1) translateY(10px);
+      opacity: 1;
+      /* box-shadow: 0px 1px 5px 0px #000000; */
+    }
+  }
 
 .second-image-upload-placeholder{
     display: flex;
@@ -176,7 +197,7 @@ ul.spot-stats-ul > li {
 }
 
 #one-spot-star{
-    font-size: 18px;
+    font-size: 24px;
 }
 body{
     color: black;

@@ -29,20 +29,9 @@ function CreateSpot() {
     const formData2 = new FormData()
     const formData3 = new FormData()
     const formData4 = new FormData()
-    key = useSelector((state) => state.maps.key);
     Geocode.setLanguage("en")
     Geocode.setApiKey(process.env.REACT_APP_API_KEY)
     let urlArray = []
-    useEffect(() => {
-        async function fetchData() {
-            if (address && city && state) {
-                const latAndLng = await Geocode.fromAddress(`${address}, ${city} ${state}`)
-                setLat(latAndLng.results[0].geometry.location.lat)
-                setLng(latAndLng.results[0].geometry.location.lng)
-            }
-        }
-        fetchData()
-    }, [setAddress, setCity, setState])
     const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
@@ -57,6 +46,9 @@ function CreateSpot() {
         setErrors(errors)
         preview === 'true' ? preview = true : preview = false;
         if (errors.length) return
+        let latAndLng = await Geocode.fromAddress(`${address}, ${city} ${state}`)
+        setLat(latAndLng.results[0].geometry.location.lat)
+        setLng(latAndLng.results[0].geometry.location.lng)
         const spot = {
             address,
             city,

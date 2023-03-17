@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
+import { Grow } from '@mui/material';
 import './SignupForm.css'
 
 function SignUpFormPage() {
@@ -40,128 +41,130 @@ function SignUpFormPage() {
             });
     }
     return (
-        <form onSubmit={handleSubmit} className='signup-form'>
-            <h1 id='finish-signup'>Finish signing up</h1>
-            <label>
-                <div>
-                    <input
-                        type="text"
-                        placeholder='First name'
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        className={errors.includes('First name is required') ? 'error' : "new-user-input"}
-                    />
-                </div>
-                <div>
-                    {errors.map((error, idx) =>
-                        error === "First name is required" ? <li key={idx} id='error-list'>{error}</li> : null
-                    )}
-                </div>
-            </label>
-            <label>
-                <div>
-                    <input
-                        type="text"
-                        value={lastName}
-                        placeholder='Last name'
-                        onChange={(e) => setlastName(e.target.value)}
-                        className={errors.includes('Last name is required') ? 'error' : "new-user-input"}
-                    />
-                </div>
-                <div>
-                    {errors.map((error, idx) =>
-                        error === "Last name is required" ? <li key={idx} id='error-list'>{error}</li> : null
-                    )}
-                    <div id='below-input-text'>Make sure it matches the name on your government ID.</div>
-                </div>
-            </label>
-            <br />
-            <div>
+        <Grow in={true}>
+            <form onSubmit={handleSubmit} className='signup-form'>
+                <h1 id='finish-signup'>Finish signing up</h1>
                 <label>
                     <div>
                         <input
                             type="text"
-                            value={username}
-                            placeholder='Username'
-                            onChange={(e) => setUserName(e.target.value)}
-                            className={errors.includes('Username must be a length between 4 and 30 characters') ? 'error' : "new-user-input"}
+                            placeholder='First name'
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            className={errors.includes('First name is required') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
                         {errors.map((error, idx) =>
-                            error === "Username must be a length between 4 and 30 characters" ? <li key={idx} id='error-list'>{error}</li> : null
-                        )}
-                        {errors.map((error, idx) =>
-                            error.username === "User with that username already exists" ? <li key={idx} id='error-list'>{error.username}</li> : null
+                            error === "First name is required" ? <li key={idx} id='error-list'>{error}</li> : null
                         )}
                     </div>
                 </label>
-            </div>
-            <div>
                 <label>
                     <div>
                         <input
-                            type="email"
-                            value={email}
-                            placeholder='Email'
-                            onChange={(e) => setEmail(e.target.value)}
-                            className={errors.includes('A valid email that is at least 3 characters is required') ? 'error' : "new-user-input"}
+                            type="text"
+                            value={lastName}
+                            placeholder='Last name'
+                            onChange={(e) => setlastName(e.target.value)}
+                            className={errors.includes('Last name is required') ? 'error' : "new-user-input"}
                         />
                     </div>
                     <div>
                         {errors.map((error, idx) =>
-                            error === "A valid email that is at least 3 characters is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                            error === "Last name is required" ? <li key={idx} id='error-list'>{error}</li> : null
                         )}
-                        {errors.map((error, idx) =>
-                            error.email === "User with that email already exists" ? <li key={idx} id='error-list'>{error.email}</li> : null
-                        )}
-                        <div id='below-input-text'>
-                            We'll email you trip confirmations and receipts.
+                        <div id='below-input-text'>Make sure it matches the name on your government ID.</div>
+                    </div>
+                </label>
+                <br />
+                <div>
+                    <label>
+                        <div>
+                            <input
+                                type="text"
+                                value={username}
+                                placeholder='Username'
+                                onChange={(e) => setUserName(e.target.value)}
+                                className={errors.includes('Username must be a length between 4 and 30 characters') ? 'error' : "new-user-input"}
+                            />
                         </div>
-                    </div>
-                </label>
-            </div>
-            <br />
-            <div>
-                <label>
-                    <div>
-                        <input
-                            type="password"
-                            value={password}
-                            placeholder='Password'
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={errors.includes('Password must be 6 characters or more') ? 'error' : "new-user-input"}
-                        />
-                    </div>
-                    <div>
-                        {errors.map((error, idx) =>
-                            error === "Password must be 6 characters or more" ? <li key={idx} id='error-list'>{error}</li> : null
-                        )}
-                    </div>
-                </label>
-            </div>
-            <div>
-                <label>
-                    <div>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            placeholder='Confirm Password'
-                            onChange={(e) => setConfirmPassowrd(e.target.value)}
-                            className={errors.includes("Passwords don't match, please check again") ? 'error' : "new-user-input"}
-                        />
-                    </div>
-                    <div>
-                        {errors.map((error, idx) =>
-                            error === "Passwords don't match, please check again" ? <li key={idx} id='error-list'>{error}</li> : null
-                        )}
-                    </div>
-                </label>
-            </div>
-            <button type="submit" className='signup-button'>
-                Sign up
-            </button>
-        </form>
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "Username must be a length between 4 and 30 characters" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                            {errors.map((error, idx) =>
+                                error.username === "User with that username already exists" ? <li key={idx} id='error-list'>{error.username}</li> : null
+                            )}
+                        </div>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <div>
+                            <input
+                                type="email"
+                                value={email}
+                                placeholder='Email'
+                                onChange={(e) => setEmail(e.target.value)}
+                                className={errors.includes('A valid email that is at least 3 characters is required') ? 'error' : "new-user-input"}
+                            />
+                        </div>
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "A valid email that is at least 3 characters is required" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                            {errors.map((error, idx) =>
+                                error.email === "User with that email already exists" ? <li key={idx} id='error-list'>{error.email}</li> : null
+                            )}
+                            <div id='below-input-text'>
+                                We'll email you trip confirmations and receipts.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <br />
+                <div>
+                    <label>
+                        <div>
+                            <input
+                                type="password"
+                                value={password}
+                                placeholder='Password'
+                                onChange={(e) => setPassword(e.target.value)}
+                                className={errors.includes('Password must be 6 characters or more') ? 'error' : "new-user-input"}
+                            />
+                        </div>
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "Password must be 6 characters or more" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                        </div>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <div>
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                placeholder='Confirm Password'
+                                onChange={(e) => setConfirmPassowrd(e.target.value)}
+                                className={errors.includes("Passwords don't match, please check again") ? 'error' : "new-user-input"}
+                            />
+                        </div>
+                        <div>
+                            {errors.map((error, idx) =>
+                                error === "Passwords don't match, please check again" ? <li key={idx} id='error-list'>{error}</li> : null
+                            )}
+                        </div>
+                    </label>
+                </div>
+                <button type="submit" className='signup-button'>
+                    Sign up
+                </button>
+            </form>
+        </Grow>
     );
 }
 

@@ -6,7 +6,8 @@ import * as spotActions from '../../store/spots'
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-import { Modal } from '../../context/Modal';
+// import { Modal } from '../../context/Modal';
+import { Modal } from '@mui/material';
 import LoginForm from '../LoginFormModal/LoginForm';
 import CreateSpotModal from '../CreateSpotPage/CreateSpotModal';
 import '../Navigation/Navigation.css';
@@ -29,7 +30,7 @@ function Navigation({ isLoaded }) {
                     &nbsp;
                     &nbsp;
                     &nbsp;
-                    <div className='profile-button-div'>
+                    <div style={{ marginTop: "12px" }} className='profile-button-div'>
                         <ProfileButton className='profile-button' user={sessionUser} />
                     </div>
                 </nav>
@@ -39,20 +40,22 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
-                <div className='become-host-div'>
-                    <Link className='become-host-link' onClick={() => setShowLogInModal(true)}>Groundbnb your home</Link>
+                <nav className='log-out-create-spot-div' style={{ position: "sticky" }}>
+                    <div style={{ marginTop: "12px" }}>
+                        <div onClick={(e) => setShowLogInModal(true)} style={{ cursor: "pointer" }} className='become-host-link'>Groundbnb your home</div>
+                    </div>
                     {showLogInModal && (
-                        <Modal onClose={() => setShowLogInModal(false)}>
-                            {/* //clicking again makes it disappear or outside the box */}
+                        <Modal style={{ display: "flex", justifyContent: "center", marginTop: "40px" }} open={showLogInModal} onClose={() => setShowLogInModal(false)}>
                             <LoginForm />
                         </Modal>
                     )}
-                </div>
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                <LoginFormModal />
-                {/* <SignupFormModal /> */}
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <div style={{ marginTop: "12px" }}>
+                        <LoginFormModal />
+                    </div>
+                </nav>
             </>
         );
     }

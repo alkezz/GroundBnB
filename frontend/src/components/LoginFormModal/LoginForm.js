@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import * as reviewActions from "../../store/reviews"
 import { useDispatch } from "react-redux";
 import "./LoginFormModal.css"
+import Grow from "@mui/material/Grow";
 import { useHistory, useParams } from "react-router-dom";
 
 function LoginForm() {
@@ -33,7 +34,7 @@ function LoginForm() {
     };
 
     return (
-        <>
+        <Grow in={true}>
             <form onSubmit={handleSubmit} className='login-form'>
                 <h1 id='welcome-head'>Welcome to GroundBnB</h1>
                 <div>
@@ -78,14 +79,15 @@ function LoginForm() {
                 <button type="submit" className='user-submit'>
                     Log In
                 </button>
+                <br />
+                <button className="demo-user-button" onClick={async (e) => {
+                    await dispatch(sessionActions.login({ credential: "Demo-User", password: "password" }));
+                    isNaN(id) ? console.log('noid') : await dispatch(reviewActions.getReviews(id))
+                }
+                }
+                >Log in as Demo User</button>
             </form>
-            <button className="demo-user-button" onClick={async (e) => {
-                await dispatch(sessionActions.login({ credential: "Demo-User", password: "password" }));
-                isNaN(id) ? console.log('noid') : await dispatch(reviewActions.getReviews(id))
-            }
-            }
-            >Log in as Demo User</button>
-        </>
+        </Grow>
     );
 }
 

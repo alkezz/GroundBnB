@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import * as spotActions from '../../store/spots'
+import CreateSpotModal from '../CreateSpotPage/CreateSpotModal';
 import './Navigation.css'
 
 function ProfileButton({ user }) {
@@ -39,7 +40,7 @@ function ProfileButton({ user }) {
                         </div>
                         <div style={{ borderBottom: "1px solid #dddddd" }} />
                         <div style={{ height: "30px" }} className="selection-div">
-                            <Link style={{ textDecoration: "none", color: "black", fontSize: "14px", fontWeight: "700", marginLeft: "5%" }} to="/spot/create">Groundbnb your cave</Link>
+                            <CreateSpotModal />
                         </div>
                         <div className="selection-div" style={{ height: "30px", borderRadius: "5px" }}>
                             <div>
