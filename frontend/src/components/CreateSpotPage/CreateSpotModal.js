@@ -9,7 +9,7 @@ const CreateSpotModal = () => {
         <>
             <div onClick={(e) => setShowModal(true)} style={{ cursor: "pointer" }} className='become-host-link'>Groundbnb your home</div>
             {showModal && (
-                <Modal style={{ height: "50%", display: "flex", justifyContent: "center", "marginTop": "150px" }} open={showModal} onClose={() => setShowModal(false)}>
+                <Modal style={{ display: "flex", justifyContent: "center", marginTop: "70px" }} open={showModal} onClose={() => setShowModal(false)}>
                     <CreateSpot />
                 </Modal>
             )}

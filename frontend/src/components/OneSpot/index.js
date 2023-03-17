@@ -353,7 +353,7 @@ function SpotById() {
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "85%" }}>
                         <h2 style={{ marginBottom: "10px" }}>${spots.price} <span style={{ fontSize: "16px" }}>night</span></h2>
                         <div style={{ marginTop: "25px", fontWeight: "600", fontSize: "14px" }}>
-                            <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) || !user ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
+                            <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
                             <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
                             &nbsp;
                             ·

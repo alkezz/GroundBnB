@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Modal } from '../../context/Modal';
+// import { Modal } from '../../context/Modal';
 import LoginForm from './LoginForm';
+import Modal from '@mui/material/Modal';
 import './LoginFormModal.css';
 import SignUpForm from '../SignupFormModal/SignupForm';
 import { Link } from 'react-router-dom';
 // import '../SignupFormPage/SignUpForm.css';
+import Grow from "@mui/material/Grow";
 import './LoginFormModal.css'
 import { useSelector } from 'react-redux';
 
@@ -33,7 +35,7 @@ function LoginFormModal() {
                             <Link className='modal-button' onClick={() => setShowSignUpModal(true)}>Sign up</Link>
                             {/* //Clicking the buton makes the modal show up */}
                             {showSignUpModal && (
-                                <Modal onClose={() => setShowSignUpModal(false)}>
+                                <Modal style={{ display: "flex", justifyContent: "center", marginTop: "70px" }} open={showSignUpModal} onClose={() => setShowSignUpModal(false)}>
                                     {/* //clicking again makes it disappear or outside the box */}
                                     <SignUpForm />
                                 </Modal>
@@ -43,7 +45,7 @@ function LoginFormModal() {
                             <Link className='modal-button' onClick={() => setShowLogInModal(true) && setShowDropDown(false)}>Log In</Link>
                             {/* //Clicking the buton makes the modal show up */}
                             {showLogInModal && (
-                                <Modal onClose={() => setShowLogInModal(false)}>
+                                <Modal style={{ display: "flex", justifyContent: "center", marginTop: "70px" }} open={showLogInModal} onClose={() => setShowLogInModal(false)}>
                                     {/* //clicking again makes it disappear or outside the box */}
                                     <LoginForm />
                                 </Modal>
