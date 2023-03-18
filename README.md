@@ -52,10 +52,10 @@ This is what the home page will look like. A demo user is provided to test the f
 ![Screen_Recording_2023-03-16_at_1_50_31_PM_AdobeExpress](https://user-images.githubusercontent.com/105993056/225710445-1a8b4db0-7c3c-40a7-bf85-683d3fb77aa0.gif)
 
 ### Demo User
-<img width="1512" alt="image" src="https://user-images.githubusercontent.com/105993056/225701171-453de7bd-c8c2-4667-ad15-c2895888d333.png">
+![image](https://user-images.githubusercontent.com/105993056/226118508-66b38cdc-bcb4-42e3-a621-fa1c854eaeaa.png)
 
 ### Account Creation Form
-<img width="1512" alt="image" src="https://user-images.githubusercontent.com/105993056/225701262-90630c89-7eb6-4f02-92ef-a32122a4271f.png">
+![image](https://user-images.githubusercontent.com/105993056/226118525-e19d5196-217c-42ba-b978-46e177d7e9f3.png)
 
 ### Clicking into specific spot
 ![Screen Recording 2023-03-16 at 1 37 57 PM](https://user-images.githubusercontent.com/105993056/225706770-8db4ebdb-8d1b-40cd-908e-0249c8363f13.gif)
@@ -63,7 +63,7 @@ This is what the home page will look like. A demo user is provided to test the f
 ![yes](https://user-images.githubusercontent.com/105993056/225708638-06b2a8eb-7585-4446-814e-21d645c663dc.gif)
 
 ### Create Spot Form
-<img width="1512" alt="image" src="https://user-images.githubusercontent.com/105993056/225703489-a95e720f-600d-4fa9-8b7e-6dd66491614b.png">
+![image](https://user-images.githubusercontent.com/105993056/226118322-3a8ee5da-cc78-4b92-b9c2-4c79622f4ca4.png)
 
 ![CreateSPOT](https://user-images.githubusercontent.com/105993056/225703953-bbd895cd-05eb-484a-9616-bfdbd28c8d6c.gif)
 
