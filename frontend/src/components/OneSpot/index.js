@@ -541,7 +541,7 @@ function SpotById() {
                 </div>
             )}
             <div style={{ paddingBottom: "50px", marginTop: "1100px", zIndex: "999" }}>
-                <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "50%" }} />
+                <div style={{ borderBottom: '1px #dddddd solid', display: 'flex', width: "55%" }} />
                 <br />
                 {!hasReview && (
                     <div style={{ display: "flex", flexDirection: "column", marginRight: "660px" }}>
@@ -644,7 +644,7 @@ function SpotById() {
                         </div>
                         {reviewArray.length >= 0 && (
                             <div className='center-review-button'>
-                                <button style={{ cursor: "pointer", visibility: (!user || user?.id === spots?.ownerId) || hasReview === true ? 'hidden' : 'visible', border: "none", width: "100px", height: "30px" }} className='add-review-button' onClick={(e) => { handleReview(e); setStars(0) }}>Submit</button>
+                                <button style={{ cursor: "pointer", visibility: (!user || user?.id === spots?.ownerId) || hasReview === true ? 'hidden' : 'visible', border: "none", width: "100px", height: "30px", borderRadius: "10px" }} className='add-review-button' onClick={(e) => { handleReview(e); setStars(0) }}>Submit</button>
                             </div>
                         )}
                     </div>
@@ -653,14 +653,14 @@ function SpotById() {
                     <h2>Thanks for your review!</h2>
                 )}
                 <br />
-                {reviewArray.length <= 0 && (
+                {/* {reviewArray.length <= 0 && (
                     <>
                         <div>No Reviews Yet!</div>
                     </>
-                )}
+                )} */}
                 <div style={{ fontWeight: "600", fontSize: "22px" }}>
                     <span key={spots.id} style={{ visibility: isNaN(spots.avgStarRating) ? "hidden" : "visible" }}> <i class="fa-solid fa-star"></i> </span>
-                    <span style={{ marginTop: "5px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
+                    <span style={{ marginTop: "5px", marginLeft: "-25px" }} key={spots.id + 1}> {isNaN(spots.avgStarRating) ? "No Reviews Yet!" : avgRating} </span>
                     &nbsp;
                     ·
                     &nbsp;
