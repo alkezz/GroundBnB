@@ -38,14 +38,14 @@ function Root() {
   );
 }
 
-ReactGA.initialize("G-C3PD3DKRXK");
+// ReactGA.initialize("G-C3PD3DKRXK");
 ReactDOM.render(
   <React.StrictMode>
     <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );
-ReactGA.pageview(window.location.pathname + window.location.search);
+// ReactGA.pageview(window.location.pathname + window.location.search);
 
 // const SendAnalytics = () => {
 //   ReactGA.send({

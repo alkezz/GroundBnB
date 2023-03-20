@@ -11,13 +11,18 @@ import EditSpotPage from "./components/EditSpotPage"
 import CreateReview from "./components/ReviewFormPage"
 import Maps from "./components/Maps/Maps";
 import MapContainer from "./components/Maps";
+import ReactGA from "react-ga4";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import "./App.css"
+ReactGA.initialize("G-C3PD3DKRXK");
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    ReactGA.send("pageview")
+  }, []);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
