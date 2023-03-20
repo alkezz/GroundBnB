@@ -39,6 +39,7 @@ function Root() {
 }
 
 ReactGA.initialize("G-C3PD3DKRXK");
+ReactGA.pageview(window.location.pathname + window.location.search);
 ReactDOM.render(
   <React.StrictMode>
     <Root />
@@ -46,11 +47,11 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-const SendAnalytics = () => {
-  ReactGA.send({
-    hitType: "pageview",
-    page: window.location.pathname,
-  });
-}
+// const SendAnalytics = () => {
+//   ReactGA.send({
+//     hitType: "pageview",
+//     page: window.location.pathname,
+//   });
+// }
 
-reportWebVitals(SendAnalytics)
+// reportWebVitals(SendAnalytics)
