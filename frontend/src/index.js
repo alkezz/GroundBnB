@@ -7,6 +7,8 @@ import App from "./App";
 import { ModalProvider } from "./context/Modal";
 import configureStore from "./store";
 import { restoreCSRF, csrfFetch } from "./store/csrf";
+import ReactGA from "react-ga4";
+import reportWebVitals from "./reportWebVitals"
 import * as sessionActions from "./store/session";
 import * as spotActions from "./store/spots"
 import * as reviewActions from "./store/reviews"
@@ -23,6 +25,7 @@ if (process.env.NODE_ENV !== "production") {
   window.reviewActions = reviewActions
 }
 
+
 function Root() {
   return (
     <Provider store={store}>
@@ -35,9 +38,19 @@ function Root() {
   );
 }
 
+ReactGA.initialize("G-C3PD3DKRXK");
 ReactDOM.render(
   <React.StrictMode>
     <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+const SendAnalytics = () => {
+  ReactGA.send({
+    hitType: "pageview",
+    page: window.location.pathname,
+  });
+}
+
+reportWebVitals(SendAnalytics)
