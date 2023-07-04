@@ -104,7 +104,7 @@ const ProfilePage = () => {
                 <br />
                 <div className="my-external-links" style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
                     <Link target="_blank" to={{ pathname: "https://www.github.com/alkezz" }}><i style={{ color: "black" }} class="fa-brands fa-github fa-2x"></i></Link>
-                    <Link target="_blank" to={{ pathname: "https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/" }}><i style={{ color: "blue" }} class="fa-brands fa-linkedin fa-2x"></i></Link>
+                    <Link target="_blank" to={{ pathname: "http://linkedin.com/in/ali-k-ezzeddine" }}><i style={{ color: "blue" }} class="fa-brands fa-linkedin fa-2x"></i></Link>
                     <Link target="_blank" to={{ pathname: "https://www.ali-ezzeddine.com/" }}><i style={{ color: "yellow" }} class="fa-solid fa-star fa-2x"></i></Link>
                 </div>
             </div>
