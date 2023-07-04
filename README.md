@@ -65,4 +65,4 @@ To contact me for any issues that arise or a suggestion, please feel free to rea
 
 * [GitHub](https://www.github.com/alkezz)
 * E-Mail: a.k.ezzeddine@gmail.com
-* [LinkedIn](https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/)
+* [LinkedIn](http://linkedin.com/in/ali-k-ezzeddine)
